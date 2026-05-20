@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DSA Guide — Complete Learning Hub</title>
+
+<link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+
+</head>
+<body>
+
+<div class="c-dot" id="cDot"></div>
+<div class="c-ring" id="cRing"></div>
+<div class="grid-bg"></div>
+<div class="bglow"></div>
+
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="logo">DSA_GUIDE</div>
+  <div class="header-right">
+    <span class="hbadge" style="background:rgba(118,228,167,.08);color:var(--c2);border:1px solid rgba(118,228,167,.2);">4 Topics Ready</span>
+    <span class="hbadge" style="background:rgba(99,179,237,.08);color:var(--c1);border:1px solid rgba(99,179,237,.2);">100+ LeetCode</span>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-eyebrow">// DATA STRUCTURES & ALGORITHMS — C++</div>
+  <h1 class="hero-title">
+    <span class="t1">Complete</span>
+    <span class="t2">DSA Guide</span>
+  </h1>
+  <p class="hero-sub">Ek jagah — sab topics. Interactive notes, live simulators, aur 100+ LeetCode solutions with full code.</p>
+
+  <!-- 3D VISUALIZER -->
+  <div class="viz3d">
+
+    <!-- orbit rings decorative -->
+    <div class="oring" style="width:190px;height:190px;border-color:rgba(99,179,237,.07);animation-duration:22s;transform:translate(-50%,-50%) rotate(0);">
+      <div class="oring-dot" style="background:var(--c1);box-shadow:0 0 8px var(--c1);"></div>
+    </div>
+    <div class="oring" style="width:300px;height:300px;border-color:rgba(118,228,167,.05);animation-duration:32s;animation-direction:reverse;transform:translate(-50%,-50%) rotate(90deg);">
+      <div class="oring-dot" style="background:var(--c2);box-shadow:0 0 8px var(--c2);"></div>
+    </div>
+
+    <!-- CENTRAL STICK -->
+    <div class="stick-wrap">
+      <div class="stick-top"></div>
+      <div class="stick-main">
+        <div class="stick-tip"></div>
+        <div class="stick-bead" style="animation-duration:3.5s;animation-delay:0s;"></div>
+        <div class="stick-bead" style="animation-duration:3.5s;animation-delay:-1.75s;"></div>
+      </div>
+      <div class="stick-bottom"></div>
+    </div>
+
+    <!-- ─── NODES ─── -->
+    <!-- Each node: position absolute left:50% for right nodes, right:50%+left:auto for left -->
+    <!-- RIGHT nodes go to the right of stick, LEFT nodes go to the left -->
+
+    <!-- 01 Arrays — RIGHT, y=20 -->
+    <a href="Array/index.html" class="node right" style="top:20px;left:50%;" title="Arrays & Vectors">
+      <div class="n-line" style="width:55px;--nc:var(--c1);"></div>
+      <div class="n-card" style="--nc:var(--c1);--ng:rgba(99,179,237,.1);--fd:0s;">
+        <div class="n-icon">📊</div>
+        <div class="n-num">TOPIC 01</div>
+        <div class="n-label">Arrays</div>
+        <div class="n-title">Arrays & Vectors</div>
+        <div class="n-desc">Sorting · Searching · Patterns</div>
+        <span class="n-tag" style="--nc:var(--c1);">30+ LeetCode ✓</span>
+      </div>
+    </a>
+
+    <!-- 02 Matrix — LEFT, y=120 -->
+    <a href="MATRIX/index.html" class="node left" style="top:120px;right:50%;left:auto;" title="Matrix & 2D Arrays">
+      <div class="n-line" style="width:70px;--nc:var(--c2);"></div>
+      <div class="n-card" style="--nc:var(--c2);--ng:rgba(118,228,167,.1);--fd:-0.8s;">
+        <div class="n-icon">🔲</div>
+        <div class="n-num">TOPIC 02</div>
+        <div class="n-label">Matrix</div>
+        <div class="n-title">Matrix & 2D Arrays</div>
+        <div class="n-desc">Spiral · BFS/DFS · Prefix 2D</div>
+        <span class="n-tag" style="--nc:var(--c2);">25+ LeetCode ✓</span>
+      </div>
+    </a>
+
+    <!-- 03 Hashing — RIGHT, y=230 -->
+    <a href="HASHING/index.html" class="node right" style="top:230px;left:50%;" title="HashMap & HashSet">
+      <div class="n-line" style="width:80px;--nc:var(--c3);"></div>
+      <div class="n-card" style="--nc:var(--c3);--ng:rgba(246,173,85,.1);--fd:-1.5s;">
+        <div class="n-icon">🗂️</div>
+        <div class="n-num">TOPIC 03</div>
+        <div class="n-label">Hashing</div>
+        <div class="n-title">HashMap & HashSet</div>
+        <div class="n-desc">unordered_map · Patterns</div>
+        <span class="n-tag" style="--nc:var(--c3);">20+ LeetCode ✓</span>
+      </div>
+    </a>
+
+    <!-- 04 Bit Manipulation — LEFT, y=340 -->
+    <a href="BIT_MANIPULATION/index.html" class="node left" style="top:340px;right:50%;left:auto;" title="Bit Manipulation">
+      <div class="n-line" style="width:90px;--nc:var(--c5);"></div>
+      <div class="n-card" style="--nc:var(--c5);--ng:rgba(183,148,244,.1);--fd:-2.2s;">
+        <div class="n-icon">⚡</div>
+        <div class="n-num">TOPIC 04</div>
+        <div class="n-label">Bits</div>
+        <div class="n-title">Bit Manipulation</div>
+        <div class="n-desc">XOR · Tricks · Bitmask DP</div>
+        <span class="n-tag" style="--nc:var(--c5);">20+ LeetCode ✓</span>
+      </div>
+    </a>
+
+    <!-- 05 Strings — RIGHT, y=455 (COMING SOON) -->
+    <div class="node right n-lock" style="top:455px;left:50%;">
+      <div class="n-line" style="width:60px;--nc:var(--c7);opacity:.25;"></div>
+      <div class="n-card" style="--nc:var(--c7);--ng:rgba(118,228,207,.06);--fd:-0.4s;opacity:.5;border-style:dashed;">
+        <div class="n-icon">🔤</div>
+        <div class="n-num">TOPIC 05</div>
+        <div class="n-label">Strings</div>
+        <div class="n-title">String Algorithms</div>
+        <div class="n-desc">KMP · Palindrome · Window</div>
+        <span class="n-tag" style="--nc:var(--c7);">🔒 Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- 06 Linked List — LEFT, y=560 (COMING SOON) -->
+    <div class="node left n-lock" style="top:560px;right:50%;left:auto;">
+      <div class="n-line" style="width:75px;--nc:var(--c4);opacity:.25;"></div>
+      <div class="n-card" style="--nc:var(--c4);--ng:rgba(252,129,129,.06);--fd:-3s;opacity:.5;border-style:dashed;">
+        <div class="n-icon">🔗</div>
+        <div class="n-num">TOPIC 06</div>
+        <div class="n-label">Linked List</div>
+        <div class="n-title">Linked List</div>
+        <div class="n-desc">Floyd's · Reverse · Merge</div>
+        <span class="n-tag" style="--nc:var(--c4);">🔒 Coming Soon</span>
+      </div>
+    </div>
+
+    <!-- 07 Trees — RIGHT, y=660 (COMING SOON) -->
+    <div class="node right n-lock" style="top:660px;left:50%;">
+      <div class="n-line" style="width:65px;--nc:var(--c6);opacity:.25;"></div>
+      <div class="n-card" style="--nc:var(--c6);--ng:rgba(246,224,94,.05);--fd:-1.2s;opacity:.5;border-style:dashed;">
+        <div class="n-icon">🌳</div>
+        <div class="n-num">TOPIC 07</div>
+        <div class="n-label">Trees</div>
+        <div class="n-title">Trees & BST</div>
+        <div class="n-desc">DFS · BFS · LCA · Diameter</div>
+        <span class="n-tag" style="--nc:var(--c6);">🔒 Coming Soon</span>
+      </div>
+    </div>
+
+  </div><!-- /viz3d -->
+</section>
+
+<!-- ── STATS ── -->
+<div class="stats-wrap reveal">
+  <div class="stats-bar">
+    <div class="stat-item" style="--sc:var(--c1);"><span class="stat-num" data-target="100">0</span><span class="stat-label">LeetCode Solutions</span></div>
+    <div class="stat-item" style="--sc:var(--c2);"><span class="stat-num" data-target="4">0</span><span class="stat-label">Topics Ready</span></div>
+    <div class="stat-item" style="--sc:var(--c3);"><span class="stat-num" data-target="6">0</span><span class="stat-label">Simulators</span></div>
+    <div class="stat-item" style="--sc:var(--c5);"><span class="stat-num" data-target="40">0</span><span class="stat-label">Code Patterns</span></div>
+    <div class="stat-item" style="--sc:var(--c7);"><span class="stat-num" data-target="30">0</span><span class="stat-label">Quiz Questions</span></div>
+  </div>
+</div>
+
+<!-- ── TOPICS GRID ── -->
+<div class="main-section" id="topics">
+  <div class="sec-hdr reveal">
+    <div class="sec-eye">// ALL TOPICS</div>
+    <h2 class="sec-title">Choose Your Topic</h2>
+    <p class="sec-sub">Har topic mein full interactive notes, live simulators aur LeetCode solutions hain</p>
+  </div>
+
+  <!-- AVAILABLE -->
+  <div class="cards-grid reveal">
+
+    <!-- Arrays -->
+    <a href="Array/index.html" class="t-card" style="--cc:var(--c1);--cg:rgba(99,179,237,.07);--cib:rgba(99,179,237,.08);--cib2:rgba(99,179,237,.25);">
+      <div class="tc-num">TOPIC // 01</div>
+      <div class="tc-icon">📊</div>
+      <div class="tc-cat" style="color:var(--c1);">Arrays & Vectors</div>
+      <div class="tc-name">Arrays — Basics to Advanced</div>
+      <div class="tc-desc">Raw arrays, vector STL, sorting algorithms, binary search, two pointers, sliding window, prefix sum, Kadane's algorithm.</div>
+      <div class="tc-tags">
+        <span class="tc-tag">vector STL</span>
+        <span class="tc-tag">Two Pointers</span>
+        <span class="tc-tag">Sliding Window</span>
+        <span class="tc-tag">Kadane's</span>
+        <span class="tc-tag">Prefix Sum</span>
+      </div>
+      <div class="tc-foot">
+        <div class="tc-info">LeetCode: <b>30+</b> problems + solutions</div>
+        <div class="tc-arrow">→</div>
+      </div>
+    </a>
+
+    <!-- Matrix -->
+    <a href="MATRIX/index.html" class="t-card" style="--cc:var(--c2);--cg:rgba(118,228,167,.07);--cib:rgba(118,228,167,.08);--cib2:rgba(118,228,167,.25);">
+      <div class="tc-num">TOPIC // 02</div>
+      <div class="tc-icon">🔲</div>
+      <div class="tc-cat" style="color:var(--c2);">Matrix & 2D Arrays</div>
+      <div class="tc-name">Matrix — Deep Dive</div>
+      <div class="tc-desc">Memory layout, spiral traversal, transpose, rotate, BFS/DFS patterns, 2D prefix sum. 25+ LeetCode with full solutions.</div>
+      <div class="tc-tags">
+        <span class="tc-tag">Spiral</span>
+        <span class="tc-tag">BFS / DFS</span>
+        <span class="tc-tag">2D Prefix Sum</span>
+        <span class="tc-tag">Rotate</span>
+        <span class="tc-tag">Island Count</span>
+      </div>
+      <div class="tc-foot">
+        <div class="tc-info">LeetCode: <b>25+</b> problems + solutions</div>
+        <div class="tc-arrow" style="--cc:var(--c2);">→</div>
+      </div>
+    </a>
+
+    <!-- Hashing -->
+    <a href="HASHING/index.html" class="t-card" style="--cc:var(--c3);--cg:rgba(246,173,85,.07);--cib:rgba(246,173,85,.08);--cib2:rgba(246,173,85,.25);">
+      <div class="tc-num">TOPIC // 03</div>
+      <div class="tc-icon">🗂️</div>
+      <div class="tc-cat" style="color:var(--c3);">HashMap & HashSet</div>
+      <div class="tc-name">Hashing in C++</div>
+      <div class="tc-desc">unordered_map, unordered_set, saare methods, live demo simulator, frequency count patterns, Two Sum tricks.</div>
+      <div class="tc-tags">
+        <span class="tc-tag">unordered_map</span>
+        <span class="tc-tag">O(1) Lookup</span>
+        <span class="tc-tag">Frequency</span>
+        <span class="tc-tag">Live Demo</span>
+      </div>
+      <div class="tc-foot">
+        <div class="tc-info">LeetCode: <b>20+</b> problems + solutions</div>
+        <div class="tc-arrow" style="--cc:var(--c3);">→</div>
+      </div>
+    </a>
+
+    <!-- Bit Manipulation -->
+    <a href="BIT_MANIPULATION/index.html" class="t-card" style="--cc:var(--c5);--cg:rgba(183,148,244,.07);--cib:rgba(183,148,244,.08);--cib2:rgba(183,148,244,.25);">
+      <div class="tc-num">TOPIC // 04</div>
+      <div class="tc-icon">⚡</div>
+      <div class="tc-cat" style="color:var(--c5);">Bit Manipulation</div>
+      <div class="tc-name">Bits — Complete Guide</div>
+      <div class="tc-desc">AND, OR, XOR, shifts, 15+ tricks, GCC built-ins, live operator simulator, bitmask DP patterns.</div>
+      <div class="tc-tags">
+        <span class="tc-tag">XOR Magic</span>
+        <span class="tc-tag">Bitmask</span>
+        <span class="tc-tag">15+ Tricks</span>
+        <span class="tc-tag">Simulator</span>
+      </div>
+      <div class="tc-foot">
+        <div class="tc-info">LeetCode: <b>20+</b> problems + solutions</div>
+        <div class="tc-arrow" style="--cc:var(--c5);">→</div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="divider reveal">
+    <div class="div-line"></div>
+    <div class="div-dot"></div>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;white-space:nowrap;">COMING SOON</span>
+    <div class="div-dot"></div>
+    <div class="div-line"></div>
+  </div>
+
+  <!-- COMING SOON CARDS -->
+  <div class="cards-grid reveal">
+
+    <div class="t-card locked" style="--cc:var(--c7);--cg:rgba(118,228,207,.05);--cib:rgba(118,228,207,.06);--cib2:rgba(118,228,207,.15);">
+      <div class="tc-num">TOPIC // 05</div>
+      <div class="tc-icon">🔤</div>
+      <div class="tc-cat" style="color:var(--c7);">Strings</div>
+      <div class="tc-name">String Algorithms</div>
+      <div class="tc-desc">Sliding window on strings, KMP algorithm, palindrome, anagram detection, Z-algorithm.</div>
+      <div class="tc-tags"><span class="tc-tag">KMP</span><span class="tc-tag">Palindrome</span><span class="tc-tag">Anagram</span></div>
+      <div class="tc-foot"><div class="tc-info" style="color:var(--muted);">🔒 Coming Soon</div><div class="tc-arrow" style="--cc:var(--c7);">⏳</div></div>
+    </div>
+
+    <div class="t-card locked" style="--cc:var(--c4);--cg:rgba(252,129,129,.05);--cib:rgba(252,129,129,.06);--cib2:rgba(252,129,129,.15);">
+      <div class="tc-num">TOPIC // 06</div>
+      <div class="tc-icon">🔗</div>
+      <div class="tc-cat" style="color:var(--c4);">Linked List</div>
+      <div class="tc-name">Linked List in C++</div>
+      <div class="tc-desc">Singly, doubly, circular. Fast-slow pointer, Floyd's cycle, reversal, merge sort on list.</div>
+      <div class="tc-tags"><span class="tc-tag">Floyd's Cycle</span><span class="tc-tag">Reverse</span><span class="tc-tag">Merge</span></div>
+      <div class="tc-foot"><div class="tc-info" style="color:var(--muted);">🔒 Coming Soon</div><div class="tc-arrow" style="--cc:var(--c4);">⏳</div></div>
+    </div>
+
+    <div class="t-card locked" style="--cc:var(--c6);--cg:rgba(246,224,94,.04);--cib:rgba(246,224,94,.06);--cib2:rgba(246,224,94,.15);">
+      <div class="tc-num">TOPIC // 07</div>
+      <div class="tc-icon">🌳</div>
+      <div class="tc-cat" style="color:var(--c6);">Trees & BST</div>
+      <div class="tc-name">Trees in C++</div>
+      <div class="tc-desc">Binary tree, BST, AVL. Inorder, preorder, postorder, LCA, diameter, level order BFS.</div>
+      <div class="tc-tags"><span class="tc-tag">DFS/BFS</span><span class="tc-tag">LCA</span><span class="tc-tag">Diameter</span></div>
+      <div class="tc-foot"><div class="tc-info" style="color:var(--muted);">🔒 Coming Soon</div><div class="tc-arrow" style="--cc:var(--c6);">⏳</div></div>
+    </div>
+
+    <div class="t-card locked" style="--cc:var(--c8);--cg:rgba(252,141,211,.04);--cib:rgba(252,141,211,.06);--cib2:rgba(252,141,211,.15);">
+      <div class="tc-num">TOPIC // 08</div>
+      <div class="tc-icon">🧩</div>
+      <div class="tc-cat" style="color:var(--c8);">Dynamic Programming</div>
+      <div class="tc-name">DP — Basics to Expert</div>
+      <div class="tc-desc">Memoization, tabulation, 1D DP, 2D DP, bitmask DP, knapsack, LCS, LIS patterns.</div>
+      <div class="tc-tags"><span class="tc-tag">Memoization</span><span class="tc-tag">Knapsack</span><span class="tc-tag">Bitmask DP</span></div>
+      <div class="tc-foot"><div class="tc-info" style="color:var(--muted);">🔒 Coming Soon</div><div class="tc-arrow" style="--cc:var(--c8);">⏳</div></div>
+    </div>
+
+  </div>
+
+  <!-- HOW TO USE -->
+  <div class="divider reveal" style="margin-top:50px;">
+    <div class="div-line"></div>
+    <div class="div-dot"></div>
+    <div class="div-line"></div>
+  </div>
+
+
+  </div>
+
+</div>
+
+<footer class="footer">
+  DSA_GUIDE // C++ Complete Notes // Arrays · Matrix · HashMap · Bit Manipulation · and more coming soon
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
