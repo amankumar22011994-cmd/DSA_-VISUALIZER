@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>C++ Arrays — Complete Deep Notes</title>
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="array.css">
+<script src="array.js"></script>
+
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-eyebrow"><span class="hero-dot"></span>C++ STL &amp; DSA</div>
+  <h1>Arrays in <span class="hl">C++</span></h1>
+  <h1 style="font-size:clamp(1.1rem,2.5vw,1.8rem);font-weight:500;color:var(--dim);margin-top:6px;">Basics se Advanced — Har Cheez Ek Jagah</h1>
+  <p class="hero-sub">Raw Array · vector · Sorting · Searching · Two Pointers · Sliding Window · Prefix Sum · Kadane's · Binary Search · 30+ LeetCode Problems</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Topics</div></div>
+    <div class="stat"><div class="stat-num">30+</div><div class="stat-label">LeetCode Qs</div></div>
+    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Code Snippets</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">Simulators</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Quiz Qs</div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<div class="nav-wrapper">
+<nav class="nav-bar" id="navbar">
+  <button class="nav-btn active" onclick="S('basics',this)">🔢 Basics</button>
+  <button class="nav-btn" onclick="S('memory',this)">🧠 Memory</button>
+  <button class="nav-btn" onclick="S('vector',this)">📦 Vector</button>
+  <button class="nav-btn" onclick="S('stl',this)">⚙️ STL Algos</button>
+  <button class="nav-btn" onclick="S('sorting',this)">🔃 Sorting</button>
+  <button class="nav-btn" onclick="S('searching',this)">🔍 Searching</button>
+  <button class="nav-btn" onclick="S('patterns',this)">🎯 Patterns</button>
+  <button class="nav-btn" onclick="S('2d',this)">🔲 2D Arrays</button>
+  <button class="nav-btn" onclick="S('leetcode',this)">💻 LeetCode</button>
+  <button class="nav-btn" onclick="S('tricks',this)">🎩 Tricks</button>
+  <button class="nav-btn" onclick="S('cheat',this)">📌 Cheatsheet</button>
+  <button class="nav-btn" onclick="S('quiz',this)">🧠 Quiz</button>
+</nav>
+</div>
+
+<div class="container">
+
+<!-- ═══════════════════ BASICS ═══════════════════ -->
+<div id="basics" class="section active">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 01</div>
+    <div class="sec-title">Array Kya Hai? — Foundation</div>
+    <div class="sec-sub">Sabse pehle yahan se shuru karo — sab kuch isi pe bana hai</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Array = Contiguous Memory Locations</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:16px;">Array ek collection hai same type ke elements ka, jo memory mein <strong style="color:var(--accent)">continuously</strong> (ek ke baad ek) store hote hain. Index 0 se start hota hai.</p>
+    <div class="arr-viz">
+      <div class="arr-label">int arr[6] = {10, 25, 7, 43, 18, 36};</div>
+      <div class="arr-boxes" id="basicArr"></div>
+      <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;">arr[0] to arr[5] — index kisi bhi element tak direct pahunch deta hai</div>
+      <div class="arr-controls">
+        <input class="ainp" id="accessIdx" type="number" placeholder="Index (0-5)" min="0" max="5" style="width:120px;"/>
+        <button class="abtn abtn-b" onclick="accessElem()">Access arr[i]</button>
+        <button class="abtn abtn-p" onclick="resetBasicArr()">Reset</button>
+      </div>
+      <div class="alog" id="accessLog">// arr[i] directly access karo O(1) mein</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span> Declaration aur Initialization — Saare Tarike</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ━━━━━━━━━━━ RAW ARRAY ━━━━━━━━━━━</span>
+
+<span class="cm">// 1. Size ke saath — sab 0 nahi honge (garbage values!)</span>
+<span class="kw">int</span> arr[<span class="num">5</span>];
+
+<span class="cm">// 2. Size ke saath + values</span>
+<span class="kw">int</span> arr[<span class="num">5</span>] = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>, <span class="num">50</span>};
+
+<span class="cm">// 3. Size compiler khud count kare</span>
+<span class="kw">int</span> arr[] = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>};  <span class="cm">// size = 3</span>
+
+<span class="cm">// 4. Sab 0 se initialize karo</span>
+<span class="kw">int</span> arr[<span class="num">100</span>] = {};        <span class="cm">// sab elements = 0</span>
+<span class="kw">int</span> arr[<span class="num">100</span>] = {<span class="num">0</span>};      <span class="cm">// same as above</span>
+
+<span class="cm">// 5. Kisi aur value se sab fill karo</span>
+<span class="kw">int</span> arr[<span class="num">100</span>];
+fill(arr, arr+<span class="num">100</span>, <span class="num">-1</span>);  <span class="cm">// sab = -1</span>
+memset(arr, <span class="num">0</span>, <span class="kw">sizeof</span>(arr)); <span class="cm">// sab = 0 (fast!)</span>
+
+<span class="cm">// ━━━━━━━━━━━ SIZE NIKALNA ━━━━━━━━━━━</span>
+<span class="kw">int</span> n = <span class="kw">sizeof</span>(arr) / <span class="kw">sizeof</span>(arr[<span class="num">0</span>]); <span class="cm">// raw array size</span>
+</pre>
+    </div>
+    <div class="alert aw" style="margin-top:8px;">
+      <span class="ai-icon">⚠️</span>
+      <div><strong>Garbage Value:</strong> <code>int arr[5];</code> mein random values hoti hain! Always initialize karo. Raw array ka size runtime pe change nahi ho sakta — yeh fixed hota hai.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span> Time Complexity — Kab Kya Lagta Hai</div>
+    <div class="cx-grid">
+      <div class="cx-box"><div class="cx-op">Access</div><div class="cx-val" style="color:var(--accent3);">O(1)</div><div class="cx-note">arr[i] — direct jump</div></div>
+      <div class="cx-box"><div class="cx-op">Search</div><div class="cx-val" style="color:var(--accent4);">O(n)</div><div class="cx-note">Unsorted — linear scan</div></div>
+      <div class="cx-box"><div class="cx-op">Insert End</div><div class="cx-val" style="color:var(--accent3);">O(1)</div><div class="cx-note">push_back (vector)</div></div>
+      <div class="cx-box"><div class="cx-op">Insert Mid</div><div class="cx-val" style="color:var(--accent4);">O(n)</div><div class="cx-note">Shift elements</div></div>
+      <div class="cx-box"><div class="cx-op">Delete End</div><div class="cx-val" style="color:var(--accent3);">O(1)</div><div class="cx-note">pop_back (vector)</div></div>
+      <div class="cx-box"><div class="cx-op">Delete Mid</div><div class="cx-val" style="color:var(--accent4);">O(n)</div><div class="cx-note">Shift elements</div></div>
+      <div class="cx-box"><div class="cx-op">Sort</div><div class="cx-val" style="color:var(--accent4);">O(n log n)</div><div class="cx-note">std::sort</div></div>
+      <div class="cx-box"><div class="cx-op">Binary Search</div><div class="cx-val" style="color:var(--accent3);">O(log n)</div><div class="cx-note">Sorted array mein</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dd"></span> Basic Operations — Traverse, Insert, Delete</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ━━━━ TRAVERSE ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;n; i++)
+    cout &lt;&lt; arr[i] &lt;&lt; <span class="str">" "</span>;
+
+<span class="kw">for</span>(<span class="kw">auto</span> x : arr)    <span class="cm">// range-based (C++11)</span>
+    cout &lt;&lt; x &lt;&lt; <span class="str">" "</span>;
+
+<span class="cm">// ━━━━ INSERT at position pos ━━━━</span>
+<span class="cm">// arr ko right shift karo, phir insert</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=n; i&gt;pos; i--)
+    arr[i] = arr[i-<span class="num">1</span>];
+arr[pos] = val;
+n++;  <span class="cm">// size badhao</span>
+
+<span class="cm">// ━━━━ DELETE at position pos ━━━━</span>
+<span class="cm">// elements ko left shift karo</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=pos; i&lt;n-<span class="num">1</span>; i++)
+    arr[i] = arr[i+<span class="num">1</span>];
+n--;  <span class="cm">// size ghataao</span>
+
+<span class="cm">// ━━━━ REVERSE ━━━━</span>
+<span class="kw">int</span> l=<span class="num">0</span>, r=n-<span class="num">1</span>;
+<span class="kw">while</span>(l&lt;r) swap(arr[l++], arr[r--]);
+<span class="cm">// OR: reverse(arr, arr+n); // STL</span>
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MEMORY ═══════════════════ -->
+<div id="memory" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 02</div>
+    <div class="sec-title">Memory Layout — Andar se Samjho</div>
+    <div class="sec-sub">Array memory mein kaise store hota hai — pointers ka connection</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Contiguous Memory — Visualization</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:4px;">int arr[5] mein har element 4 bytes leta hai (int = 4 bytes). Address = base + index × size</p>
+    <div class="arr-viz" style="overflow-x:auto;">
+      <div class="mem-grid" id="memGrid">
+        <div class="mem-row"><span class="mem-arrow" style="width:70px;text-align:right;font-size:11px;color:var(--muted);">Address</span><span style="flex:1;text-align:center;font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;">Value</span><span style="width:60px;text-align:center;font-size:11px;color:var(--muted);">Index</span></div>
+        <div class="mem-row"><span class="mem-addr">0x1000</span><div class="mem-cell used">10</div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);width:60px;text-align:center;">[0]</span></div>
+        <div class="mem-row"><span class="mem-addr">0x1004</span><div class="mem-cell used">25</div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);width:60px;text-align:center;">[1]</span></div>
+        <div class="mem-row"><span class="mem-addr">0x1008</span><div class="mem-cell used">7</div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);width:60px;text-align:center;">[2]</span></div>
+        <div class="mem-row"><span class="mem-addr">0x100C</span><div class="mem-cell used">43</div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);width:60px;text-align:center;">[3]</span></div>
+        <div class="mem-row"><span class="mem-addr">0x1010</span><div class="mem-cell used">18</div><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);width:60px;text-align:center;">[4]</span></div>
+      </div>
+      <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:10px;">Formula: &amp;arr[i] = base_address + i × sizeof(int) = 0x1000 + i × 4</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span> Array aur Pointer — Same Cheez!</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="kw">int</span> arr[] = {<span class="num">10</span>, <span class="num">25</span>, <span class="num">7</span>, <span class="num">43</span>, <span class="num">18</span>};
+
+<span class="cm">// arr = pointer to first element!</span>
+cout &lt;&lt; arr;       <span class="cm">// address of arr[0]</span>
+cout &lt;&lt; *arr;      <span class="cm">// 10 (value at arr[0])</span>
+cout &lt;&lt; *(arr+<span class="num">2</span>);  <span class="cm">// 7  (same as arr[2])</span>
+
+<span class="cm">// arr[i] == *(arr+i) — EXACTLY SAME!</span>
+<span class="kw">int</span>* p = arr;      <span class="cm">// pointer to array start</span>
+cout &lt;&lt; p[<span class="num">3</span>];     <span class="cm">// 43 — pointer pe [] kaam karta hai</span>
+cout &lt;&lt; *(p+<span class="num">3</span>);   <span class="cm">// 43 — same thing</span>
+
+<span class="cm">// Pointer arithmetic</span>
+p++;               <span class="cm">// next element ka address (p+4 bytes)</span>
+cout &lt;&lt; *p;       <span class="cm">// 25</span>
+
+<span class="cm">// Function mein array pass karna</span>
+<span class="cm">// Always pointer banata hai — size khud pass karo!</span>
+<span class="kw">void</span> <span class="fn">foo</span>(<span class="kw">int</span>* arr, <span class="kw">int</span> n) { <span class="cm">/* ... */</span> }
+<span class="kw">void</span> <span class="fn">foo</span>(<span class="kw">int</span> arr[], <span class="kw">int</span> n) { <span class="cm">/* same as above */</span> }
+</pre>
+    </div>
+    <div class="alert ai" style="margin-top:8px;">
+      <span class="ai-icon">💡</span>
+      <div><strong>Key insight:</strong> Array name ek pointer hai. <code>arr[i]</code> aur <code>*(arr+i)</code> bilkul same hain. Isliye array O(1) mein access hota hai — sirf ek addition aur dereference!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span> Pass by Value vs Reference — Critical!</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ❌ Raw array pe sizeof kaam nahi karta function ke andar!</span>
+<span class="kw">void</span> <span class="fn">wrong</span>(<span class="kw">int</span> arr[]) {
+    <span class="kw">int</span> n = <span class="kw">sizeof</span>(arr)/<span class="kw">sizeof</span>(arr[<span class="num">0</span>]); <span class="cm">// BUG! n = 1 ya 2</span>
+}
+
+<span class="cm">// ✅ Sahi tarika — size alag pass karo</span>
+<span class="kw">void</span> <span class="fn">correct</span>(<span class="kw">int</span> arr[], <span class="kw">int</span> n) { <span class="cm">/* n = actual size */</span> }
+
+<span class="cm">// ✅ Modify karna ho toh pointer/reference</span>
+<span class="kw">void</span> <span class="fn">modify</span>(<span class="kw">int</span>* arr, <span class="kw">int</span> n) {
+    arr[<span class="num">0</span>] = <span class="num">999</span>; <span class="cm">// original array change hoga!</span>
+}
+
+<span class="cm">// ✅ BEST: vector use karo — size automatically!</span>
+<span class="kw">void</span> <span class="fn">best</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; v) {
+    <span class="kw">int</span> n = v.<span class="fn">size</span>(); <span class="cm">// ✓</span>
+    v.<span class="fn">push_back</span>(<span class="num">100</span>); <span class="cm">// ✓ works!</span>
+}
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ VECTOR ═══════════════════ -->
+<div id="vector" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 03</div>
+    <div class="sec-title">vector&lt;T&gt; — Dynamic Array</div>
+    <div class="sec-sub">Raw array se 100x better — DSA mein yahi use karo</div>
+  </div>
+
+  <div class="alert ag">
+    <span class="ai-icon">✅</span>
+    <div><strong>Rule of thumb:</strong> C++ mein DSA ke liye <code>vector</code> use karo, raw array nahi. Auto resize hota hai, size() kaam karta hai, functions mein easily pass hota hai.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Create / Initialize — 8 Tarike</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;vector&gt;</span>
+<span class="kw">using namespace</span> <span class="ty">std</span>;
+
+<span class="cm">// 1. Empty vector</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v;
+
+<span class="cm">// 2. Size n with default 0</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v(<span class="num">5</span>);          <span class="cm">// {0,0,0,0,0}</span>
+
+<span class="cm">// 3. Size n with value k</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v(<span class="num">5</span>, <span class="num">-1</span>);      <span class="cm">// {-1,-1,-1,-1,-1}</span>
+
+<span class="cm">// 4. Initializer list</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>};
+
+<span class="cm">// 5. Copy from array</span>
+<span class="kw">int</span> arr[] = {<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>};
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v(arr, arr+<span class="num">3</span>);
+
+<span class="cm">// 6. Copy constructor</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v2(v);
+
+<span class="cm">// 7. 2D vector (n×m)</span>
+<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; grid(<span class="num">3</span>, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(<span class="num">4</span>, <span class="num">0</span>));
+
+<span class="cm">// 8. Range se (slice like)</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; sub(v.<span class="fn">begin</span>()+<span class="num">1</span>, v.<span class="fn">begin</span>()+<span class="num">4</span>); <span class="cm">// v[1..3]</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span> All Important Methods</div>
+    <table class="tbl">
+      <tr><th>Method</th><th>Kaam</th><th>Time</th><th>Note</th></tr>
+      <tr><td class="mono">v.push_back(x)</td><td>End mein add</td><td class="fast">O(1) amort</td><td style="font-size:12px;color:var(--dim)">Sabse common</td></tr>
+      <tr><td class="mono">v.pop_back()</td><td>End se remove</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">Returns void!</td></tr>
+      <tr><td class="mono">v.size()</td><td>Element count</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">size_t type (unsigned)</td></tr>
+      <tr><td class="mono">v[i] / v.at(i)</td><td>Access element</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">at() throws on OOB</td></tr>
+      <tr><td class="mono">v.front()/v.back()</td><td>First/Last element</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">Reference return</td></tr>
+      <tr><td class="mono">v.insert(it, x)</td><td>Position pe insert</td><td class="slow">O(n)</td><td style="font-size:12px;color:var(--dim)">Shift hota hai</td></tr>
+      <tr><td class="mono">v.erase(it)</td><td>Position se delete</td><td class="slow">O(n)</td><td style="font-size:12px;color:var(--dim)">Shift hota hai</td></tr>
+      <tr><td class="mono">v.clear()</td><td>Sab delete</td><td class="slow">O(n)</td><td style="font-size:12px;color:var(--dim)">size=0, cap same</td></tr>
+      <tr><td class="mono">v.empty()</td><td>Khaali hai?</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">bool return</td></tr>
+      <tr><td class="mono">v.resize(n)</td><td>Size change karo</td><td class="slow">O(n)</td><td style="font-size:12px;color:var(--dim)">New elements = 0</td></tr>
+      <tr><td class="mono">v.reserve(n)</td><td>Capacity set karo</td><td class="slow">O(n)</td><td style="font-size:12px;color:var(--dim)">Performance hack</td></tr>
+      <tr><td class="mono">v.assign(n, val)</td><td>n copies of val</td><td class="slow">O(n)</td><td style="font-size:12px;color:var(--dim)">Sab replace</td></tr>
+      <tr><td class="mono">v.begin()/v.end()</td><td>Iterators</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">For STL algos</td></tr>
+      <tr><td class="mono">v.swap(v2)</td><td>Dono swap</td><td class="fast">O(1)</td><td style="font-size:12px;color:var(--dim)">O(1) — smart swap!</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dd"></span> Live vector Simulator</div>
+    <div class="arr-viz">
+      <div class="arr-label" id="vecLabel">vector&lt;int&gt; v = {} (size: 0)</div>
+      <div class="arr-boxes" id="vecDisplay" style="min-height:60px;"></div>
+      <div class="arr-controls">
+        <input class="ainp" id="vecVal" placeholder="Value" style="width:80px;"/>
+        <button class="abtn abtn-g" onclick="vecPush()">push_back</button>
+        <button class="abtn abtn-r" onclick="vecPop()">pop_back</button>
+        <input class="ainp" id="vecIdx" placeholder="idx" style="width:60px;"/>
+        <button class="abtn abtn-b" onclick="vecAccess()">v[i]</button>
+        <button class="abtn abtn-r" onclick="vecErase()">erase(i)</button>
+        <button class="abtn abtn-o" onclick="vecClear()">clear()</button>
+      </div>
+      <div class="alog" id="vecLog">// push_back, pop_back, access try karo!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ STL ALGOS ═══════════════════ -->
+<div id="stl" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 04</div>
+    <div class="sec-title">STL Algorithms — Ready-made Functions</div>
+    <div class="sec-sub">Yeh sab #include &lt;algorithm&gt; mein hain — khud likhne ki zaroorat nahi</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Most Used STL Functions</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;algorithm&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;numeric&gt;</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v = {<span class="num">3</span>,<span class="num">1</span>,<span class="num">4</span>,<span class="num">1</span>,<span class="num">5</span>,<span class="num">9</span>,<span class="num">2</span>,<span class="num">6</span>};
+
+<span class="cm">// ━━━━ SORT / REVERSE ━━━━</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>());             <span class="cm">// ascending</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), greater&lt;<span class="kw">int</span>&gt;()); <span class="cm">// descending</span>
+reverse(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>());          <span class="cm">// reverse</span>
+
+<span class="cm">// ━━━━ MIN / MAX ━━━━</span>
+<span class="kw">int</span> mx = *max_element(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>()); <span class="cm">// max value</span>
+<span class="kw">int</span> mn = *min_element(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>()); <span class="cm">// min value</span>
+<span class="kw">auto</span> [mn2, mx2] = minmax_element(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>()); <span class="cm">// both</span>
+
+<span class="cm">// ━━━━ SUM / COUNT ━━━━</span>
+<span class="kw">int</span> total = accumulate(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">0</span>); <span class="cm">// sum</span>
+<span class="kw">int</span> cnt = count(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">5</span>);         <span class="cm">// count of 5s</span>
+
+<span class="cm">// ━━━━ FIND ━━━━</span>
+<span class="kw">auto</span> it = find(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">9</span>);
+<span class="kw">if</span>(it != v.<span class="fn">end</span>()) cout &lt;&lt; <span class="str">"Found at "</span> &lt;&lt; it-v.<span class="fn">begin</span>();
+
+<span class="cm">// ━━━━ FILL / ROTATE / SHUFFLE ━━━━</span>
+fill(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">0</span>);           <span class="cm">// sab 0</span>
+rotate(v.<span class="fn">begin</span>(), v.<span class="fn">begin</span>()+<span class="num">2</span>, v.<span class="fn">end</span>()); <span class="cm">// left rotate by 2</span>
+
+<span class="cm">// ━━━━ UNIQUE (duplicates remove) ━━━━</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>());               <span class="cm">// pehle sort karo!</span>
+v.<span class="fn">erase</span>(unique(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>()), v.<span class="fn">end</span>()); <span class="cm">// duplicates gone</span>
+
+<span class="cm">// ━━━━ NEXT/PREV PERMUTATION ━━━━</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; p = {<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>};
+<span class="kw">do</span> { <span class="cm">/* print p */</span> } <span class="kw">while</span>(next_permutation(p.<span class="fn">begin</span>(), p.<span class="fn">end</span>()));
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span> Binary Search STL Functions (Sorted Array)</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v = {<span class="num">1</span>,<span class="num">2</span>,<span class="num">4</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">7</span>,<span class="num">9</span>};
+
+<span class="cm">// binary_search — sirf true/false</span>
+binary_search(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">5</span>); <span class="cm">// true</span>
+
+<span class="cm">// lower_bound — first element >= val ka iterator</span>
+<span class="kw">auto</span> lb = lower_bound(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">4</span>);
+<span class="cm">// *lb = 4, position = lb-v.begin() = 2</span>
+
+<span class="cm">// upper_bound — first element > val ka iterator</span>
+<span class="kw">auto</span> ub = upper_bound(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">4</span>);
+<span class="cm">// *ub = 5, position = ub-v.begin() = 4</span>
+
+<span class="cm">// Count occurrences of 4:</span>
+<span class="kw">int</span> cnt = ub - lb;  <span class="cm">// 4-2 = 2 ✓</span>
+
+<span class="cm">// Index of element (if exists):</span>
+<span class="kw">int</span> idx = lower_bound(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">5</span>) - v.<span class="fn">begin</span>(); <span class="cm">// 4</span>
+</pre>
+    </div>
+    <div class="alert at" style="margin-top:8px;">
+      <span class="ai-icon">⭐</span>
+      <div><strong>lower_bound vs upper_bound:</strong> lower_bound(x) = first position jahan x fit hoga. upper_bound(x) = first position jahan x ke baad kuch fit hoga. Dono milke range dete hain!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SORTING ═══════════════════ -->
+<div id="sorting" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 05</div>
+    <div class="sec-title">Sorting Algorithms</div>
+    <div class="sec-sub">Samjho kaun sa kab use karo — aur visualizer se dekho</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Sorting Comparison Table</div>
+    <table class="tbl">
+      <tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable?</th><th>Use When</th></tr>
+      <tr><td style="font-weight:700;color:var(--accent)">std::sort</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="fast">O(log n)</td><td style="color:var(--muted)">No</td><td style="font-size:11px;color:var(--dim)">Hamesha — fastest!</td></tr>
+      <tr><td style="font-weight:700;color:var(--accent3)">stable_sort</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="slow">O(n)</td><td style="color:var(--accent3)">Yes ✓</td><td style="font-size:11px;color:var(--dim)">Equal elements ka order preserve</td></tr>
+      <tr><td style="font-weight:700">Bubble Sort</td><td class="fast">O(n)</td><td class="slow">O(n²)</td><td class="slow">O(n²)</td><td class="fast">O(1)</td><td style="color:var(--accent3)">Yes</td><td style="font-size:11px;color:var(--dim)">Sirf theory mein</td></tr>
+      <tr><td style="font-weight:700">Selection Sort</td><td class="slow">O(n²)</td><td class="slow">O(n²)</td><td class="slow">O(n²)</td><td class="fast">O(1)</td><td style="color:var(--muted)">No</td><td style="font-size:11px;color:var(--dim)">Sirf samajhne ke liye</td></tr>
+      <tr><td style="font-weight:700">Insertion Sort</td><td class="fast">O(n)</td><td class="slow">O(n²)</td><td class="slow">O(n²)</td><td class="fast">O(1)</td><td style="color:var(--accent3)">Yes</td><td style="font-size:11px;color:var(--dim)">Small/nearly sorted</td></tr>
+      <tr><td style="font-weight:700">Merge Sort</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="slow">O(n)</td><td style="color:var(--accent3)">Yes</td><td style="font-size:11px;color:var(--dim)">Stable + external sort</td></tr>
+      <tr><td style="font-weight:700">Quick Sort</td><td class="fast">O(n log n)</td><td class="fast">O(n log n)</td><td class="slow">O(n²)</td><td class="fast">O(log n)</td><td style="color:var(--muted)">No</td><td style="font-size:11px;color:var(--dim)">Practical fastest avg</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span> Sort Visualizer — Step by Step</div>
+    <div class="arr-viz">
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+        <select id="sortAlgo" class="ainp" style="width:150px;">
+          <option value="bubble">Bubble Sort</option>
+          <option value="selection">Selection Sort</option>
+          <option value="insertion">Insertion Sort</option>
+        </select>
+        <button class="abtn abtn-b" onclick="startSort()">▶ Start</button>
+        <button class="abtn abtn-p" onclick="resetSort()">Reset</button>
+        <span style="font-size:12px;color:var(--muted);align-self:center;">Speed: <input type="range" id="sortSpeed" min="100" max="900" value="500" style="vertical-align:middle;width:80px;"/></span>
+      </div>
+      <div class="sort-bar-wrap" id="sortBars"></div>
+      <div class="alog" id="sortLog">// Sort algo select karo aur Start dabao</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span> Sorting Code — All Algorithms</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ━━━━ std::sort ━━━━ (Use this in real code!)</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>());
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), greater&lt;<span class="kw">int</span>&gt;()); <span class="cm">// descending</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), [](<span class="kw">int</span> a,<span class="kw">int</span> b){ <span class="kw">return</span> a&lt;b; }); <span class="cm">// custom</span>
+
+<span class="cm">// ━━━━ Bubble Sort ━━━━</span>
+<span class="kw">void</span> <span class="fn">bubbleSort</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; a) {
+    <span class="kw">int</span> n = a.<span class="fn">size</span>();
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n-<span class="num">1</span>;i++)
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;n-i-<span class="num">1</span>;j++)
+            <span class="kw">if</span>(a[j]&gt;a[j+<span class="num">1</span>]) swap(a[j],a[j+<span class="num">1</span>]);
+}
+
+<span class="cm">// ━━━━ Merge Sort ━━━━</span>
+<span class="kw">void</span> <span class="fn">merge</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; a, <span class="kw">int</span> l, <span class="kw">int</span> m, <span class="kw">int</span> r) {
+    <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; tmp;
+    <span class="kw">int</span> i=l, j=m+<span class="num">1</span>;
+    <span class="kw">while</span>(i&lt;=m &amp;&amp; j&lt;=r)
+        tmp.<span class="fn">push_back</span>(a[i]&lt;=a[j] ? a[i++] : a[j++]);
+    <span class="kw">while</span>(i&lt;=m) tmp.<span class="fn">push_back</span>(a[i++]);
+    <span class="kw">while</span>(j&lt;=r) tmp.<span class="fn">push_back</span>(a[j++]);
+    <span class="kw">for</span>(<span class="kw">int</span> k=l;k&lt;=r;k++) a[k]=tmp[k-l];
+}
+<span class="kw">void</span> <span class="fn">mergeSort</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; a, <span class="kw">int</span> l, <span class="kw">int</span> r) {
+    <span class="kw">if</span>(l&lt;r) {
+        <span class="kw">int</span> m=(l+r)/<span class="num">2</span>;
+        <span class="fn">mergeSort</span>(a,l,m); <span class="fn">mergeSort</span>(a,m+<span class="num">1</span>,r);
+        <span class="fn">merge</span>(a,l,m,r);
+    }
+}
+
+<span class="cm">// ━━━━ Custom Sort (by 2nd element of pair) ━━━━</span>
+<span class="ty">vector</span>&lt;pair&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt;&gt; vp = {{<span class="num">1</span>,<span class="num">3</span>},{<span class="num">2</span>,<span class="num">1</span>},{<span class="num">3</span>,<span class="num">2</span>}};
+sort(vp.<span class="fn">begin</span>(), vp.<span class="fn">end</span>(), [](<span class="kw">auto</span>&amp; a, <span class="kw">auto</span>&amp; b){
+    <span class="kw">return</span> a.second &lt; b.second; <span class="cm">// sort by second</span>
+});
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SEARCHING ═══════════════════ -->
+<div id="searching" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 06</div>
+    <div class="sec-title">Searching — Linear &amp; Binary</div>
+    <div class="sec-sub">Kab linear, kab binary — aur binary search ke variations</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Binary Search — Complete Guide</div>
+    <div class="arr-viz">
+      <div class="arr-label">Sorted Array — Binary Search Simulator</div>
+      <div class="arr-boxes" id="bsArr"></div>
+      <div class="arr-controls">
+        <input class="ainp" id="bsTarget" placeholder="Target value" style="width:120px;"/>
+        <button class="abtn abtn-b" onclick="runBS()">🔍 Binary Search</button>
+        <button class="abtn abtn-g" onclick="runLinear()">🔍 Linear Search</button>
+        <button class="abtn abtn-p" onclick="resetBS()">Reset</button>
+      </div>
+      <div class="alog" id="bsLog">// Value daalo aur search karo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span> Binary Search — Template + Variations</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ━━━━ STANDARD BINARY SEARCH ━━━━</span>
+<span class="kw">int</span> <span class="fn">binarySearch</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; arr, <span class="kw">int</span> target) {
+    <span class="kw">int</span> lo=<span class="num">0</span>, hi=arr.<span class="fn">size</span>()-<span class="num">1</span>;
+    <span class="kw">while</span>(lo &lt;= hi) {
+        <span class="kw">int</span> mid = lo + (hi-lo)/<span class="num">2</span>; <span class="cm">// NO overflow! (not (lo+hi)/2)</span>
+        <span class="kw">if</span>(arr[mid] == target) <span class="kw">return</span> mid;
+        <span class="kw">if</span>(arr[mid] &lt; target)  lo = mid+<span class="num">1</span>;
+        <span class="kw">else</span>                    hi = mid-<span class="num">1</span>;
+    }
+    <span class="kw">return</span> -<span class="num">1</span>; <span class="cm">// not found</span>
+}
+
+<span class="cm">// ━━━━ FIND FIRST OCCURRENCE ━━━━</span>
+<span class="kw">int</span> <span class="fn">firstOcc</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; arr, <span class="kw">int</span> x) {
+    <span class="kw">int</span> lo=<span class="num">0</span>, hi=arr.<span class="fn">size</span>()-<span class="num">1</span>, ans=-<span class="num">1</span>;
+    <span class="kw">while</span>(lo&lt;=hi) {
+        <span class="kw">int</span> mid=lo+(hi-lo)/<span class="num">2</span>;
+        <span class="kw">if</span>(arr[mid]==x){ ans=mid; hi=mid-<span class="num">1</span>; } <span class="cm">// ans record, left search</span>
+        <span class="kw">else if</span>(arr[mid]&lt;x) lo=mid+<span class="num">1</span>;
+        <span class="kw">else</span> hi=mid-<span class="num">1</span>;
+    }
+    <span class="kw">return</span> ans;
+}
+
+<span class="cm">// ━━━━ BINARY SEARCH ON ANSWER (powerful pattern!) ━━━━</span>
+<span class="cm">// "minimum/maximum value dhundho satisfying condition"</span>
+<span class="kw">int</span> lo=<span class="num">1</span>, hi=<span class="num">1e9</span>, ans=-<span class="num">1</span>;
+<span class="kw">while</span>(lo&lt;=hi) {
+    <span class="kw">int</span> mid=lo+(hi-lo)/<span class="num">2</span>;
+    <span class="kw">if</span>(<span class="fn">canAchieve</span>(mid)) { ans=mid; hi=mid-<span class="num">1</span>; } <span class="cm">// minimize</span>
+    <span class="kw">else</span> lo=mid+<span class="num">1</span>;
+}
+</pre>
+    </div>
+    <div class="alert aw">
+      <span class="ai-icon">⚠️</span>
+      <div><strong>Classic Bug:</strong> <code>mid = (lo+hi)/2</code> overflow ho sakta hai jab dono bade hain! Hamesha <code>mid = lo + (hi-lo)/2</code> likho.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PATTERNS ═══════════════════ -->
+<div id="patterns" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 07</div>
+    <div class="sec-title">Key DSA Patterns</div>
+    <div class="sec-sub">Yeh 6 patterns seekh lo — 80% array problems solve ho jayenge</div>
+  </div>
+
+  <div class="g2" style="margin-bottom:16px;">
+    <div class="pat-card">
+      <div class="pat-title"><div class="pn">1</div> Two Pointers</div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:10px;">Sorted array ya condition pe do pointers rakhte hain — O(n) mein pair/triplet dhundho</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="cp(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="cm">// Two Sum in sorted array</span>
+<span class="kw">int</span> l=<span class="num">0</span>, r=n-<span class="num">1</span>;
+<span class="kw">while</span>(l&lt;r) {
+    <span class="kw">int</span> s=a[l]+a[r];
+    <span class="kw">if</span>(s==target) <span class="kw">return</span> {l,r};
+    <span class="kw">else if</span>(s&lt;target) l++;
+    <span class="kw">else</span> r--;
+}
+<span class="cm">// Remove duplicates: slow-fast pointers</span>
+<span class="kw">int</span> slow=<span class="num">0</span>;
+<span class="kw">for</span>(<span class="kw">int</span> fast=<span class="num">1</span>;fast&lt;n;fast++)
+    <span class="kw">if</span>(a[fast]!=a[slow]) a[++slow]=a[fast];</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode: #167 #15 #11 #26 #977</div>
+    </div>
+
+    <div class="pat-card">
+      <div class="pat-title"><div class="pn">2</div> Sliding Window</div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:10px;">Subarray problems — window expand/shrink karo. Fixed ya variable size window.</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="cp(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="cm">// Max sum subarray of size k</span>
+<span class="kw">int</span> sum=<span class="num">0</span>, maxS=<span class="num">0</span>;
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;k;i++) sum+=a[i];
+maxS=sum;
+<span class="kw">for</span>(<span class="kw">int</span> i=k;i&lt;n;i++){
+    sum+=a[i]-a[i-k]; <span class="cm">// slide!</span>
+    maxS=max(maxS,sum);
+}
+<span class="cm">// Variable window: expand right,</span>
+<span class="cm">// shrink left when condition breaks</span></pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode: #209 #3 #76 #239 #438</div>
+    </div>
+
+    <div class="pat-card">
+      <div class="pat-title"><div class="pn">3</div> Prefix Sum</div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:10px;">Range sum O(1) mein. psum[i] = sum of arr[0..i-1]. Any range [l,r] = psum[r+1]-psum[l]</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="cp(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; pre(n+<span class="num">1</span>, <span class="num">0</span>);
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++)
+    pre[i+<span class="num">1</span>]=pre[i]+a[i];
+
+<span class="cm">// Query sum [l, r] in O(1):</span>
+<span class="kw">int</span> rangeSum = pre[r+<span class="num">1</span>] - pre[l];
+
+<span class="cm">// Subarray sum = k (prefix+hashmap)</span>
+<span class="ty">unordered_map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; mp={{<span class="num">0</span>,<span class="num">1</span>}};
+<span class="kw">int</span> sum=<span class="num">0</span>,cnt=<span class="num">0</span>;
+<span class="kw">for</span>(<span class="kw">int</span> x:a){sum+=x;cnt+=mp[sum-k];mp[sum]++;}</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode: #303 #560 #525 #974 #1480</div>
+    </div>
+
+    <div class="pat-card">
+      <div class="pat-title"><div class="pn">4</div> Kadane's Algorithm</div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:10px;">Maximum subarray sum — O(n) DP. dp[i] = max subarray ending at i</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="cp(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="kw">int</span> <span class="fn">maxSubArray</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; a) {
+    <span class="kw">int</span> cur=a[<span class="num">0</span>], best=a[<span class="num">0</span>];
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>;i&lt;a.<span class="fn">size</span>();i++){
+        cur = max(a[i], cur+a[i]);
+        best = max(best, cur);
+    }
+    <span class="kw">return</span> best;
+}
+<span class="cm">// -2,1,-3,4,-1,2,1,-5,4</span>
+<span class="cm">// Answer = 6 ([4,-1,2,1])</span></pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode: #53 #918 #152</div>
+    </div>
+
+    <div class="pat-card">
+      <div class="pat-title"><div class="pn">5</div> Dutch National Flag (3-way partition)</div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:10px;">0s, 1s, 2s sort karo in O(n) — 3 pointers!</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="cp(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="kw">void</span> <span class="fn">sort012</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; a) {
+    <span class="kw">int</span> lo=<span class="num">0</span>, mid=<span class="num">0</span>, hi=a.<span class="fn">size</span>()-<span class="num">1</span>;
+    <span class="kw">while</span>(mid&lt;=hi){
+        <span class="kw">if</span>(a[mid]==<span class="num">0</span>)      swap(a[lo++],a[mid++]);
+        <span class="kw">else if</span>(a[mid]==<span class="num">1</span>) mid++;
+        <span class="kw">else</span>               swap(a[mid],a[hi--]);
+    }
+}
+<span class="cm">// [2,0,2,1,1,0] → [0,0,1,1,2,2]</span></pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode: #75 #280 #905</div>
+    </div>
+
+    <div class="pat-card">
+      <div class="pat-title"><div class="pn">6</div> Cyclic Sort</div>
+      <p style="font-size:12px;color:var(--dim);margin-bottom:10px;">1 to N range ke numbers — har number apni sahi jagah pe rakho O(n)</p>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="cp(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="kw">void</span> <span class="fn">cyclicSort</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; a) {
+    <span class="kw">int</span> i=<span class="num">0</span>;
+    <span class="kw">while</span>(i&lt;a.<span class="fn">size</span>()){
+        <span class="kw">int</span> j=a[i]-<span class="num">1</span>; <span class="cm">// correct position</span>
+        <span class="kw">if</span>(a[i]!=a[j]) swap(a[i],a[j]);
+        <span class="kw">else</span> i++;
+    }
+}
+<span class="cm">// [3,1,5,4,2] → [1,2,3,4,5]</span>
+<span class="cm">// Missing/Duplicate find karo baad mein!</span></pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode: #268 #287 #448 #442</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot de"></span> Kadane's Interactive Simulator</div>
+    <div class="arr-viz">
+      <div class="arr-label">Array: [-2, 1, -3, 4, -1, 2, 1, -5, 4] — Kadane's Algorithm</div>
+      <div class="arr-boxes" id="kadaneArr"></div>
+      <div style="margin-top:10px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Current Sum</div><div id="kadCur" style="font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--accent);font-weight:700;">0</div></div>
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Max Sum</div><div id="kadMax" style="font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--accent3);font-weight:700;">-∞</div></div>
+        <div style="text-align:center;"><div style="font-size:11px;color:var(--muted);margin-bottom:4px;">Best Window</div><div id="kadWin" style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent2);">-</div></div>
+      </div>
+      <div class="arr-controls">
+        <button class="abtn abtn-g" onclick="kadaneStep()">▶ Next Step</button>
+        <button class="abtn abtn-b" onclick="kadaneAuto()">⚡ Auto Run</button>
+        <button class="abtn abtn-p" onclick="kadaneReset()">Reset</button>
+      </div>
+      <div class="alog" id="kadaneLog">// Step by step Kadane's algorithm</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ 2D ARRAYS ═══════════════════ -->
+<div id="2d" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 08</div>
+    <div class="sec-title">2D Arrays / Matrix</div>
+    <div class="sec-sub">Row-major storage, traversal patterns aur common matrix operations</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> 2D Array — Create aur Access</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ━━━━ RAW 2D ARRAY ━━━━</span>
+<span class="kw">int</span> mat[<span class="num">3</span>][<span class="num">4</span>];                  <span class="cm">// 3 rows, 4 cols</span>
+<span class="kw">int</span> mat[<span class="num">3</span>][<span class="num">4</span>] = {{<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>},{<span class="num">5</span>,<span class="num">6</span>,<span class="num">7</span>,<span class="num">8</span>},{<span class="num">9</span>,<span class="num">10</span>,<span class="num">11</span>,<span class="num">12</span>}};
+
+<span class="cm">// ━━━━ VECTOR 2D (preferred!) ━━━━</span>
+<span class="kw">int</span> n=<span class="num">3</span>, m=<span class="num">4</span>;
+<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; mat(n, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m, <span class="num">0</span>));
+
+<span class="cm">// Access: mat[row][col]</span>
+mat[<span class="num">1</span>][<span class="num">2</span>] = <span class="num">42</span>;
+
+<span class="cm">// ━━━━ TRAVERSE ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) {
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++)
+        cout &lt;&lt; mat[i][j] &lt;&lt; <span class="str">"\t"</span>;
+    cout &lt;&lt; <span class="str">"\n"</span>;
+}
+
+<span class="cm">// Memory: Row-major order</span>
+<span class="cm">// mat[i][j] address = base + (i*cols + j)*sizeof(int)</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span> Matrix Operations — Interview Essentials</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; mat(<span class="num">3</span>, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(<span class="num">3</span>));
+
+<span class="cm">// ━━━━ TRANSPOSE (swap mat[i][j] with mat[j][i]) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++)
+    <span class="kw">for</span>(<span class="kw">int</span> j=i+<span class="num">1</span>;j&lt;n;j++)
+        swap(mat[i][j], mat[j][i]);
+
+<span class="cm">// ━━━━ ROTATE 90° CLOCKWISE ━━━━</span>
+<span class="cm">// Step 1: Transpose</span>
+<span class="cm">// Step 2: Reverse each row</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) reverse(mat[i].<span class="fn">begin</span>(),mat[i].<span class="fn">end</span>());
+
+<span class="cm">// ━━━━ SPIRAL TRAVERSAL ━━━━</span>
+<span class="kw">int</span> top=<span class="num">0</span>, bot=n-<span class="num">1</span>, left=<span class="num">0</span>, right=m-<span class="num">1</span>;
+<span class="kw">while</span>(top&lt;=bot &amp;&amp; left&lt;=right) {
+    <span class="kw">for</span>(<span class="kw">int</span> i=left;i&lt;=right;i++) res.<span class="fn">push_back</span>(mat[top][i]); top++;
+    <span class="kw">for</span>(<span class="kw">int</span> i=top;i&lt;=bot;i++) res.<span class="fn">push_back</span>(mat[i][right]); right--;
+    <span class="kw">if</span>(top&lt;=bot){ <span class="kw">for</span>(<span class="kw">int</span> i=right;i&gt;=left;i--) res.<span class="fn">push_back</span>(mat[bot][i]); bot--; }
+    <span class="kw">if</span>(left&lt;=right){ <span class="kw">for</span>(<span class="kw">int</span> i=bot;i&gt;=top;i--) res.<span class="fn">push_back</span>(mat[i][left]); left++; }
+}
+
+<span class="cm">// ━━━━ DIAGONAL TRAVERSAL ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) cout &lt;&lt; mat[i][i]; <span class="cm">// main diagonal</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) cout &lt;&lt; mat[i][n-i-<span class="num">1</span>]; <span class="cm">// anti-diagonal</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span> 4 Directions — BFS/DFS mein use</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// 4 directions (up, down, left, right)</span>
+<span class="kw">int</span> dx[] = {-<span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>};
+<span class="kw">int</span> dy[] = { <span class="num">0</span>, <span class="num">0</span>,-<span class="num">1</span>, <span class="num">1</span>};
+
+<span class="kw">for</span>(<span class="kw">int</span> d=<span class="num">0</span>; d&lt;<span class="num">4</span>; d++) {
+    <span class="kw">int</span> nx = x + dx[d];
+    <span class="kw">int</span> ny = y + dy[d];
+    <span class="kw">if</span>(nx&gt;=<span class="num">0</span> &amp;&amp; nx&lt;n &amp;&amp; ny&gt;=<span class="num">0</span> &amp;&amp; ny&lt;m) {
+        <span class="cm">// valid cell — process karo</span>
+    }
+}
+
+<span class="cm">// 8 directions (diagonals bhi)</span>
+<span class="kw">int</span> dx8[] = {-<span class="num">1</span>,-<span class="num">1</span>,-<span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>};
+<span class="kw">int</span> dy8[] = {-<span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>,-<span class="num">1</span>, <span class="num">1</span>,-<span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>};
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ LEETCODE ═══════════════════ -->
+<div id="leetcode" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 09</div>
+    <div class="sec-title">💻 LeetCode — 30+ Problems</div>
+    <div class="sec-sub">Pattern ke hisaab se sorted — yeh order follow karo</div>
+  </div>
+
+  <div style="margin-bottom:14px;font-size:13px;font-weight:700;color:var(--accent3);">🟢 EASY — Ye Pehle Karo</div>
+  <div class="lc-grid" style="margin-bottom:24px;">
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#1</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Two Sum</div><div class="lc-tags"><span class="lc-tag">HashMap</span><span class="lc-tag">Array</span></div><div class="lc-hint">HashMap mein index store karo — O(n)</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#26</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Remove Duplicates</div><div class="lc-tags"><span class="lc-tag">Two Pointers</span></div><div class="lc-hint">Slow-fast pointer — slow pe unique rakhte jao</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#53</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Maximum Subarray</div><div class="lc-tags"><span class="lc-tag">Kadane's</span><span class="lc-tag">DP</span></div><div class="lc-hint">Kadane's algorithm — O(n) solution</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#121</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Best Time to Buy Stock</div><div class="lc-tags"><span class="lc-tag">Greedy</span><span class="lc-tag">Array</span></div><div class="lc-hint">Min price track karte jao, max profit update</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#217</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Contains Duplicate</div><div class="lc-tags"><span class="lc-tag">HashSet</span></div><div class="lc-hint">unordered_set mein check — O(n)</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#268</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Missing Number</div><div class="lc-tags"><span class="lc-tag">XOR</span><span class="lc-tag">Math</span></div><div class="lc-hint">XOR ya n*(n+1)/2 - sum</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#283</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Move Zeroes</div><div class="lc-tags"><span class="lc-tag">Two Pointers</span></div><div class="lc-hint">Non-zero elements aage rakho, end mein 0</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#303</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Range Sum Query</div><div class="lc-tags"><span class="lc-tag">Prefix Sum</span></div><div class="lc-hint">psum build karo, O(1) query</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#448</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Find All Missing</div><div class="lc-tags"><span class="lc-tag">Cyclic Sort</span></div><div class="lc-hint">Cyclic sort ya negation trick</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#977</span><span class="lc-diff easy">Easy</span></div><div class="lc-title">Squares of Sorted Array</div><div class="lc-tags"><span class="lc-tag">Two Pointers</span></div><div class="lc-hint">Two ends se compare karo, result fill backward</div></div>
+  </div>
+
+  <div style="margin-bottom:14px;font-size:13px;font-weight:700;color:var(--accent4);">🟡 MEDIUM — Core Problems</div>
+  <div class="lc-grid" style="margin-bottom:24px;">
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#11</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Container With Most Water</div><div class="lc-tags"><span class="lc-tag">Two Pointers</span></div><div class="lc-hint">Choti height ki side move karo</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#15</span><span class="lc-diff med">Medium</span></div><div class="lc-title">3Sum</div><div class="lc-tags"><span class="lc-tag">Sort</span><span class="lc-tag">Two Pointers</span></div><div class="lc-hint">Sort + fix first, two pointer on rest</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#33</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Search in Rotated Array</div><div class="lc-tags"><span class="lc-tag">Binary Search</span></div><div class="lc-hint">Kaunsa half sorted hai identify karo</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#75</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Sort Colors</div><div class="lc-tags"><span class="lc-tag">Dutch Flag</span></div><div class="lc-hint">3 pointers — lo, mid, hi</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#152</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Maximum Product Subarray</div><div class="lc-tags"><span class="lc-tag">DP</span><span class="lc-tag">Array</span></div><div class="lc-hint">Max aur min dono track karo (negative flip)</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#189</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Rotate Array</div><div class="lc-tags"><span class="lc-tag">Reverse</span></div><div class="lc-hint">Reverse all, reverse first k, reverse rest</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#209</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Min Size Subarray Sum</div><div class="lc-tags"><span class="lc-tag">Sliding Window</span></div><div class="lc-hint">Variable window — shrink when sum >= target</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#238</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Product Except Self</div><div class="lc-tags"><span class="lc-tag">Prefix</span><span class="lc-tag">Suffix</span></div><div class="lc-hint">Left product × Right product — O(n) no division</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#287</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Find the Duplicate</div><div class="lc-tags"><span class="lc-tag">Floyd's Cycle</span></div><div class="lc-hint">Slow-fast pointer (linked list in array)</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#560</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Subarray Sum Equals K</div><div class="lc-tags"><span class="lc-tag">Prefix Sum</span><span class="lc-tag">HashMap</span></div><div class="lc-hint">prefix[i] - prefix[j] = k → count[prefix-k]</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#54</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Spiral Matrix</div><div class="lc-tags"><span class="lc-tag">2D Array</span><span class="lc-tag">Simulation</span></div><div class="lc-hint">4 boundaries rakhte jao — top/bot/left/right</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#48</span><span class="lc-diff med">Medium</span></div><div class="lc-title">Rotate Image</div><div class="lc-tags"><span class="lc-tag">2D Array</span><span class="lc-tag">Matrix</span></div><div class="lc-hint">Transpose → Reverse rows</div></div>
+  </div>
+
+  <div style="margin-bottom:14px;font-size:13px;font-weight:700;color:var(--accent5);">🔴 HARD — Challenge Yourself</div>
+  <div class="lc-grid" style="margin-bottom:24px;">
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#42</span><span class="lc-diff hard">Hard</span></div><div class="lc-title">Trapping Rain Water</div><div class="lc-tags"><span class="lc-tag">Two Pointers</span><span class="lc-tag">Prefix</span></div><div class="lc-hint">Left max + Right max arrays ya two pointer</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#84</span><span class="lc-diff hard">Hard</span></div><div class="lc-title">Largest Rectangle in Histogram</div><div class="lc-tags"><span class="lc-tag">Stack</span><span class="lc-tag">Array</span></div><div class="lc-hint">Monotonic stack — next smaller element</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#239</span><span class="lc-diff hard">Hard</span></div><div class="lc-title">Sliding Window Maximum</div><div class="lc-tags"><span class="lc-tag">Deque</span><span class="lc-tag">Monotonic</span></div><div class="lc-hint">Deque mein decreasing indices store karo</div></div>
+    <div class="lc-card"><div class="lc-top"><span class="lc-num">#4</span><span class="lc-diff hard">Hard</span></div><div class="lc-title">Median of Two Sorted Arrays</div><div class="lc-tags"><span class="lc-tag">Binary Search</span></div><div class="lc-hint">Binary search on smaller array partition</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dd"></span> Recommended Study Order</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">
+      <span class="badge ba">#217 Duplicates</span><span class="badge ba">#121 Stock</span><span class="badge ba">#53 Max Subarray</span><span class="badge ba">#283 Move Zeros</span><span class="badge ba">#1 Two Sum</span><span class="badge bc">#26 Remove Dup</span><span class="badge bc">#977 Squares</span><span class="badge bd">#11 Water</span><span class="badge bd">#15 3Sum</span><span class="badge bd">#209 Min Window</span><span class="badge bd">#238 Product Except</span><span class="badge bd">#560 Subarray K</span><span class="badge bd">#33 Rotated Search</span><span class="badge be">#42 Rain Water</span><span class="badge be">#239 Window Max</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ TRICKS ═══════════════════ -->
+<div id="tricks" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 10</div>
+    <div class="sec-title">🎩 Tips, Tricks &amp; Common Mistakes</div>
+    <div class="sec-sub">Yeh galtiyan mat karna — aur yeh shortcuts yaad rakho</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span> Common Mistakes — Avoid Karo</div>
+    <div class="trick">
+      <div class="trick-t">// Off-by-one Error (Sabse Common!)</div>
+      <div class="trick-d">Array bounds: 0 to n-1 (not n). Loop condition carefully likho.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button><pre style="margin-top:0;font-size:12px;"><span class="cm">// ❌ WRONG</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;=n; i++) arr[i]; <span class="cm">// arr[n] = out of bounds!</span>
+<span class="cm">// ✅ CORRECT</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;n; i++) arr[i];</pre></div>
+    </div>
+    <div class="trick orange">
+      <div class="trick-t">// Integer Overflow</div>
+      <div class="trick-d">Sum ya product bahut bada ho sakta hai — long long use karo!</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button><pre style="margin-top:0;font-size:12px;"><span class="cm">// ❌ WRONG: int overflow possible</span>
+<span class="kw">int</span> sum = accumulate(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">0</span>);
+<span class="cm">// ✅ CORRECT</span>
+<span class="kw">long long</span> sum = accumulate(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), <span class="num">0LL</span>);
+<span class="cm">// Mid calculation bhi:</span>
+<span class="kw">int</span> mid = lo + (hi-lo)/<span class="num">2</span>; <span class="cm">// NOT (lo+hi)/2</span></pre></div>
+    </div>
+    <div class="trick purple">
+      <div class="trick-t">// size() returns unsigned type!</div>
+      <div class="trick-d">v.size()-1 jab v empty ho — underflow hoga! (0-1 = very big number)</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button><pre style="margin-top:0;font-size:12px;"><span class="cm">// ❌ WRONG when v is empty</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;v.<span class="fn">size</span>()-<span class="num">1</span>; i++) <span class="cm">// danger!</span>
+<span class="cm">// ✅ CORRECT</span>
+<span class="kw">int</span> n = (<span class="kw">int</span>)v.<span class="fn">size</span>();
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;n-<span class="num">1</span>; i++) <span class="cm">// safe</span></pre></div>
+    </div>
+    <div class="trick green">
+      <div class="trick-t">// Copying vs Referencing</div>
+      <div class="trick-d">Function mein vector pass karte waqt & (reference) use karo — copy se O(n) time aur space waste hogi.</div>
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button><pre style="margin-top:0;font-size:12px;"><span class="cm">// ❌ SLOW: copies entire vector</span>
+<span class="kw">void</span> <span class="fn">foo</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v) { }
+<span class="cm">// ✅ FAST: reference</span>
+<span class="kw">void</span> <span class="fn">foo</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; v) { }
+<span class="cm">// Read-only: const reference</span>
+<span class="kw">void</span> <span class="fn">foo</span>(<span class="kw">const</span> <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; v) { }</pre></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span> Useful Shortcuts aur Tricks</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="cp(this)">copy</button>
+      <pre><span class="cm">// ━━━━ ROTATE ARRAY (k steps left) ━━━━</span>
+rotate(v.<span class="fn">begin</span>(), v.<span class="fn">begin</span>()+k, v.<span class="fn">end</span>());
+
+<span class="cm">// ━━━━ FLATTEN 2D INDEX ━━━━</span>
+<span class="kw">int</span> flat_idx = row * cols + col;  <span class="cm">// 2D → 1D</span>
+<span class="kw">int</span> row = flat_idx / cols;        <span class="cm">// 1D → 2D</span>
+<span class="kw">int</span> col = flat_idx % cols;
+
+<span class="cm">// ━━━━ FREQUENCY ARRAY ━━━━</span>
+<span class="kw">int</span> freq[<span class="num">256</span>] = {};          <span class="cm">// chars ke liye</span>
+<span class="kw">for</span>(<span class="kw">char</span> c : s) freq[c]++;
+
+<span class="cm">// ━━━━ ABSOLUTE SORT ━━━━</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), [](<span class="kw">int</span> a, <span class="kw">int</span> b){
+    <span class="kw">return</span> abs(a) &lt; abs(b);
+});
+
+<span class="cm">// ━━━━ ERASE FROM VECTOR ━━━━</span>
+<span class="cm">// Remove by value (first occurrence):</span>
+v.<span class="fn">erase</span>(find(v.<span class="fn">begin</span>(),v.<span class="fn">end</span>(),val));
+<span class="cm">// Erase-remove idiom (all occurrences):</span>
+v.<span class="fn">erase</span>(remove(v.<span class="fn">begin</span>(),v.<span class="fn">end</span>(),val), v.<span class="fn">end</span>());
+
+<span class="cm">// ━━━━ MULTIPLE RETURN (C++17) ━━━━</span>
+<span class="kw">auto</span> [mn, mx] = minmax_element(v.<span class="fn">begin</span>(),v.<span class="fn">end</span>());
+
+<span class="cm">// ━━━━ LAMBDA SORT ━━━━</span>
+sort(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>(), [](<span class="kw">auto</span>&amp; a, <span class="kw">auto</span>&amp; b){
+    <span class="kw">return</span> a[<span class="num">1</span>] != b[<span class="num">1</span>] ? a[<span class="num">1</span>] &lt; b[<span class="num">1</span>] : a[<span class="num">0</span>] &lt; b[<span class="num">0</span>];
+});
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ CHEATSHEET ═══════════════════ -->
+<div id="cheat" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 11</div>
+    <div class="sec-title">📌 Ultimate Cheatsheet</div>
+    <div class="sec-sub">Print karo — revision + interview ke liye</div>
+  </div>
+
+  <div class="cheat-grid">
+    <div class="cheat-box">
+      <div class="ch-hdr ch-a">📦 Vector Methods</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">v.push_back(x)</span><span class="ch-desc">Add end O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">v.pop_back()</span><span class="ch-desc">Remove end O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">v.size()</span><span class="ch-desc">Count O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">v[i] / v.at(i)</span><span class="ch-desc">Access O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">v.front()/back()</span><span class="ch-desc">First/Last O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">v.insert(it,x)</span><span class="ch-desc">Insert O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">v.erase(it)</span><span class="ch-desc">Delete O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">v.clear()</span><span class="ch-desc">Empty O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">v.empty()</span><span class="ch-desc">bool O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">v.resize(n,v)</span><span class="ch-desc">Resize O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">v.reserve(n)</span><span class="ch-desc">Capacity O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">v.swap(v2)</span><span class="ch-desc">Swap O(1)!</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="ch-hdr ch-b">⚙️ STL Algorithms</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">sort(b,e)</span><span class="ch-desc">O(n log n)</span></div>
+        <div class="ch-row"><span class="ch-code">reverse(b,e)</span><span class="ch-desc">O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">*max_element(b,e)</span><span class="ch-desc">Max value O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">*min_element(b,e)</span><span class="ch-desc">Min value O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">accumulate(b,e,0)</span><span class="ch-desc">Sum O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">count(b,e,val)</span><span class="ch-desc">Count val O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">find(b,e,val)</span><span class="ch-desc">Find O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">fill(b,e,val)</span><span class="ch-desc">Fill O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">rotate(b,m,e)</span><span class="ch-desc">Rotate O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">unique(b,e)</span><span class="ch-desc">Dedup O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">lower_bound(b,e,x)</span><span class="ch-desc">≥x O(log n)</span></div>
+        <div class="ch-row"><span class="ch-code">upper_bound(b,e,x)</span><span class="ch-desc">&gt;x O(log n)</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="ch-hdr ch-c">🎯 Pattern Templates</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">l=0,r=n-1</span><span class="ch-desc">Two pointers setup</span></div>
+        <div class="ch-row"><span class="ch-code">l++/r-- in while</span><span class="ch-desc">Two pointer move</span></div>
+        <div class="ch-row"><span class="ch-code">pre[i+1]=pre[i]+a[i]</span><span class="ch-desc">Prefix sum build</span></div>
+        <div class="ch-row"><span class="ch-code">pre[r+1]-pre[l]</span><span class="ch-desc">Range sum O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">cur=max(a[i],cur+a[i])</span><span class="ch-desc">Kadane's step</span></div>
+        <div class="ch-row"><span class="ch-code">sum+=a[r];sum-=a[l]</span><span class="ch-desc">Sliding window</span></div>
+        <div class="ch-row"><span class="ch-code">mid=lo+(hi-lo)/2</span><span class="ch-desc">Binary search mid</span></div>
+        <div class="ch-row"><span class="ch-code">lo&lt;=hi while loop</span><span class="ch-desc">Binary search loop</span></div>
+        <div class="ch-row"><span class="ch-code">dx[]={-1,1,0,0}</span><span class="ch-desc">4-dir traversal</span></div>
+        <div class="ch-row"><span class="ch-code">a[j]=a[j-1] shift</span><span class="ch-desc">Insert middle</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="ch-hdr ch-d">⚠️ Common Bugs</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">i&lt;n NOT i&lt;=n</span><span class="ch-desc">Off-by-one</span></div>
+        <div class="ch-row"><span class="ch-code">0LL initial sum</span><span class="ch-desc">Int overflow</span></div>
+        <div class="ch-row"><span class="ch-code">lo+(hi-lo)/2</span><span class="ch-desc">Mid overflow</span></div>
+        <div class="ch-row"><span class="ch-code">(int)v.size()</span><span class="ch-desc">Unsigned-1 bug</span></div>
+        <div class="ch-row"><span class="ch-code">vector&amp; not copy</span><span class="ch-desc">Pass by reference</span></div>
+        <div class="ch-row"><span class="ch-code">int arr[n]={}</span><span class="ch-desc">Always init!</span></div>
+        <div class="ch-row"><span class="ch-code">sort before BS</span><span class="ch-desc">Binary search needs sorted</span></div>
+        <div class="ch-row"><span class="ch-code">sort before unique</span><span class="ch-desc">unique() needs sorted</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="ch-hdr ch-e">🔢 Init Patterns</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">vector&lt;int&gt; v(n,0)</span><span class="ch-desc">n zeros</span></div>
+        <div class="ch-row"><span class="ch-code">vector&lt;int&gt; v(n,-1)</span><span class="ch-desc">n negative ones</span></div>
+        <div class="ch-row"><span class="ch-code">v(v2.begin(),end)</span><span class="ch-desc">Copy vector</span></div>
+        <div class="ch-row"><span class="ch-code">v(b+1,b+4)</span><span class="ch-desc">Slice [1,3]</span></div>
+        <div class="ch-row"><span class="ch-code">int arr[N]={};</span><span class="ch-desc">All zeros</span></div>
+        <div class="ch-row"><span class="ch-code">memset(arr,0,sizeof)</span><span class="ch-desc">Fast zero fill</span></div>
+        <div class="ch-row"><span class="ch-code">fill(arr,arr+n,-1)</span><span class="ch-desc">Fill -1</span></div>
+        <div class="ch-row"><span class="ch-code">iota(v.begin(),e,1)</span><span class="ch-desc">Fill 1,2,3...</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="ch-hdr ch-f">📊 Time Complexity</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">Access arr[i]</span><span class="ch-desc">O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">Linear Search</span><span class="ch-desc">O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">Binary Search</span><span class="ch-desc">O(log n)</span></div>
+        <div class="ch-row"><span class="ch-code">Insert/Delete Mid</span><span class="ch-desc">O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">push/pop back</span><span class="ch-desc">O(1) amort</span></div>
+        <div class="ch-row"><span class="ch-code">std::sort</span><span class="ch-desc">O(n log n)</span></div>
+        <div class="ch-row"><span class="ch-code">Two Pointers</span><span class="ch-desc">O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">Sliding Window</span><span class="ch-desc">O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">Prefix Sum build</span><span class="ch-desc">O(n)</span></div>
+        <div class="ch-row"><span class="ch-code">Prefix Sum query</span><span class="ch-desc">O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">Kadane's Algo</span><span class="ch-desc">O(n)</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ QUIZ ═══════════════════ -->
+<div id="quiz" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 12</div>
+    <div class="sec-title">🧠 Quiz — Apna Knowledge Test Karo</div>
+    <div class="sec-sub">8 questions — concepts solid karo</div>
+  </div>
+
+  <div class="prog-bar"><div class="prog-fill" id="qprog" style="width:0%"></div></div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q1. <code>int arr[5];</code> ke baad <code>arr[2]</code> ki value kya hogi?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Array ko initialize karte waqt {0} ya = {} likho nahi toh 0 guarantee nahi hai.')">0</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Sahi! Uninitialized raw array mein garbage (random) values hoti hain — jo bhi memory mein pehle se tha. Hamesha initialize karo: int arr[5] = {} ya int arr[5] = {0}')">Garbage (undefined) value</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ -1 sirf tab agar fill(arr, arr+5, -1) karo.')">-1</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Compile error tab hoga jab syntax galat ho.')">Compile error</button>
+    </div>
+    <div class="quiz-exp" id="qe0"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q2. <code>vector&lt;int&gt; v;</code> ke baad <code>v.size() - 1</code> kya return karega?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ -1 sirf signed integers mein hota hai.')">-1</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Exactly! size() ek unsigned type (size_t) return karta hai. 0 - 1 = very large positive number (underflow). Isliye hamesha int n = (int)v.size() karo pehle!')">Bahut bada positive number (underflow)</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Runtime error nahi hoga — yeh undefined behavior hai.')">Runtime error</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 0 tabhi hoga agar vector mein ek element hota.')">0</button>
+    </div>
+    <div class="quiz-exp" id="qe1"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q3. Sorted array <code>[1,3,5,7,9]</code> mein 7 dhundna hai. Binary search mein <em>kitne steps</em> lagenge?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 5 steps linear search mein hote. Binary search bahut fast hai.')">5 steps (linear)</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Correct! Step 1: mid=index 2, value 5, 7>5 so lo=3. Step 2: mid=index 3, value 7, match! Total = 2 steps. Binary search O(log n) hai.')">2 steps</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 1 step sirf tab jab directly middle mein ho.')">1 step</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 3 steps nahi.')">3 steps</button>
+    </div>
+    <div class="quiz-exp" id="qe2"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q4. Array <code>[-2,1,-3,4,-1,2,1,-5,4]</code> ka maximum subarray sum kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Poora sum positive elements ka nahi — continuous subarray chahiye.')">11</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Perfect! [4,-1,2,1] = 6. Kadane\'s algorithm: cur = max(element, cur+element). Jab cur negative ho jaata hai, fresh start lo!')">6 (subarray [4,-1,2,1])</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 4 sirf ek element hai, better subarray exist karta hai.')">4</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 7 nahi — continuous subarray ka sum 6 se zyada nahi banta yahan.')">7</button>
+    </div>
+    <div class="quiz-exp" id="qe3"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q5. <code>lower_bound(v.begin(), v.end(), 4)</code> sorted array <code>[1,2,4,4,5,7]</code> mein kya return karega?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Index 2 pe hi pehla 4 hai, yahi lower_bound return karta hai lekin iterator form mein.')">Iterator to index 1</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Bilkul sahi! lower_bound = first element >= 4 ka iterator. Array mein pehla 4 index 2 pe hai. *(iterator) = 4, index = it - v.begin() = 2.')">Iterator to index 2 (pehla 4)</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Index 3 second 4 hai — lower_bound pehla dhundta hai.')">Iterator to index 3 (doosra 4)</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ true/false binary_search return karta hai, lower_bound nahi.')">true (found)</button>
+    </div>
+    <div class="quiz-exp" id="qe4"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q6. Sliding window maximum size 3 ke liye array <code>[1,3,-1,-3,5,3,6,7]</code> ka output kya hoga?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Yeh sorted output hai, window maximum nahi.')">3 3 5 6 7</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Correct! Windows: [1,3,-1]→3, [3,-1,-3]→3, [-1,-3,5]→5, [-3,5,3]→5, [5,3,6]→6, [3,6,7]→7. Deque (monotonic decreasing) se O(n) mein solve hota hai.')">3 3 5 5 6 7</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Poore array ka max nahi, har window ka max chahiye.')">7 7 7 7 7 7</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Yeh correct nahi.')">1 3 5 5 6 7</button>
+    </div>
+    <div class="quiz-exp" id="qe5"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q7. Prefix sum array ka kya use hai? Array <code>[3,1,4,1,5]</code> ka prefix sum kya hoga?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Yeh original array hai, prefix sum nahi.')">Same as original array</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Excellent! pre[0]=0, pre[1]=3, pre[2]=4, pre[3]=8, pre[4]=9, pre[5]=14. Range [1,3] sum = pre[4]-pre[1] = 9-3 = 6. O(n) build, O(1) any range query!')">pre = [0,3,4,8,9,14] — O(1) range queries ke liye</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Running max alag cheez hai.')">Running maximum array</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Difference array alag pattern hai.')">Difference array</button>
+    </div>
+    <div class="quiz-exp" id="qe6"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q8. Function mein <code>void foo(vector&lt;int&gt; v)</code> aur <code>void foo(vector&lt;int&gt;&amp; v)</code> mein kya farak hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Koi farak nahi — yeh galat hai. Dono mein bahut farak hai!')">Koi farak nahi</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Reference wala modify kar sakta hai, & ka matlab nahi hai ke nahi kar sakta.')">& wala modify nahi kar sakta</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Perfect! Bina & = COPY banata hai O(n) time+space waste. & ke saath = original ka reference, O(1), aur modifications bahar dikhte hain. Hamesha & use karo unless copy chahiye!')">Bina & = O(n) copy banata hai, & ke saath = O(1) reference, modifications bahar dikhte hain</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Memory allocation dono mein alag hai lekin yeh accurate description nahi.')">Sirf memory allocation mein farak</button>
+    </div>
+    <div class="quiz-exp" id="qe7"></div>
+  </div>
+
+  <div class="score-card" id="scoreCard" style="display:none;">
+    <div class="score-big" id="scoreBig">0/8</div>
+    <div style="color:var(--dim);margin-top:10px;font-size:14px;" id="scoreMsg"></div>
+    <button class="abtn abtn-g" style="margin-top:20px;" onclick="resetQuiz()">🔄 Dobara Try Karo</button>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:8px;">C++ Arrays — Complete Deep Notes</div>
+  <div style="color:var(--muted);">vector · STL · Sorting · Binary Search · Two Pointers · Sliding Window · Prefix Sum · Kadane's · 2D · 30+ LeetCode</div>
+</div>
+
+</body>
+</html>
