@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>C++ HashMap & HashSet — Complete Notes</title>
+<script src="hashing.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="hashing.css">
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag"># C++ STL</div>
+  <h1>HashMap <span class="hl">&</span> HashSet</h1>
+  <h1 style="font-size:clamp(1.2rem,3vw,2rem);font-weight:600;color:var(--dim);margin-top:4px;">Complete Notes — Basics to Advanced</h1>
+  <p>unordered_map · unordered_set · DSA Patterns · Interview Ready</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">O(1)</div><div class="stat-label">AVERAGE TIME</div></div>
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">METHODS COVERED</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">DSA PATTERNS</div></div>
+    <div class="stat"><div class="stat-num">5</div><div class="stat-label">QUIZ QUESTIONS</div></div>
+  </div>
+</div>
+
+<nav class="nav-bar" id="navbar">
+  <button class="nav-btn active" onclick="showSec('basics',this)">🔑 Basics</button>
+  <button class="nav-btn" onclick="showSec('hashset',this)">🟢 HashSet</button>
+  <button class="nav-btn" onclick="showSec('hashmap',this)">🔵 HashMap</button>
+  <button class="nav-btn" onclick="showSec('methods',this)">📋 Methods</button>
+  <button class="nav-btn" onclick="showSec('demo',this)">⚡ Live Demo</button>
+  <button class="nav-btn" onclick="showSec('patterns',this)">🎯 DSA Patterns</button>
+  <button class="nav-btn" onclick="showSec('compare',this)">⚖️ Comparison</button>
+  <button class="nav-btn" onclick="showSec('cheat',this)">📌 Cheatsheet</button>
+  <button class="nav-btn" onclick="showSec('quiz',this)">🧠 Quiz</button>
+</nav>
+
+<div class="container">
+
+<!-- ======================== BASICS ======================== -->
+<div id="basics" class="section active">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 01</div>
+    <div class="sec-title">Hashing Kya Hota Hai?</div>
+    <div class="sec-sub">Foundation samjho — sab kuch yahan se shuru hota hai</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span> Hash Function — Concept</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:8px;">Ek function jo kisi bhi key ko ek <strong style="color:var(--accent)">bucket index</strong> mein convert karta hai. Isi liye lookup instant hoti hai.</p>
+    <div class="hash-visual">
+      <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);">
+        Key → hash(key) % bucket_count → Index mein store
+      </div>
+      <div class="bucket-row" id="buckets">
+        <div class="bucket" id="b0"><div class="bucket-idx">[0]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+        <div class="bucket" id="b1"><div class="bucket-idx">[1]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+        <div class="bucket" id="b2"><div class="bucket-idx">[2]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+        <div class="bucket" id="b3"><div class="bucket-idx">[3]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+        <div class="bucket" id="b4"><div class="bucket-idx">[4]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+        <div class="bucket" id="b5"><div class="bucket-idx">[5]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+        <div class="bucket" id="b6"><div class="bucket-idx">[6]</div><div class="bucket-val" style="color:var(--muted)">—</div></div>
+      </div>
+      <div class="hash-demo">
+        <input class="hash-input" id="hashInp" type="number" placeholder="e.g. 42" />
+        <button class="hash-btn" onclick="doHash()">Hash karo →</button>
+        <div class="hash-result" id="hashRes"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span> C++ mein Java ka naam → STL naam</div>
+    <div class="grid2">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">JAVA</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--accent4);">HashMap</div>
+        <div style="font-size:20px;color:var(--muted);margin:8px 0;">↓</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">C++</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--accent);">unordered_map</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:18px;text-align:center;">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">JAVA</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--accent4);">HashSet</div>
+        <div style="font-size:20px;color:var(--muted);margin:8px 0;">↓</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px;">C++</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--accent3);">unordered_set</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span> Time Complexity — Kyun Itna Fast?</div>
+    <div class="grid3" style="gap:12px;margin-top:4px;">
+      <div style="background:var(--surface2);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent3);font-weight:700;">O(1)</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Insert</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent3);font-weight:700;">O(1)</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Search</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:16px;text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent3);font-weight:700;">O(1)</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Delete</div>
+      </div>
+    </div>
+    <div class="alert alert-warn" style="margin-top:16px;">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Worst case: O(n)</strong> — jab bahut saari keys same bucket mein girengi (collision). STL internally chaining use karta hai isko handle karne ke liye.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-orange"></span> Headers — Zaroori Include</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;unordered_map&gt;</span>    <span class="cm">// HashMap ke liye</span>
+<span class="kw">#include</span> <span class="str">&lt;unordered_set&gt;</span>    <span class="cm">// HashSet ke liye</span>
+<span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="kw">using namespace</span> <span class="ty">std</span>;
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== HASHSET ======================== -->
+<div id="hashset" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 02</div>
+    <div class="sec-title">unordered_set <span class="badge badge-c">HashSet</span></div>
+    <div class="sec-sub">Sirf unique values — no duplicates, no order, blazing fast</div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div><strong>Kab use karein?</strong> Jab sirf check karna ho ki element exist karta hai ya nahi. Duplicates automatically ignore ho jaate hain.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span> Create / Initialize</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;unordered_set&gt;</span>
+<span class="kw">using namespace</span> <span class="ty">std</span>;
+
+<span class="cm">// Method 1: Empty set</span>
+<span class="ty">unordered_set</span>&lt;<span class="kw">int</span>&gt; st;
+
+<span class="cm">// Method 2: Initializer list se directly</span>
+<span class="ty">unordered_set</span>&lt;<span class="kw">int</span>&gt; st = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>, <span class="num">40</span>};
+
+<span class="cm">// Method 3: Vector se (duplicates automatically hatenge!)</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; v = {<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">3</span>, <span class="num">3</span>};
+<span class="ty">unordered_set</span>&lt;<span class="kw">int</span>&gt; st(v.<span class="fn">begin</span>(), v.<span class="fn">end</span>()); <span class="cm">// {1, 2, 3}</span>
+
+<span class="cm">// Method 4: String set</span>
+<span class="ty">unordered_set</span>&lt;<span class="ty">string</span>&gt; words = {<span class="str">"hello"</span>, <span class="str">"world"</span>};
+</pre>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-green"></span> Insert</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre><span class="cm">// insert() — standard way</span>
+st.<span class="fn">insert</span>(<span class="num">10</span>);
+st.<span class="fn">insert</span>(<span class="num">20</span>);
+
+<span class="cm">// emplace() — faster! (C++11)</span>
+st.<span class="fn">emplace</span>(<span class="num">30</span>);
+
+<span class="cm">// Duplicate? Ignore!</span>
+st.<span class="fn">insert</span>(<span class="num">10</span>); <span class="cm">// silently ignored</span>
+</pre>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-pink"></span> Delete</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre><span class="cm">// Value se erase</span>
+st.<span class="fn">erase</span>(<span class="num">20</span>);
+
+<span class="cm">// Sab hatao</span>
+st.<span class="fn">clear</span>();
+
+<span class="cm">// Iterator se erase</span>
+<span class="kw">auto</span> it = st.<span class="fn">find</span>(<span class="num">30</span>);
+<span class="kw">if</span>(it != st.<span class="fn">end</span>())
+    st.<span class="fn">erase</span>(it);
+</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span> Search / Find — 3 Tarike</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Method 1: find() — iterator return karta hai</span>
+<span class="kw">if</span>(st.<span class="fn">find</span>(<span class="num">20</span>) != st.<span class="fn">end</span>())
+    cout &lt;&lt; <span class="str">"Found!\n"</span>;
+
+<span class="cm">// Method 2: count() ★ SHORTCUT ★ — 0 ya 1</span>
+<span class="kw">if</span>(st.<span class="fn">count</span>(<span class="num">20</span>))
+    cout &lt;&lt; <span class="str">"Present!\n"</span>;
+
+<span class="cm">// Method 3: contains() — C++20 (sabse clean)</span>
+<span class="kw">if</span>(st.<span class="fn">contains</span>(<span class="num">20</span>))
+    cout &lt;&lt; <span class="str">"Yes!\n"</span>;
+</pre>
+    </div>
+    <div class="alert alert-tip" style="margin-top:12px;">
+      <span class="alert-icon">⭐</span>
+      <div><strong>Pro tip:</strong> Competitive programming mein <code>st.count(x)</code> sabse fast likhne ka tarika hai. Sirf ek function call — 0 ya 1 return.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-orange"></span> Iterate + Size + Empty</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Range-based loop (recommended)</span>
+<span class="kw">for</span>(<span class="kw">auto</span> x : st)
+    cout &lt;&lt; x &lt;&lt; <span class="str">" "</span>;
+
+<span class="cm">// Size aur empty check</span>
+cout &lt;&lt; st.<span class="fn">size</span>();    <span class="cm">// kitne elements hain</span>
+<span class="kw">if</span>(st.<span class="fn">empty</span>())      <span class="cm">// khaali hai?</span>
+    cout &lt;&lt; <span class="str">"Empty set\n"</span>;
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span> Complete Example</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;unordered_set&gt;</span>
+<span class="kw">using namespace</span> <span class="ty">std</span>;
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="ty">unordered_set</span>&lt;<span class="kw">int</span>&gt; st = {<span class="num">10</span>, <span class="num">20</span>, <span class="num">30</span>};
+
+    st.<span class="fn">insert</span>(<span class="num">40</span>);
+    st.<span class="fn">insert</span>(<span class="num">10</span>);   <span class="cm">// duplicate → ignored</span>
+
+    <span class="kw">if</span>(st.<span class="fn">count</span>(<span class="num">20</span>))
+        cout &lt;&lt; <span class="str">"20 present hai\n"</span>;
+
+    st.<span class="fn">erase</span>(<span class="num">20</span>);
+
+    <span class="kw">for</span>(<span class="kw">auto</span> x : st)
+        cout &lt;&lt; x &lt;&lt; <span class="str">" "</span>;
+    <span class="cm">// Output: 40 30 10 (order fixed nahi hoga!)</span>
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== HASHMAP ======================== -->
+<div id="hashmap" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 03</div>
+    <div class="sec-title">unordered_map <span class="badge badge-c">HashMap</span></div>
+    <div class="sec-sub">Key → Value pairs store karo — dictionary ki tarah</div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div><strong>Kab use karein?</strong> Jab kisi key ko ek value se map karna ho. Roll → Name, Word → Frequency, City → Population.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span> Create / Initialize</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;unordered_map&gt;</span>
+
+<span class="cm">// Method 1: Empty map</span>
+<span class="ty">unordered_map</span>&lt;<span class="kw">int</span>, <span class="ty">string</span>&gt; mp;
+
+<span class="cm">// Method 2: Initializer list</span>
+<span class="ty">unordered_map</span>&lt;<span class="ty">string</span>, <span class="kw">int</span>&gt; marks = {
+    {<span class="str">"Aman"</span>, <span class="num">95</span>},
+    {<span class="str">"Rahul"</span>, <span class="num">88</span>},
+    {<span class="str">"Priya"</span>, <span class="num">92</span>}
+};
+
+<span class="cm">// Method 3: auto keyword (modern C++)</span>
+<span class="kw">auto</span> mp2 = <span class="ty">unordered_map</span>&lt;<span class="kw">int</span>, <span class="kw">int</span>&gt;{};
+
+<span class="cm">// Method 4: Reserve karo (performance ke liye)</span>
+<span class="ty">unordered_map</span>&lt;<span class="kw">int</span>, <span class="kw">int</span>&gt; mp3;
+mp3.<span class="fn">reserve</span>(<span class="num">1000</span>); <span class="cm">// 1000 elements expected</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span> Insert — 4 Tarike</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="ty">unordered_map</span>&lt;<span class="ty">string</span>, <span class="kw">int</span>&gt; mp;
+
+<span class="cm">// Method 1: [] operator — sabse aasaan</span>
+mp[<span class="str">"Aman"</span>] = <span class="num">95</span>;   <span class="cm">// insert ya overwrite dono</span>
+
+<span class="cm">// Method 2: insert() — sirf nai key ke liye</span>
+mp.<span class="fn">insert</span>({<span class="str">"Rahul"</span>, <span class="num">88</span>});
+mp.<span class="fn">insert</span>(<span class="fn">make_pair</span>(<span class="str">"Priya"</span>, <span class="num">92</span>));
+
+<span class="cm">// Method 3: emplace() ★ Fastest ★</span>
+mp.<span class="fn">emplace</span>(<span class="str">"Rohan"</span>, <span class="num">76</span>); <span class="cm">// in-place construct</span>
+
+<span class="cm">// Method 4: insert_or_assign() — C++17</span>
+mp.<span class="fn">insert_or_assign</span>(<span class="str">"Aman"</span>, <span class="num">99</span>); <span class="cm">// guaranteed overwrite</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-orange"></span> Access — Bahut Zaroori ⚠️</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Method 1: [] — DANGEROUS agar key nahi hai!</span>
+cout &lt;&lt; mp[<span class="str">"Aman"</span>];   <span class="cm">// OK</span>
+cout &lt;&lt; mp[<span class="str">"XYZ"</span>];    <span class="cm">// ⚠ "XYZ" → 0 insert ho jayega!</span>
+
+<span class="cm">// Method 2: at() — Safe, exception throw karta hai</span>
+cout &lt;&lt; mp.<span class="fn">at</span>(<span class="str">"Aman"</span>);  <span class="cm">// OK</span>
+<span class="cm">// mp.at("XYZ") → throws std::out_of_range</span>
+
+<span class="cm">// Method 3: find() ★ BEST PRACTICE ★</span>
+<span class="kw">auto</span> it = mp.<span class="fn">find</span>(<span class="str">"Aman"</span>);
+<span class="kw">if</span>(it != mp.<span class="fn">end</span>()) {
+    cout &lt;&lt; it-&gt;first &lt;&lt; <span class="str">": "</span> &lt;&lt; it-&gt;second;
+}
+
+<span class="cm">// Method 4: count() — exist karta hai?</span>
+<span class="kw">if</span>(mp.<span class="fn">count</span>(<span class="str">"Aman"</span>)) cout &lt;&lt; <span class="str">"Found!\n"</span>;
+</pre>
+    </div>
+    <div class="alert alert-warn" style="margin-top:12px;">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Critical:</strong> <code>mp["key"]</code> sirf access hi nahi karta — agar key exist nahi karti toh woh default value ke saath insert bhi kar deta hai! (int ke liye 0, string ke liye "")</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-purple"></span> Iterate — 3 Modern Ways</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Method 1: Structured Binding ★ C++17 ★ (BEST)</span>
+<span class="kw">for</span>(<span class="kw">auto</span>&amp; [key, val] : mp) {
+    cout &lt;&lt; key &lt;&lt; <span class="str">" → "</span> &lt;&lt; val &lt;&lt; <span class="str">"\n"</span>;
+}
+
+<span class="cm">// Method 2: pair se (C++11)</span>
+<span class="kw">for</span>(<span class="kw">auto</span>&amp; p : mp) {
+    cout &lt;&lt; p.first &lt;&lt; <span class="str">" → "</span> &lt;&lt; p.second &lt;&lt; <span class="str">"\n"</span>;
+}
+
+<span class="cm">// Method 3: Iterator (old style)</span>
+<span class="kw">for</span>(<span class="kw">auto</span> it = mp.<span class="fn">begin</span>(); it != mp.<span class="fn">end</span>(); ++it) {
+    cout &lt;&lt; it-&gt;first &lt;&lt; <span class="str">" → "</span> &lt;&lt; it-&gt;second &lt;&lt; <span class="str">"\n"</span>;
+}
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-pink"></span> Delete + Size + Clear</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Key se delete</span>
+mp.<span class="fn">erase</span>(<span class="str">"Aman"</span>);
+
+<span class="cm">// Iterator se delete (find + erase)</span>
+<span class="kw">auto</span> it = mp.<span class="fn">find</span>(<span class="str">"Rahul"</span>);
+<span class="kw">if</span>(it != mp.<span class="fn">end</span>()) mp.<span class="fn">erase</span>(it);
+
+<span class="cm">// Size, empty, clear</span>
+cout &lt;&lt; mp.<span class="fn">size</span>();   <span class="cm">// element count</span>
+mp.<span class="fn">empty</span>();          <span class="cm">// khaali hai?</span>
+mp.<span class="fn">clear</span>();          <span class="cm">// sab delete</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span> Complete Example</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="kw">#include</span> <span class="str">&lt;iostream&gt;</span>
+<span class="kw">#include</span> <span class="str">&lt;unordered_map&gt;</span>
+<span class="kw">using namespace</span> <span class="ty">std</span>;
+
+<span class="kw">int</span> <span class="fn">main</span>() {
+    <span class="ty">unordered_map</span>&lt;<span class="ty">string</span>, <span class="kw">int</span>&gt; marks = {
+        {<span class="str">"Aman"</span>, <span class="num">95</span>}, {<span class="str">"Rahul"</span>, <span class="num">88</span>}
+    };
+    marks[<span class="str">"Priya"</span>] = <span class="num">92</span>;
+
+    <span class="kw">for</span>(<span class="kw">auto</span>&amp; [name, m] : marks)
+        cout &lt;&lt; name &lt;&lt; <span class="str">": "</span> &lt;&lt; m &lt;&lt; <span class="str">"\n"</span>;
+
+    marks.<span class="fn">erase</span>(<span class="str">"Rahul"</span>);
+    cout &lt;&lt; <span class="str">"Size: "</span> &lt;&lt; marks.<span class="fn">size</span>(); <span class="cm">// 2</span>
+    <span class="kw">return</span> <span class="num">0</span>;
+}
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== METHODS ======================== -->
+<div id="methods" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 04</div>
+    <div class="sec-title">All Methods — Quick Reference</div>
+    <div class="sec-sub">Har method ek jagah — bookmark karne layak</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span> unordered_set Methods</div>
+    <table class="method-table">
+      <tr><th>Method</th><th>Kaam</th><th>Time</th><th>Returns</th></tr>
+      <tr><td class="mono">st.insert(x)</td><td>x add karo</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">pair&lt;iter,bool&gt;</td></tr>
+      <tr><td class="mono">st.emplace(x)</td><td>Fast insert</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">pair&lt;iter,bool&gt;</td></tr>
+      <tr><td class="mono">st.find(x)</td><td>Iterator milega</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">iterator</td></tr>
+      <tr><td class="mono">st.count(x)</td><td>Hai ya nahi (0/1)</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">size_t</td></tr>
+      <tr><td class="mono">st.contains(x)</td><td>bool (C++20)</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">bool</td></tr>
+      <tr><td class="mono">st.erase(x)</td><td>x delete karo</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">size_t</td></tr>
+      <tr><td class="mono">st.size()</td><td>Element count</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">size_t</td></tr>
+      <tr><td class="mono">st.empty()</td><td>Khaali hai?</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">bool</td></tr>
+      <tr><td class="mono">st.clear()</td><td>Sab delete</td><td class="on">O(n)</td><td style="font-size:12px;color:var(--dim)">void</td></tr>
+      <tr><td class="mono">st.begin()/end()</td><td>Iterators</td><td class="o1">O(1)</td><td style="font-size:12px;color:var(--dim)">iterator</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span> unordered_map Methods</div>
+    <table class="method-table">
+      <tr><th>Method</th><th>Kaam</th><th>Time</th><th>Note</th></tr>
+      <tr><td class="mono">mp[key] = val</td><td>Insert ya overwrite</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--accent4)">⚠ Creates key if absent</td></tr>
+      <tr><td class="mono">mp.at(key)</td><td>Safe access</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Throws if not found</td></tr>
+      <tr><td class="mono">mp.insert({k,v})</td><td>Sirf nai key</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Existing key ignore</td></tr>
+      <tr><td class="mono">mp.emplace(k,v)</td><td>Fastest insert</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">In-place construct</td></tr>
+      <tr><td class="mono">mp.insert_or_assign(k,v)</td><td>Insert ya update</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">C++17</td></tr>
+      <tr><td class="mono">mp.find(key)</td><td>Iterator return</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Check ≠ end()</td></tr>
+      <tr><td class="mono">mp.count(key)</td><td>0 ya 1</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Best for exists check</td></tr>
+      <tr><td class="mono">mp.erase(key)</td><td>Key delete</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Returns count deleted</td></tr>
+      <tr><td class="mono">mp.size()</td><td>Pair count</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">—</td></tr>
+      <tr><td class="mono">mp.empty()</td><td>Khaali?</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">—</td></tr>
+      <tr><td class="mono">mp.clear()</td><td>Sab delete</td><td class="on">O(n)</td><td style="font-size:11px;color:var(--dim)">—</td></tr>
+      <tr><td class="mono">mp.reserve(n)</td><td>Space reserve</td><td class="on">O(n)</td><td style="font-size:11px;color:var(--dim)">Performance hack</td></tr>
+      <tr><td class="mono">mp.load_factor()</td><td>Fill ratio</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Internal info</td></tr>
+      <tr><td class="mono">mp.bucket_count()</td><td>Total buckets</td><td class="o1">O(1)</td><td style="font-size:11px;color:var(--dim)">Internal info</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ======================== LIVE DEMO ======================== -->
+<div id="demo" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 05</div>
+    <div class="sec-title">Live Interactive Demo</div>
+    <div class="sec-sub">Khud try karo — real-time simulation</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-blue"></span> unordered_map — Khud Chalao</div>
+    <div class="demo-panel">
+      <div class="demo-row">
+        <input class="demo-inp" id="mk" placeholder="Key (e.g. Aman)" />
+        <input class="demo-inp" id="mv" placeholder="Value (e.g. 95)" />
+        <button class="dbtn dbtn-add" onclick="mInsert()">+ Insert</button>
+        <button class="dbtn dbtn-find" onclick="mFind()">🔍 Find</button>
+        <button class="dbtn dbtn-del" onclick="mDel()">✕ Erase</button>
+        <button class="dbtn dbtn-clr" onclick="mClear()">⊘ Clear</button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:8px;font-family:'JetBrains Mono',monospace;">// current map:</div>
+      <div class="demo-store" id="map-store"></div>
+      <div class="demo-log" id="map-log">// Output yahan dikhega</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-green"></span> unordered_set — Khud Chalao</div>
+    <div class="demo-panel">
+      <div class="demo-row">
+        <input class="demo-inp" id="sv" placeholder="Value (e.g. 42)" />
+        <button class="dbtn dbtn-add" onclick="sInsert()">+ Insert</button>
+        <button class="dbtn dbtn-find" onclick="sFind()">🔍 Count</button>
+        <button class="dbtn dbtn-del" onclick="sDel()">✕ Erase</button>
+        <button class="dbtn dbtn-clr" onclick="sClear()">⊘ Clear</button>
+      </div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:8px;font-family:'JetBrains Mono',monospace;">// current set:</div>
+      <div class="demo-store" id="set-store"></div>
+      <div class="demo-log" id="set-log">// Output yahan dikhega</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== PATTERNS ======================== -->
+<div id="patterns" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 06</div>
+    <div class="sec-title">DSA Patterns & Interview Questions</div>
+    <div class="sec-sub">Yeh patterns 90% problems mein kaam aate hain</div>
+  </div>
+
+  <div class="grid2">
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">1</div> Frequency Count</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; arr={<span class="num">1</span>,<span class="num">2</span>,<span class="num">1</span>,<span class="num">3</span>,<span class="num">2</span>,<span class="num">1</span>};
+<span class="ty">unordered_map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; freq;
+
+<span class="kw">for</span>(<span class="kw">auto</span> x:arr)
+    freq[x]++;
+
+<span class="cm">// freq: {1:3, 2:2, 3:1}</span>
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Used in: Valid Anagram, Top K Frequent</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">2</div> Two Sum (O(n))</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">unordered_map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; seen;
+
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) {
+    <span class="kw">int</span> need = target-nums[i];
+    <span class="kw">if</span>(seen.<span class="fn">count</span>(need))
+        <span class="kw">return</span> {seen[need],i};
+    seen[nums[i]]=i;
+}
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">LeetCode #1 — Classic!</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">3</div> Duplicate Check</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">unordered_set</span>&lt;<span class="kw">int</span>&gt; seen;
+
+<span class="kw">for</span>(<span class="kw">auto</span> x : arr) {
+    <span class="kw">if</span>(seen.<span class="fn">count</span>(x))
+        <span class="kw">return true</span>; <span class="cm">// dup!</span>
+    seen.<span class="fn">insert</span>(x);
+}
+<span class="kw">return false</span>;
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Contains Duplicate — LeetCode #217</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">4</div> Array Intersection</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">unordered_set</span>&lt;<span class="kw">int</span>&gt; s(v1.<span class="fn">begin</span>(),
+                            v1.<span class="fn">end</span>());
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; res;
+
+<span class="kw">for</span>(<span class="kw">auto</span> x : v2)
+    <span class="kw">if</span>(s.<span class="fn">count</span>(x))
+        res.<span class="fn">push_back</span>(x);
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">LeetCode #349</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">5</div> Subarray Sum = K</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">unordered_map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; prefixSum;
+prefixSum[<span class="num">0</span>]=<span class="num">1</span>;
+<span class="kw">int</span> sum=<span class="num">0</span>, count=<span class="num">0</span>;
+
+<span class="kw">for</span>(<span class="kw">int</span> x : arr) {
+    sum+=x;
+    count+=prefixSum[sum-k];
+    prefixSum[sum]++;
+}
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">LeetCode #560 — Prefix Sum trick</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">6</div> Toggle (Bool Map)</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">unordered_map</span>&lt;<span class="ty">string</span>,<span class="kw">bool</span>&gt; visited;
+
+<span class="cm">// Toggle on/off</span>
+visited[<span class="str">"node"</span>] = !visited[<span class="str">"node"</span>];
+
+<span class="cm">// Visited check</span>
+<span class="kw">if</span>(!visited[<span class="str">"node"</span>]) {
+    <span class="cm">// process karo</span>
+}
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">BFS/DFS mein common</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">7</div> First Non-Repeating</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="ty">unordered_map</span>&lt;<span class="kw">char</span>,<span class="kw">int</span>&gt; freq;
+<span class="kw">for</span>(<span class="kw">char</span> c : s) freq[c]++;
+
+<span class="kw">for</span>(<span class="kw">char</span> c : s)
+    <span class="kw">if</span>(freq[c] == <span class="num">1</span>)
+        <span class="kw">return</span> c;
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">LeetCode #387</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">8</div> CP: Anti-Hack Hash</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;"><span class="kw">struct</span> custom_hash {
+    <span class="ty">size_t</span> <span class="kw">operator</span>()(<span class="ty">uint64_t</span> x)<span class="kw">const</span>{
+        x^=x>><span class="num">33</span>; x*=<span class="num">0xff51afd7ed558ccd</span>;
+        x^=x>><span class="num">33</span>; <span class="kw">return</span> x;
+    }
+};
+<span class="ty">unordered_map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>,custom_hash&gt; mp;
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;">Competitive Programming — TLE se bachao</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><span class="dot dot-orange"></span> Practice Problem List</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+      <span class="badge badge-c">Two Sum #1</span>
+      <span class="badge badge-c">Valid Anagram #242</span>
+      <span class="badge badge-c">Contains Duplicate #217</span>
+      <span class="badge badge-c">Longest Consecutive #128</span>
+      <span class="badge badge-c">Group Anagrams #49</span>
+      <span class="badge badge-c">Subarray Sum K #560</span>
+      <span class="badge badge-c">Top K Frequent #347</span>
+      <span class="badge badge-c">Intersection #349</span>
+      <span class="badge badge-c">First Non-Repeat #387</span>
+      <span class="badge badge-tip">Minimum Window Substring #76</span>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== COMPARE ======================== -->
+<div id="compare" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 07</div>
+    <div class="sec-title">map vs unordered_map</div>
+    <div class="sec-sub">Kab kya choose karna chahiye?</div>
+  </div>
+
+  <div class="card">
+    <table class="cmp-table">
+      <tr>
+        <th>Feature</th>
+        <th style="color:var(--accent);">unordered_map</th>
+        <th style="color:var(--accent2);">map</th>
+        <th style="color:var(--accent3);">unordered_set</th>
+        <th style="color:var(--accent4);">set</th>
+      </tr>
+      <tr>
+        <td>Key-Value store</td>
+        <td class="yes">✓</td><td class="yes">✓</td>
+        <td class="no">✗</td><td class="no">✗</td>
+      </tr>
+      <tr>
+        <td>Sorted order</td>
+        <td class="no">✗ Random</td><td class="yes">✓ Sorted</td>
+        <td class="no">✗ Random</td><td class="yes">✓ Sorted</td>
+      </tr>
+      <tr>
+        <td>Insert</td>
+        <td class="fast">O(1) avg</td><td class="slow">O(log n)</td>
+        <td class="fast">O(1) avg</td><td class="slow">O(log n)</td>
+      </tr>
+      <tr>
+        <td>Search</td>
+        <td class="fast">O(1) avg</td><td class="slow">O(log n)</td>
+        <td class="fast">O(1) avg</td><td class="slow">O(log n)</td>
+      </tr>
+      <tr>
+        <td>Worst Case</td>
+        <td class="slow">O(n)</td><td class="fast">O(log n)</td>
+        <td class="slow">O(n)</td><td class="fast">O(log n)</td>
+      </tr>
+      <tr>
+        <td>Memory</td>
+        <td style="font-size:12px;color:var(--accent4);">Zyada</td>
+        <td style="font-size:12px;color:var(--accent3);">Kam</td>
+        <td style="font-size:12px;color:var(--accent4);">Zyada</td>
+        <td style="font-size:12px;color:var(--accent3);">Kam</td>
+      </tr>
+      <tr>
+        <td>Internal</td>
+        <td style="font-size:12px;color:var(--dim);">Hash table</td>
+        <td style="font-size:12px;color:var(--dim);">Red-Black BST</td>
+        <td style="font-size:12px;color:var(--dim);">Hash table</td>
+        <td style="font-size:12px;color:var(--dim);">Red-Black BST</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="grid2">
+    <div class="alert alert-good" style="margin:0;">
+      <span class="alert-icon">🚀</span>
+      <div><strong>unordered_ use karo jab:</strong><br>Fast lookup chahiye, order matter nahi karta, frequency count, DSA problems, competitive programming.</div>
+    </div>
+    <div class="alert alert-tip" style="margin:0;">
+      <span class="alert-icon">🌳</span>
+      <div><strong>ordered use karo jab:</strong><br>Sorted output chahiye, range queries lagani hain (lower_bound), min/max quickly chahiye.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="card-title"><span class="dot dot-orange"></span> Output Difference — Example</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="ty">map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; ordered;
+<span class="ty">unordered_map</span>&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; unordered_mp;
+
+ordered[<span class="num">3</span>]=<span class="num">0</span>; ordered[<span class="num">1</span>]=<span class="num">0</span>; ordered[<span class="num">4</span>]=<span class="num">0</span>; ordered[<span class="num">2</span>]=<span class="num">0</span>;
+unordered_mp[<span class="num">3</span>]=<span class="num">0</span>; unordered_mp[<span class="num">1</span>]=<span class="num">0</span>; unordered_mp[<span class="num">4</span>]=<span class="num">0</span>; unordered_mp[<span class="num">2</span>]=<span class="num">0</span>;
+
+<span class="cm">// map output:          1 2 3 4   ← hamesha sorted</span>
+<span class="cm">// unordered_map:       3 1 4 2   ← random order</span>
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== CHEATSHEET ======================== -->
+<div id="cheat" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 08</div>
+    <div class="sec-title">📌 Cheatsheet</div>
+    <div class="sec-sub">Print karo, save karo — exam mein kaam aayegi</div>
+  </div>
+
+  <div class="cheat-grid">
+    <div class="cheat-box">
+      <div class="cheat-header green">🟢 unordered_set</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">st.insert(x)</span><span class="cheat-desc">Add</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.emplace(x)</span><span class="cheat-desc">Fast add</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.count(x)</span><span class="cheat-desc">0 ya 1</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.find(x)!=end()</span><span class="cheat-desc">Exists?</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.contains(x)</span><span class="cheat-desc">C++20</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.erase(x)</span><span class="cheat-desc">Delete</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.size()</span><span class="cheat-desc">Count</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.empty()</span><span class="cheat-desc">Khaali?</span></div>
+        <div class="cheat-row"><span class="cheat-code">st.clear()</span><span class="cheat-desc">Reset</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header blue">🔵 unordered_map</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">mp[k]=v</span><span class="cheat-desc">Insert/Update</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.emplace(k,v)</span><span class="cheat-desc">Fast insert</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.at(k)</span><span class="cheat-desc">Safe access</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.count(k)</span><span class="cheat-desc">0 ya 1</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.find(k)!=end()</span><span class="cheat-desc">Exists?</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.erase(k)</span><span class="cheat-desc">Delete</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.size()</span><span class="cheat-desc">Pair count</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.clear()</span><span class="cheat-desc">Reset</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.reserve(n)</span><span class="cheat-desc">Optimize</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header purple">⚡ Common Patterns</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">freq[x]++</span><span class="cheat-desc">Count freq</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.count(x)</span><span class="cheat-desc">Check exist</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp[x]=!mp[x]</span><span class="cheat-desc">Toggle bool</span></div>
+        <div class="cheat-row"><span class="cheat-code">for(auto&[k,v]:mp)</span><span class="cheat-desc">C++17 loop</span></div>
+        <div class="cheat-row"><span class="cheat-code">for(auto& p:mp)</span><span class="cheat-desc">p.first/second</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.reserve(1024)</span><span class="cheat-desc">CP trick</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header" style="background:rgba(255,109,0,0.08);color:var(--accent4);">⚠️ Danger Zone</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code" style="color:var(--accent4);">mp["xyz"]</span><span class="cheat-desc" style="color:var(--accent4);">Creates key!</span></div>
+        <div class="cheat-row"><span class="cheat-code">mp.at("xyz")</span><span class="cheat-desc">Safe (throws)</span></div>
+        <div class="cheat-row"><span class="cheat-code" style="color:var(--muted);">Order?</span><span class="cheat-desc">No! Random</span></div>
+        <div class="cheat-row"><span class="cheat-code" style="color:var(--muted);">Worst case?</span><span class="cheat-desc">O(n) collision</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================== QUIZ ======================== -->
+<div id="quiz" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 09</div>
+    <div class="sec-title">🧠 Quiz — Test Karo Khud Ko</div>
+    <div class="sec-sub">5 questions — concepts pakke karo</div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q1. <code>mp["XYZ"]</code> likhne pe kya hoga agar "XYZ" key map mein exist nahi karti?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Exception throw hota hai — sirf at() se hota hai!')">Exception throw hoga</button>
+      <button class="quiz-opt" onclick="answer(this,'correct','✅ Bilkul sahi! [] operator missing key ko default value (0 for int, empty for string) ke saath automatically insert kar deta hai. Isliye hamesha count() ya find() se pehle check karo.')">Default value ke saath automatically insert ho jayegi</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Nahi, [] operator kabhi null nahi return karta.')">null return karega</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ -1 sirf tab agar aap khud likhein. STL nahi karta.')">-1 return karega</button>
+    </div>
+    <div class="quiz-explain" id="qe0"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q2. <code>unordered_set</code> mein same value do baar insert karne se kya hoga?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Nahi — unordered_set duplicate silently ignore karta hai.')">Dono insert ho jaayenge</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Error sirf aap manually throw karte ho, STL nahi.')">Error aayega</button>
+      <button class="quiz-opt" onclick="answer(this,'correct','✅ Correct! HashSet ka core property hai — unique values only. Duplicate insert silently ignore hota hai, koi error nahi.')">Duplicate ignore ho jayega, sirf ek copy rahegi</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Previous value replace sirf map mein hota hai (key ke liye), set mein nahi.')">Pehli value replace ho jayegi</button>
+    </div>
+    <div class="quiz-explain" id="qe1"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q3. Array mein frequency count karne ka fastest (code mein) tarika kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Sort O(n log n) lagta hai aur zyada code bhi.')">Sort karke count karo</button>
+      <button class="quiz-opt" onclick="answer(this,'correct','✅ Perfect! freq[x]++ ek line mein frequency count karta hai. [] operator default 0 se shuru karta hai, to pehle check karne ki zaroorat nahi.')">unordered_map mein freq[x]++ karo</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Nested loop O(n²) hoga — bahut slow.')">Har element ke liye poora array scan karo</button>
+    </div>
+    <div class="quiz-explain" id="qe2"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q4. <code>map</code> aur <code>unordered_map</code> mein main difference kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Dono duplicates nahi rakhte — that\'s not the difference.')">map duplicates allow karta hai, unordered nahi</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Dono different types ki keys allow karte hain.')">map sirf int keys allow karta hai</button>
+      <button class="quiz-opt" onclick="answer(this,'correct','✅ Sahi! map internally Red-Black BST use karta hai (sorted, O(log n)), unordered_map hash table use karta hai (unsorted, O(1) avg).')">map sorted (BST) hota hai O(log n), unordered_map hashing use karta hai O(1)</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Dono STL ka hissa hain.')">map STL ka hissa nahi hai</button>
+    </div>
+    <div class="quiz-explain" id="qe3"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q5. Competitive programming mein collision se bachne ke liye kya karna chahiye?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ map slower hota hai — TLE aa sakta hai bade inputs pe.')">map use karo</button>
+      <button class="quiz-opt" onclick="answer(this,'correct','✅ Excellent! Custom hash function collision attacks (anti-hash tests) se protect karta hai. reserve() se rehashing kam hoti hai — both help in CP.')">Custom hash function banao + reserve() karo</button>
+      <button class="quiz-opt" onclick="answer(this,'wrong','❌ Array out-of-bounds ho sakta hai, aur sirf int keys ke liye kaam karta hai.')">Array use karo indexing ke liye</button>
+    </div>
+    <div class="quiz-explain" id="qe4"></div>
+  </div>
+
+  <div class="quiz-score" id="quiz-score" style="display:none;">
+    <div class="score-num" id="score-num">0/5</div>
+    <div style="color:var(--dim);margin-top:8px;font-size:14px;" id="score-msg"></div>
+    <button class="dbtn dbtn-add" style="margin-top:16px;" onclick="resetQuiz()">🔄 Dobara Try Karo</button>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:8px;">C++ HashMap & HashSet — Complete Notes</div>
+  <div>unordered_map · unordered_set · O(1) operations · DSA & CP Ready</div>
+</div>
+
+</body>
+</html>
