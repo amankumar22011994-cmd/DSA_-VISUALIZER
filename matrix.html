@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>C++ Matrix & 2D Arrays — Complete Deep Notes</title>
+<link rel="stylesheet" href="matrix.css">
+<script src="matrix.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-eyebrow"><span class="hero-dot"></span>C++ DSA — 2D Arrays</div>
+  <h1>Matrix &amp; <span class="hl">2D Arrays</span></h1>
+  <h1 style="font-size:clamp(1rem,2.5vw,1.7rem);font-weight:500;color:var(--dim);margin-top:6px;">Basics se Advanced — Har Pattern, Har Solution</h1>
+  <p class="hero-sub">Memory Layout · Traversals · Rotate · Spiral · Search · BFS/DFS · Prefix Sum · 25+ LeetCode with Full Solutions</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Topics</div></div>
+    <div class="stat"><div class="stat-num">25+</div><div class="stat-label">LeetCode + Solutions</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Live Simulators</div></div>
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">DSA Patterns</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Quiz Questions</div></div>
+  </div>
+</div>
+
+<!-- ═══ NAV ═══ -->
+<div class="nav-wrapper">
+<nav class="nav-bar">
+  <button class="nav-btn active" onclick="S('basics',this)">🔢 Basics</button>
+  <button class="nav-btn" onclick="S('memory',this)">🧠 Memory</button>
+  <button class="nav-btn" onclick="S('traversals',this)">🔄 Traversals</button>
+  <button class="nav-btn" onclick="S('operations',this)">⚙️ Operations</button>
+  <button class="nav-btn" onclick="S('searching',this)">🔍 Searching</button>
+  <button class="nav-btn" onclick="S('patterns',this)">🎯 BFS/DFS</button>
+  <button class="nav-btn" onclick="S('prefix',this)">➕ Prefix Sum</button>
+  <button class="nav-btn" onclick="S('leetcode',this)">💻 LeetCode</button>
+  <button class="nav-btn" onclick="S('simulator',this)">⚡ Simulator</button>
+  <button class="nav-btn" onclick="S('cheat',this)">📌 Cheatsheet</button>
+  <button class="nav-btn" onclick="S('quiz',this)">🧠 Quiz</button>
+</nav>
+</div>
+
+<div class="container">
+
+<!-- ═══════════ BASICS ═══════════ -->
+<div id="basics" class="section active">
+  <div class="sec-tag">// SECTION 01</div>
+  <div class="sec-title">2D Array / Matrix — Foundation</div>
+  <div class="sec-sub">Array of arrays — rows aur columns ka game</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Matrix Kya Hai?</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:16px;">2D array = ek table jisme rows aur columns hote hain. Har element <code style="color:var(--accent)">mat[row][col]</code> se access hota hai. Row 0 se, Col 0 se.</p>
+    <div class="mat-wrap">
+      <div class="mat-label">3×4 Matrix — mat[row][col]</div>
+      <div style="display:flex;gap:16px;align-items:flex-start;flex-wrap:wrap;justify-content:center;">
+        <div>
+          <div class="mat-grid" id="baseMat" style="grid-template-columns:repeat(4,1fr);"></div>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);padding-top:8px;line-height:2;">
+          <div style="color:var(--accent);">mat[0][0]=1 &nbsp; mat[0][3]=4</div>
+          <div style="color:var(--accent3);">mat[1][1]=6 &nbsp; (row=1,col=1)</div>
+          <div style="color:var(--accent2);">mat[2][3]=12 (last element)</div>
+          <div style="margin-top:8px;color:var(--muted);">Rows: 3 &nbsp;&nbsp; Cols: 4</div>
+        </div>
+      </div>
+      <div class="mat-controls">
+        <input id="bRow" class="ainp" type="number" placeholder="Row(0-2)" min="0" max="2" style="width:90px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;"/>
+        <input id="bCol" class="ainp" type="number" placeholder="Col(0-3)" min="0" max="3" style="width:90px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;"/>
+        <button class="mbtn mbtn-a" onclick="accessCell()">Access mat[r][c]</button>
+        <button class="mbtn mbtn-c" onclick="resetBase()">Reset</button>
+      </div>
+      <div class="mlog" id="baseLog">// mat[row][col] = value — O(1) access</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>Declaration — Saare Tarike</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="cm">// ━━━━ RAW 2D ARRAY ━━━━</span>
+<span class="kw">int</span> mat[<span class="num">3</span>][<span class="num">4</span>];                      <span class="cm">// 3 rows, 4 cols — garbage!</span>
+<span class="kw">int</span> mat[<span class="num">3</span>][<span class="num">4</span>] = {<span class="num">0</span>};               <span class="cm">// sab 0</span>
+<span class="kw">int</span> mat[<span class="num">3</span>][<span class="num">4</span>] = {{<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>},
+                 {<span class="num">5</span>,<span class="num">6</span>,<span class="num">7</span>,<span class="num">8</span>},
+                 {<span class="num">9</span>,<span class="num">10</span>,<span class="num">11</span>,<span class="num">12</span>}};
+
+<span class="cm">// ━━━━ VECTOR 2D (BEST for DSA!) ━━━━</span>
+<span class="kw">int</span> n=<span class="num">3</span>, m=<span class="num">4</span>;
+<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; mat(n, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m, <span class="num">0</span>)); <span class="cm">// n×m all zeros</span>
+<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; mat(n, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m, -<span class="num">1</span>));<span class="cm">// n×m all -1</span>
+
+<span class="cm">// ━━━━ INPUT LENA ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;n; i++)
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>; j&lt;m; j++)
+        cin &gt;&gt; mat[i][j];
+
+<span class="cm">// ━━━━ SIZE NIKALNA ━━━━</span>
+<span class="kw">int</span> rows = mat.<span class="fn">size</span>();        <span class="cm">// vector se</span>
+<span class="kw">int</span> cols = mat[<span class="num">0</span>].<span class="fn">size</span>();    <span class="cm">// cols</span>
+<span class="kw">int</span> rows2 = <span class="kw">sizeof</span>(mat)/<span class="kw">sizeof</span>(mat[<span class="num">0</span>]);   <span class="cm">// raw array</span>
+<span class="kw">int</span> cols2 = <span class="kw">sizeof</span>(mat[<span class="num">0</span>])/<span class="kw">sizeof</span>(mat[<span class="num">0</span>][<span class="num">0</span>]); <span class="cm">// raw</span></pre>
+    </div>
+    <div class="alert aw"><span style="font-size:15px;flex-shrink:0;">⚠️</span><div><strong>Raw array function mein:</strong> Columns ki size compile-time pe fix karni hoti hai. <code>void foo(int mat[][4], int rows)</code> — cols mandatory! Isliye vector prefer karo.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span>Time Complexity</div>
+    <div class="g3" style="gap:12px;">
+      <div style="background:var(--surface2);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:16px;text-align:center;"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Access [i][j]</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent3);">O(1)</div></div>
+      <div style="background:var(--surface2);border:1px solid rgba(251,146,60,.2);border-radius:10px;padding:16px;text-align:center;"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Traverse All</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent4);">O(n×m)</div></div>
+      <div style="background:var(--surface2);border:1px solid rgba(56,189,248,.2);border-radius:10px;padding:16px;text-align:center;"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Search (unsorted)</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent4);">O(n×m)</div></div>
+      <div style="background:var(--surface2);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:16px;text-align:center;"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Transpose</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent4);">O(n×m)</div></div>
+      <div style="background:var(--surface2);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:16px;text-align:center;"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">BFS/DFS</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent4);">O(n×m)</div></div>
+      <div style="background:var(--surface2);border:1px solid rgba(52,211,153,.2);border-radius:10px;padding:16px;text-align:center;"><div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Sorted Search</div><div style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;color:var(--accent3);">O(n+m)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MEMORY ═══════════ -->
+<div id="memory" class="section">
+  <div class="sec-tag">// SECTION 02</div>
+  <div class="sec-title">Memory Layout — Andar se Samjho</div>
+  <div class="sec-sub">Row-major storage aur pointer arithmetic</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Row-Major Order — C++ ka tarika</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;">C++ mein 2D array row-by-row memory mein store hota hai. Pehle poori row 0, phir row 1, phir row 2...</p>
+    <div class="mat-wrap">
+      <div class="mat-label">int mat[2][3] = {{1,2,3},{4,5,6}} — Memory Layout</div>
+      <div style="display:flex;gap:3px;justify-content:center;flex-wrap:wrap;margin-bottom:10px;" id="memLayout"></div>
+      <div style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);">Formula: mat[i][j] = base + (i × cols + j) × sizeof(int) = base + (i × 3 + j) × 4</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>Pointer se Matrix Access</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">int</span> mat[<span class="num">3</span>][<span class="num">4</span>] = {{<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>},{<span class="num">5</span>,<span class="num">6</span>,<span class="num">7</span>,<span class="num">8</span>},{<span class="num">9</span>,<span class="num">10</span>,<span class="num">11</span>,<span class="num">12</span>}};
+
+<span class="cm">// mat[i][j] == *(*(mat+i)+j) == *(mat[i]+j)</span>
+cout &lt;&lt; mat[<span class="num">1</span>][<span class="num">2</span>];      <span class="cm">// 7</span>
+cout &lt;&lt; *(mat[<span class="num">1</span>]+<span class="num">2</span>);    <span class="cm">// 7 — same!</span>
+cout &lt;&lt; *(*(mat+<span class="num">1</span>)+<span class="num">2</span>);  <span class="cm">// 7 — same!</span>
+
+<span class="cm">// Row-major flat access:</span>
+<span class="cm">// mat[i][j] using single pointer:</span>
+<span class="kw">int</span>* flat = &amp;mat[<span class="num">0</span>][<span class="num">0</span>];
+cout &lt;&lt; flat[<span class="num">1</span>*<span class="num">4</span>+<span class="num">2</span>];    <span class="cm">// 7 = mat[1][2]</span>
+
+<span class="cm">// Cache friendly traversal — row by row!</span>
+<span class="cm">// Row first = cache hits ✓ (adjacent memory)</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;<span class="num">3</span>;i++) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;<span class="num">4</span>;j++) mat[i][j]++; <span class="cm">// ✓ FAST</span>
+<span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;<span class="num">4</span>;j++) <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;<span class="num">3</span>;i++) mat[i][j]++; <span class="cm">// ✗ SLOW (cache miss)</span></pre>
+    </div>
+    <div class="alert ai"><span style="font-size:15px;flex-shrink:0;">💡</span><div><strong>Cache Locality:</strong> Hamesha row-first traverse karo (outer loop = row). Col-first traverse cache misses deta hai aur significantly slow hota hai bade matrices mein!</div></div>
+  </div>
+</div>
+
+<!-- ═══════════ TRAVERSALS ═══════════ -->
+<div id="traversals" class="section">
+  <div class="sec-tag">// SECTION 03</div>
+  <div class="sec-title">Traversal Patterns — Sab Tarike</div>
+  <div class="sec-sub">Matrix ke saare important traversal patterns ek jagah</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Traversal Simulator</div>
+    <div class="mat-wrap">
+      <div class="mat-label" id="travLabel">4×4 Matrix — Click a pattern to visualize</div>
+      <div class="mat-grid" id="travMat" style="grid-template-columns:repeat(4,1fr);margin:0 auto;display:inline-grid;"></div>
+      <div class="mat-controls" style="justify-content:center;">
+        <button class="mbtn mbtn-a" onclick="travAnimate('row')">Row-wise</button>
+        <button class="mbtn mbtn-b" onclick="travAnimate('col')">Col-wise</button>
+        <button class="mbtn mbtn-c" onclick="travAnimate('diag')">Main Diag</button>
+        <button class="mbtn mbtn-d" onclick="travAnimate('anti')">Anti Diag</button>
+        <button class="mbtn mbtn-e" onclick="travAnimate('spiral')">Spiral</button>
+        <button class="mbtn mbtn-f" onclick="travAnimate('zigzag')">Zigzag</button>
+        <button class="mbtn mbtn-a" onclick="resetTrav()">Reset</button>
+      </div>
+      <div class="mlog" id="travLog">// Pattern select karo — animation dekho</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>All Traversal Code</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; mat(n, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m));
+<span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+
+<span class="cm">// ━━━━ 1. Row-wise (left→right, top→bottom) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++)
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++) cout&lt;&lt;mat[i][j];
+
+<span class="cm">// ━━━━ 2. Column-wise ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++)
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) cout&lt;&lt;mat[i][j];
+
+<span class="cm">// ━━━━ 3. Main Diagonal (top-left → bottom-right) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;min(n,m);i++) cout&lt;&lt;mat[i][i];
+
+<span class="cm">// ━━━━ 4. Anti Diagonal (top-right → bottom-left) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;min(n,m);i++) cout&lt;&lt;mat[i][m-<span class="num">1</span>-i];
+
+<span class="cm">// ━━━━ 5. Spiral Order ━━━━</span>
+<span class="kw">int</span> top=<span class="num">0</span>,bot=n-<span class="num">1</span>,left=<span class="num">0</span>,right=m-<span class="num">1</span>;
+<span class="kw">while</span>(top&lt;=bot &amp;&amp; left&lt;=right) {
+    <span class="kw">for</span>(<span class="kw">int</span> i=left;i&lt;=right;i++)  res.<span class="fn">push_back</span>(mat[top][i]); top++;
+    <span class="kw">for</span>(<span class="kw">int</span> i=top;i&lt;=bot;i++)    res.<span class="fn">push_back</span>(mat[i][right]); right--;
+    <span class="kw">if</span>(top&lt;=bot){<span class="kw">for</span>(<span class="kw">int</span> i=right;i&gt;=left;i--) res.<span class="fn">push_back</span>(mat[bot][i]); bot--;}
+    <span class="kw">if</span>(left&lt;=right){<span class="kw">for</span>(<span class="kw">int</span> i=bot;i&gt;=top;i--) res.<span class="fn">push_back</span>(mat[i][left]); left++;}
+}
+
+<span class="cm">// ━━━━ 6. Zigzag Row ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) {
+    <span class="kw">if</span>(i%<span class="num">2</span>==<span class="num">0</span>) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++) cout&lt;&lt;mat[i][j];
+    <span class="kw">else</span>        <span class="kw">for</span>(<span class="kw">int</span> j=m-<span class="num">1</span>;j&gt;=<span class="num">0</span>;j--) cout&lt;&lt;mat[i][j];
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ OPERATIONS ═══════════ -->
+<div id="operations" class="section">
+  <div class="sec-tag">// SECTION 04</div>
+  <div class="sec-title">Matrix Operations — Interview Essentials</div>
+  <div class="sec-sub">Transpose, Rotate, Flip, Fill — sab code + visual</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Operations Simulator</div>
+    <div class="mat-wrap">
+      <div class="mat-label" id="opLabel">Original 3×3 Matrix</div>
+      <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;justify-content:center;">
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:6px;font-family:'JetBrains Mono',monospace;">Original</div>
+          <div class="mat-grid" id="opOrigMat" style="grid-template-columns:repeat(3,1fr);display:inline-grid;"></div>
+        </div>
+        <div style="font-size:22px;color:var(--muted);align-self:center;" id="opArrow">→</div>
+        <div>
+          <div style="font-size:11px;color:var(--muted);text-align:center;margin-bottom:6px;font-family:'JetBrains Mono',monospace;" id="opResultLabel">Result</div>
+          <div class="mat-grid" id="opResMat" style="display:inline-grid;"></div>
+        </div>
+      </div>
+      <div class="mat-controls" style="justify-content:center;margin-top:16px;">
+        <button class="mbtn mbtn-a" onclick="doOp('transpose')">Transpose</button>
+        <button class="mbtn mbtn-b" onclick="doOp('rot90')">Rotate 90°↻</button>
+        <button class="mbtn mbtn-c" onclick="doOp('rot180')">Rotate 180°</button>
+        <button class="mbtn mbtn-d" onclick="doOp('flipH')">Flip Horizontal</button>
+        <button class="mbtn mbtn-e" onclick="doOp('flipV')">Flip Vertical</button>
+        <button class="mbtn mbtn-f" onclick="doOp('rot270')">Rotate 90°↺</button>
+        <button class="mbtn mbtn-a" onclick="resetOp()">Reset</button>
+      </div>
+      <div class="mlog" id="opLog">// Operation select karo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>Operations Code</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; mat = {{<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>},{<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>},{<span class="num">7</span>,<span class="num">8</span>,<span class="num">9</span>}};
+<span class="kw">int</span> n = <span class="num">3</span>;
+
+<span class="cm">// ━━━━ TRANSPOSE (mat[i][j] ↔ mat[j][i]) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++)
+    <span class="kw">for</span>(<span class="kw">int</span> j=i+<span class="num">1</span>;j&lt;n;j++)
+        swap(mat[i][j], mat[j][i]);
+
+<span class="cm">// ━━━━ ROTATE 90° CLOCKWISE ━━━━</span>
+<span class="cm">// Step 1: Transpose</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=i+<span class="num">1</span>;j&lt;n;j++) swap(mat[i][j],mat[j][i]);
+<span class="cm">// Step 2: Reverse each row</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) reverse(mat[i].<span class="fn">begin</span>(),mat[i].<span class="fn">end</span>());
+
+<span class="cm">// ━━━━ ROTATE 90° COUNTER-CLOCKWISE ━━━━</span>
+<span class="cm">// Step 1: Transpose</span>
+<span class="cm">// Step 2: Reverse each COLUMN (or reverse rows then transpose)</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=i+<span class="num">1</span>;j&lt;n;j++) swap(mat[i][j],mat[j][i]);
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n/<span class="num">2</span>;i++) swap(mat[i],mat[n-<span class="num">1</span>-i]); <span class="cm">// reverse rows</span>
+
+<span class="cm">// ━━━━ ROTATE 180° ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n/<span class="num">2</span>;i++) swap(mat[i],mat[n-<span class="num">1</span>-i]);      <span class="cm">// flip vertical</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) reverse(mat[i].<span class="fn">begin</span>(),mat[i].<span class="fn">end</span>()); <span class="cm">// flip horizontal</span>
+
+<span class="cm">// ━━━━ FLIP HORIZONTAL (left-right mirror) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) reverse(mat[i].<span class="fn">begin</span>(),mat[i].<span class="fn">end</span>());
+
+<span class="cm">// ━━━━ FLIP VERTICAL (up-down mirror) ━━━━</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n/<span class="num">2</span>;i++) swap(mat[i],mat[n-<span class="num">1</span>-i]);</pre>
+    </div>
+    <div class="alert at"><span style="font-size:15px;flex-shrink:0;">⭐</span><div><strong>Rotate 90° Clockwise = Transpose + Reverse each row</strong>. Yeh pattern yaad rakho — LeetCode #48 isi se solve hota hai in-place O(1) space mein!</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dc"></span>4 Directions — BFS/DFS template</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="cm">// ━━━━ 4 DIRECTIONS (Up, Down, Left, Right) ━━━━</span>
+<span class="kw">int</span> dr4[] = {-<span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>};
+<span class="kw">int</span> dc4[] = { <span class="num">0</span>, <span class="num">0</span>,-<span class="num">1</span>, <span class="num">1</span>};
+
+<span class="kw">for</span>(<span class="kw">int</span> d=<span class="num">0</span>; d&lt;<span class="num">4</span>; d++) {
+    <span class="kw">int</span> nr = r + dr4[d];
+    <span class="kw">int</span> nc = c + dc4[d];
+    <span class="kw">if</span>(nr&gt;=<span class="num">0</span> &amp;&amp; nr&lt;n &amp;&amp; nc&gt;=<span class="num">0</span> &amp;&amp; nc&lt;m) {
+        <span class="cm">// valid neighbor — process</span>
+    }
+}
+
+<span class="cm">// ━━━━ 8 DIRECTIONS (Diagonals bhi) ━━━━</span>
+<span class="kw">int</span> dr8[] = {-<span class="num">1</span>,-<span class="num">1</span>,-<span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>};
+<span class="kw">int</span> dc8[] = {-<span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>,-<span class="num">1</span>, <span class="num">1</span>,-<span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span>};
+
+<span class="cm">// ━━━━ BOUNDARY CHECK LAMBDA ━━━━</span>
+<span class="kw">auto</span> valid = [&amp;](<span class="kw">int</span> r, <span class="kw">int</span> c) {
+    <span class="kw">return</span> r&gt;=<span class="num">0</span> &amp;&amp; r&lt;n &amp;&amp; c&gt;=<span class="num">0</span> &amp;&amp; c&lt;m;
+};</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SEARCHING ═══════════ -->
+<div id="searching" class="section">
+  <div class="sec-tag">// SECTION 05</div>
+  <div class="sec-title">Searching in Matrix</div>
+  <div class="sec-sub">Sorted matrix mein O(n+m) search — classic interview question</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Search in Row+Col Sorted Matrix — O(n+m)</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;">Matrix jahan har row left-to-right sorted aur har column top-to-bottom sorted ho. Start top-right se!</p>
+    <div class="mat-wrap">
+      <div class="mat-label">Row+Col Sorted Matrix — Staircase Search</div>
+      <div class="mat-grid" id="searchMat" style="grid-template-columns:repeat(4,1fr);display:inline-grid;margin:0 auto;"></div>
+      <div class="mat-controls">
+        <input id="searchTarget" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;width:120px;" placeholder="Target value" type="number"/>
+        <button class="mbtn mbtn-a" onclick="runSearch()">🔍 Search O(n+m)</button>
+        <button class="mbtn mbtn-b" onclick="runLinearSearch()">🔍 Linear O(n×m)</button>
+        <button class="mbtn mbtn-c" onclick="resetSearch()">Reset</button>
+      </div>
+      <div class="mlog" id="searchLog">// Value daalo — dono search methods compare karo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>Search Algorithms Code</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="cm">// ━━━━ SEARCH IN ROW+COL SORTED MATRIX O(n+m) ━━━━</span>
+<span class="cm">// Start from top-right corner</span>
+<span class="kw">bool</span> <span class="fn">searchMatrix</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat, <span class="kw">int</span> target) {
+    <span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">int</span> r=<span class="num">0</span>, c=m-<span class="num">1</span>;  <span class="cm">// top-right</span>
+    <span class="kw">while</span>(r&lt;n &amp;&amp; c&gt;=<span class="num">0</span>) {
+        <span class="kw">if</span>(mat[r][c]==target) <span class="kw">return true</span>;
+        <span class="kw">if</span>(mat[r][c]&lt;target) r++;   <span class="cm">// too small → go down</span>
+        <span class="kw">else</span>                 c--;   <span class="cm">// too big  → go left</span>
+    }
+    <span class="kw">return false</span>;
+}
+
+<span class="cm">// ━━━━ LEETCODE 74: SEARCH (rows sorted, first&gt;last of prev) ━━━━</span>
+<span class="cm">// Treat as 1D sorted array → Binary search</span>
+<span class="kw">bool</span> <span class="fn">searchMatrix74</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat, <span class="kw">int</span> target) {
+    <span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">int</span> lo=<span class="num">0</span>, hi=n*m-<span class="num">1</span>;
+    <span class="kw">while</span>(lo&lt;=hi) {
+        <span class="kw">int</span> mid=lo+(hi-lo)/<span class="num">2</span>;
+        <span class="kw">int</span> val=mat[mid/m][mid%m]; <span class="cm">// 1D → 2D index!</span>
+        <span class="kw">if</span>(val==target) <span class="kw">return true</span>;
+        <span class="kw">if</span>(val&lt;target)  lo=mid+<span class="num">1</span>;
+        <span class="kw">else</span>            hi=mid-<span class="num">1</span>;
+    }
+    <span class="kw">return false</span>;
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ BFS/DFS PATTERNS ═══════════ -->
+<div id="patterns" class="section">
+  <div class="sec-tag">// SECTION 06</div>
+  <div class="sec-title">BFS / DFS on Matrix — Key Patterns</div>
+  <div class="sec-sub">Islands, Connected Components, Shortest Path — sab yahan hain</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Island Counter (DFS) — Most Classic Pattern</div>
+    <div class="mat-wrap">
+      <div class="mat-label">0/1 Grid — Islands visualizer (1=land, 0=water)</div>
+      <div class="mat-grid" id="islandMat" style="grid-template-columns:repeat(6,1fr);display:inline-grid;margin:0 auto;"></div>
+      <div class="mat-controls">
+        <button class="mbtn mbtn-a" onclick="runIslands()">🏝 Count Islands (DFS)</button>
+        <button class="mbtn mbtn-b" onclick="resetIslands()">Reset</button>
+      </div>
+      <div class="mlog" id="islandLog">// DFS se connected land cells group karo</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>BFS aur DFS Templates — Copy-Paste Ready</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="cm">// ━━━━ DFS TEMPLATE (Island / Flood Fill) ━━━━</span>
+<span class="kw">int</span> dr[] = {-<span class="num">1</span>,<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>};
+<span class="kw">int</span> dc[] = {<span class="num">0</span>,<span class="num">0</span>,-<span class="num">1</span>,<span class="num">1</span>};
+
+<span class="kw">void</span> <span class="fn">dfs</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; grid, <span class="kw">int</span> r, <span class="kw">int</span> c) {
+    <span class="kw">int</span> n=grid.<span class="fn">size</span>(), m=grid[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">if</span>(r&lt;<span class="num">0</span>||r&gt;=n||c&lt;<span class="num">0</span>||c&gt;=m) <span class="kw">return</span>; <span class="cm">// boundary</span>
+    <span class="kw">if</span>(grid[r][c]!=<span class="num">1</span>) <span class="kw">return</span>;         <span class="cm">// not land/visited</span>
+    grid[r][c] = <span class="num">2</span>;                    <span class="cm">// mark visited</span>
+    <span class="kw">for</span>(<span class="kw">int</span> d=<span class="num">0</span>;d&lt;<span class="num">4</span>;d++)
+        <span class="fn">dfs</span>(grid, r+dr[d], c+dc[d]);
+}
+
+<span class="kw">int</span> <span class="fn">numIslands</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">char</span>&gt;&gt;&amp; grid) {
+    <span class="kw">int</span> count=<span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;grid.<span class="fn">size</span>();i++)
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;grid[<span class="num">0</span>].<span class="fn">size</span>();j++)
+            <span class="kw">if</span>(grid[i][j]==<span class="str">'1'</span>){ <span class="fn">dfs</span>(grid,i,j); count++; }
+    <span class="kw">return</span> count;
+}
+
+<span class="cm">// ━━━━ BFS TEMPLATE (Shortest Path / Flood) ━━━━</span>
+<span class="kw">int</span> <span class="fn">bfsShortestPath</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; grid, pair&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; src, pair&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt; dst) {
+    <span class="kw">int</span> n=grid.<span class="fn">size</span>(), m=grid[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">bool</span>&gt;&gt; vis(n,<span class="ty">vector</span>&lt;<span class="kw">bool</span>&gt;(m,<span class="kw">false</span>));
+    queue&lt;pair&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt;&gt; q;
+    q.<span class="fn">push</span>(src); vis[src.first][src.second]=<span class="kw">true</span>;
+    <span class="kw">int</span> dist=<span class="num">0</span>;
+    <span class="kw">while</span>(!q.<span class="fn">empty</span>()) {
+        <span class="kw">int</span> sz=q.<span class="fn">size</span>();
+        <span class="kw">while</span>(sz--) {
+            <span class="kw">auto</span> [r,c]=q.<span class="fn">front</span>(); q.<span class="fn">pop</span>();
+            <span class="kw">if</span>(make_pair(r,c)==dst) <span class="kw">return</span> dist;
+            <span class="kw">for</span>(<span class="kw">int</span> d=<span class="num">0</span>;d&lt;<span class="num">4</span>;d++){
+                <span class="kw">int</span> nr=r+dr[d],nc=c+dc[d];
+                <span class="kw">if</span>(nr&gt;=<span class="num">0</span>&amp;&amp;nr&lt;n&amp;&amp;nc&gt;=<span class="num">0</span>&amp;&amp;nc&lt;m&amp;&amp;!vis[nr][nc]&amp;&amp;grid[nr][nc]==<span class="num">0</span>){
+                    vis[nr][nc]=<span class="kw">true</span>; q.<span class="fn">push</span>({nr,nc});
+                }
+            }
+        }
+        dist++;
+    }
+    <span class="kw">return</span> -<span class="num">1</span>;
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PREFIX SUM ═══════════ -->
+<div id="prefix" class="section">
+  <div class="sec-tag">// SECTION 07</div>
+  <div class="sec-title">2D Prefix Sum — Range Query O(1)</div>
+  <div class="sec-sub">Kisi bhi submatrix ka sum O(1) mein — competitive programming must-know</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>2D Prefix Sum — Concept + Simulator</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;">pre[i][j] = sum of all elements from (0,0) to (i-1,j-1). Kisi bhi rectangle ka sum = pre[r2+1][c2+1] - pre[r1][c2+1] - pre[r2+1][c1] + pre[r1][c1]</p>
+    <div class="mat-wrap">
+      <div style="display:flex;gap:24px;flex-wrap:wrap;justify-content:center;">
+        <div>
+          <div class="mat-label">Original Matrix</div>
+          <div class="mat-grid" id="pfOrigMat" style="grid-template-columns:repeat(4,1fr);display:inline-grid;"></div>
+        </div>
+        <div style="font-size:18px;color:var(--muted);align-self:center;">→</div>
+        <div>
+          <div class="mat-label">Prefix Sum Matrix</div>
+          <div class="mat-grid" id="pfSumMat" style="grid-template-columns:repeat(5,1fr);display:inline-grid;"></div>
+        </div>
+      </div>
+      <div style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);text-align:center;">Query: sum from (r1,c1) to (r2,c2)</div>
+      <div class="mat-controls" style="justify-content:center;margin-top:8px;">
+        <span style="font-size:12px;color:var(--muted);">r1</span><input id="pfr1" type="number" min="0" max="3" value="1" style="width:45px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;"/>
+        <span style="font-size:12px;color:var(--muted);">c1</span><input id="pfc1" type="number" min="0" max="3" value="1" style="width:45px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;"/>
+        <span style="font-size:12px;color:var(--muted);">r2</span><input id="pfr2" type="number" min="0" max="3" value="2" style="width:45px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;"/>
+        <span style="font-size:12px;color:var(--muted);">c2</span><input id="pfc2" type="number" min="0" max="3" value="2" style="width:45px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:5px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:12px;outline:none;text-align:center;"/>
+        <button class="mbtn mbtn-a" onclick="runPfQuery()">Query O(1)</button>
+      </div>
+      <div class="mlog" id="pfLog">// Prefix sum se O(1) mein kisi bhi rectangle ka sum!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot db"></span>2D Prefix Sum Code</div>
+    <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="cm">// ━━━━ BUILD 2D PREFIX SUM ━━━━</span>
+<span class="kw">int</span> n=<span class="num">4</span>, m=<span class="num">4</span>;
+<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; pre(n+<span class="num">1</span>, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m+<span class="num">1</span>, <span class="num">0</span>));
+
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>;i&lt;=n;i++)
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">1</span>;j&lt;=m;j++)
+        pre[i][j] = mat[i-<span class="num">1</span>][j-<span class="num">1</span>]
+                  + pre[i-<span class="num">1</span>][j]    <span class="cm">// top</span>
+                  + pre[i][j-<span class="num">1</span>]    <span class="cm">// left</span>
+                  - pre[i-<span class="num">1</span>][j-<span class="num">1</span>]; <span class="cm">// subtract overlap</span>
+
+<span class="cm">// ━━━━ QUERY: sum of rectangle (r1,c1) to (r2,c2) ━━━━</span>
+<span class="kw">int</span> <span class="fn">query</span>(<span class="kw">int</span> r1, <span class="kw">int</span> c1, <span class="kw">int</span> r2, <span class="kw">int</span> c2) {
+    <span class="kw">return</span> pre[r2+<span class="num">1</span>][c2+<span class="num">1</span>]
+         - pre[r1][c2+<span class="num">1</span>]    <span class="cm">// subtract top</span>
+         - pre[r2+<span class="num">1</span>][c1]    <span class="cm">// subtract left</span>
+         + pre[r1][c1];       <span class="cm">// add back corner</span>
+}
+<span class="cm">// O(n×m) build, O(1) per query — LeetCode #304!</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LEETCODE ═══════════ -->
+<div id="leetcode" class="section">
+  <div class="sec-tag">// SECTION 08</div>
+  <div class="sec-title">💻 LeetCode — 25+ Problems with Solutions</div>
+  <div class="sec-sub">Har problem ka problem statement + approach + full solution</div>
+
+  <!-- #54 SPIRAL -->
+  <div class="lc-card">
+    <div class="lc-top">
+      <div class="lc-meta"><span class="lc-num">#54</span><span class="lc-diff med">Medium</span></div>
+    </div>
+    <div class="lc-title">Spiral Matrix</div>
+    <div class="lc-tags"><span class="lc-tag">Matrix</span><span class="lc-tag">Simulation</span></div>
+    <div class="lc-problem">m×n matrix ka elements spiral order mein return karo.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s54a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s54b')">Solution</button></div>
+    <div class="sol-panel active" id="s54a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">4 boundaries rakhte hain: top, bottom, left, right. Clockwise: left→right (top++), top→bottom (right--), right→left (bottom--), bottom→top (left++). Jab boundaries cross ho jaayein, stop.</p></div>
+    <div class="sol-panel" id="s54b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; <span class="fn">spiralOrder</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat) {
+    <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; res;
+    <span class="kw">if</span>(mat.<span class="fn">empty</span>()) <span class="kw">return</span> res;
+    <span class="kw">int</span> top=<span class="num">0</span>,bot=mat.<span class="fn">size</span>()-<span class="num">1</span>,left=<span class="num">0</span>,right=mat[<span class="num">0</span>].<span class="fn">size</span>()-<span class="num">1</span>;
+    <span class="kw">while</span>(top&lt;=bot &amp;&amp; left&lt;=right) {
+        <span class="kw">for</span>(<span class="kw">int</span> i=left;i&lt;=right;i++) res.<span class="fn">push_back</span>(mat[top][i]); top++;
+        <span class="kw">for</span>(<span class="kw">int</span> i=top;i&lt;=bot;i++) res.<span class="fn">push_back</span>(mat[i][right]); right--;
+        <span class="kw">if</span>(top&lt;=bot){<span class="kw">for</span>(<span class="kw">int</span> i=right;i&gt;=left;i--) res.<span class="fn">push_back</span>(mat[bot][i]); bot--;}
+        <span class="kw">if</span>(left&lt;=right){<span class="kw">for</span>(<span class="kw">int</span> i=bot;i&gt;=top;i--) res.<span class="fn">push_back</span>(mat[i][left]); left++;}
+    }
+    <span class="kw">return</span> res;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n×m)</span><span class="cx-chip cx-s">Space: O(1)</span></div>
+    </div>
+  </div>
+
+  <!-- #48 ROTATE IMAGE -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#48</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Rotate Image</div>
+    <div class="lc-tags"><span class="lc-tag">Matrix</span><span class="lc-tag">In-place</span></div>
+    <div class="lc-problem">n×n matrix ko 90° clockwise rotate karo in-place (no extra matrix).</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s48a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s48b')">Solution</button></div>
+    <div class="sol-panel active" id="s48a"><p style="font-size:13px;color:var(--dim);line-height:1.7;"><strong>Step 1: Transpose</strong> — mat[i][j] aur mat[j][i] swap karo (j=i+1 se start, duplicate avoid karo).<br/><strong>Step 2: Reverse each row</strong> — har row ko reverse karo. Done! No extra space needed.</p></div>
+    <div class="sol-panel" id="s48b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">void</span> <span class="fn">rotate</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat) {
+    <span class="kw">int</span> n = mat.<span class="fn">size</span>();
+    <span class="cm">// Step 1: Transpose</span>
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++)
+        <span class="kw">for</span>(<span class="kw">int</span> j=i+<span class="num">1</span>;j&lt;n;j++)
+            swap(mat[i][j], mat[j][i]);
+    <span class="cm">// Step 2: Reverse each row</span>
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++)
+        reverse(mat[i].<span class="fn">begin</span>(), mat[i].<span class="fn">end</span>());
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n²)</span><span class="cx-chip cx-s">Space: O(1) in-place</span></div>
+    </div>
+  </div>
+
+  <!-- #73 SET MATRIX ZEROES -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#73</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Set Matrix Zeroes</div>
+    <div class="lc-tags"><span class="lc-tag">Matrix</span><span class="lc-tag">In-place</span></div>
+    <div class="lc-problem">Agar kisi cell mein 0 hai, toh uski poori row aur column 0 kar do. In-place O(1) space.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s73a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s73b')">Solution</button></div>
+    <div class="sol-panel active" id="s73a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">First row aur first column ko markers ki tarah use karo. Pehle check karo ki first row/col mein 0 hai ya nahi (alag flag). Phir baaki matrix scan karo — jahan 0 mile, mat[i][0] aur mat[0][j] = 0 mark karo. Phir markers ke hisaab se rows/cols zero karo.</p></div>
+    <div class="sol-panel" id="s73b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">void</span> <span class="fn">setZeroes</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat) {
+    <span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">bool</span> row0=<span class="kw">false</span>, col0=<span class="kw">false</span>;
+    <span class="cm">// Check first row & col</span>
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++) <span class="kw">if</span>(!mat[<span class="num">0</span>][j]) row0=<span class="kw">true</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) <span class="kw">if</span>(!mat[i][<span class="num">0</span>]) col0=<span class="kw">true</span>;
+    <span class="cm">// Mark rows & cols using first row/col</span>
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>;i&lt;n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">1</span>;j&lt;m;j++)
+        <span class="kw">if</span>(!mat[i][j]) mat[i][<span class="num">0</span>]=mat[<span class="num">0</span>][j]=<span class="num">0</span>;
+    <span class="cm">// Zero out marked rows & cols</span>
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>;i&lt;n;i++) <span class="kw">if</span>(!mat[i][<span class="num">0</span>]) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">1</span>;j&lt;m;j++) mat[i][j]=<span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">1</span>;j&lt;m;j++) <span class="kw">if</span>(!mat[<span class="num">0</span>][j]) <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>;i&lt;n;i++) mat[i][j]=<span class="num">0</span>;
+    <span class="kw">if</span>(row0) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++) mat[<span class="num">0</span>][j]=<span class="num">0</span>;
+    <span class="kw">if</span>(col0) <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) mat[i][<span class="num">0</span>]=<span class="num">0</span>;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n×m)</span><span class="cx-chip cx-s">Space: O(1)</span></div>
+    </div>
+  </div>
+
+  <!-- #200 NUMBER OF ISLANDS -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#200</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Number of Islands</div>
+    <div class="lc-tags"><span class="lc-tag">DFS</span><span class="lc-tag">BFS</span><span class="lc-tag">Matrix</span></div>
+    <div class="lc-problem">'1' (land) aur '0' (water) ka grid diya hai. Islands ki count karo (4-directional connected land).</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s200a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s200b')">Solution</button></div>
+    <div class="sol-panel active" id="s200a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">Har '1' pe DFS chalao aur connected sab '1's ko '0' mark kar do (visited). Count += 1 jab bhi DFS call karo. Total calls = islands count.</p></div>
+    <div class="sol-panel" id="s200b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">void</span> <span class="fn">dfs</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">char</span>&gt;&gt;&amp; g, <span class="kw">int</span> r, <span class="kw">int</span> c) {
+    <span class="kw">if</span>(r&lt;<span class="num">0</span>||r&gt;=g.<span class="fn">size</span>()||c&lt;<span class="num">0</span>||c&gt;=g[<span class="num">0</span>].<span class="fn">size</span>()||g[r][c]!=<span class="str">'1'</span>) <span class="kw">return</span>;
+    g[r][c]=<span class="str">'0'</span>;
+    <span class="fn">dfs</span>(g,r-<span class="num">1</span>,c); <span class="fn">dfs</span>(g,r+<span class="num">1</span>,c); <span class="fn">dfs</span>(g,r,c-<span class="num">1</span>); <span class="fn">dfs</span>(g,r,c+<span class="num">1</span>);
+}
+<span class="kw">int</span> <span class="fn">numIslands</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">char</span>&gt;&gt;&amp; grid) {
+    <span class="kw">int</span> count=<span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;grid.<span class="fn">size</span>();i++)
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;grid[<span class="num">0</span>].<span class="fn">size</span>();j++)
+            <span class="kw">if</span>(grid[i][j]==<span class="str">'1'</span>){<span class="fn">dfs</span>(grid,i,j);count++;}
+    <span class="kw">return</span> count;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n×m)</span><span class="cx-chip cx-s">Space: O(n×m) stack</span></div>
+    </div>
+  </div>
+
+  <!-- #74 -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#74</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Search a 2D Matrix</div>
+    <div class="lc-tags"><span class="lc-tag">Binary Search</span><span class="lc-tag">Matrix</span></div>
+    <div class="lc-problem">Rows sorted, next row ka first > previous row ka last. Target dhundho O(log n×m).</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s74a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s74b')">Solution</button></div>
+    <div class="sol-panel active" id="s74a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">2D matrix ko virtually 1D sorted array maano. mid index ko 2D mein convert karo: row = mid/cols, col = mid%cols. Standard binary search chalao.</p></div>
+    <div class="sol-panel" id="s74b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">bool</span> <span class="fn">searchMatrix</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat, <span class="kw">int</span> target) {
+    <span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">int</span> lo=<span class="num">0</span>, hi=n*m-<span class="num">1</span>;
+    <span class="kw">while</span>(lo&lt;=hi) {
+        <span class="kw">int</span> mid=lo+(hi-lo)/<span class="num">2</span>;
+        <span class="kw">int</span> val=mat[mid/m][mid%m];
+        <span class="kw">if</span>(val==target) <span class="kw">return true</span>;
+        val&lt;target ? lo=mid+<span class="num">1</span> : hi=mid-<span class="num">1</span>;
+    }
+    <span class="kw">return false</span>;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(log n×m)</span><span class="cx-chip cx-s">Space: O(1)</span></div>
+    </div>
+  </div>
+
+  <!-- #240 -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#240</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Search a 2D Matrix II</div>
+    <div class="lc-tags"><span class="lc-tag">Staircase Search</span><span class="lc-tag">Matrix</span></div>
+    <div class="lc-problem">Each row left→right sorted, each column top→bottom sorted. Target search karo.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s240a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s240b')">Solution</button></div>
+    <div class="sol-panel active" id="s240a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">Top-right corner se start karo. Agar value == target → found. Agar value &lt; target → row badhao (neeche jao). Agar value > target → col ghataao (left jao). O(n+m) guaranteed!</p></div>
+    <div class="sol-panel" id="s240b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">bool</span> <span class="fn">searchMatrix</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat, <span class="kw">int</span> target) {
+    <span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">int</span> r=<span class="num">0</span>, c=m-<span class="num">1</span>;
+    <span class="kw">while</span>(r&lt;n &amp;&amp; c&gt;=<span class="num">0</span>) {
+        <span class="kw">if</span>(mat[r][c]==target) <span class="kw">return true</span>;
+        mat[r][c]&lt;target ? r++ : c--;
+    }
+    <span class="kw">return false</span>;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n+m)</span><span class="cx-chip cx-s">Space: O(1)</span></div>
+    </div>
+  </div>
+
+  <!-- #130 -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#130</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Surrounded Regions</div>
+    <div class="lc-tags"><span class="lc-tag">DFS</span><span class="lc-tag">Boundary DFS</span></div>
+    <div class="lc-problem">Board mein 'O' jo boundary se connected nahi hai, use 'X' mein convert karo.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s130a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s130b')">Solution</button></div>
+    <div class="sol-panel active" id="s130a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">Boundary 'O' cells se DFS chalao — sab connected 'O' mark karo as safe. Phir: safe → 'O', baaki 'O' → 'X'.</p></div>
+    <div class="sol-panel" id="s130b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">void</span> <span class="fn">dfs</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">char</span>&gt;&gt;&amp; b, <span class="kw">int</span> r, <span class="kw">int</span> c) {
+    <span class="kw">if</span>(r&lt;<span class="num">0</span>||r&gt;=b.<span class="fn">size</span>()||c&lt;<span class="num">0</span>||c&gt;=b[<span class="num">0</span>].<span class="fn">size</span>()||b[r][c]!=<span class="str">'O'</span>) <span class="kw">return</span>;
+    b[r][c]=<span class="str">'S'</span>; <span class="cm">// safe mark</span>
+    <span class="fn">dfs</span>(b,r-<span class="num">1</span>,c);<span class="fn">dfs</span>(b,r+<span class="num">1</span>,c);<span class="fn">dfs</span>(b,r,c-<span class="num">1</span>);<span class="fn">dfs</span>(b,r,c+<span class="num">1</span>);
+}
+<span class="kw">void</span> <span class="fn">solve</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">char</span>&gt;&gt;&amp; b) {
+    <span class="kw">int</span> n=b.<span class="fn">size</span>(), m=b[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++){<span class="fn">dfs</span>(b,i,<span class="num">0</span>);<span class="fn">dfs</span>(b,i,m-<span class="num">1</span>);}
+    <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++){<span class="fn">dfs</span>(b,<span class="num">0</span>,j);<span class="fn">dfs</span>(b,n-<span class="num">1</span>,j);}
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++)
+        b[i][j]= b[i][j]==<span class="str">'S'</span>?<span class="str">'O'</span>:<span class="str">'X'</span>;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n×m)</span><span class="cx-chip cx-s">Space: O(n×m)</span></div>
+    </div>
+  </div>
+
+  <!-- #304 -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#304</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Range Sum Query 2D - Immutable</div>
+    <div class="lc-tags"><span class="lc-tag">2D Prefix Sum</span><span class="lc-tag">Design</span></div>
+    <div class="lc-problem">Multiple range sum queries efficiently answer karo — submatrix sum O(1) mein.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s304a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s304b')">Solution</button></div>
+    <div class="sol-panel active" id="s304a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">2D prefix sum banao. Query = pre[r2+1][c2+1] - pre[r1][c2+1] - pre[r2+1][c1] + pre[r1][c1]. O(n×m) build, O(1) query.</p></div>
+    <div class="sol-panel" id="s304b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">class</span> <span class="ty">NumMatrix</span> {
+    <span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; pre;
+<span class="kw">public</span>:
+    <span class="fn">NumMatrix</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat) {
+        <span class="kw">int</span> n=mat.<span class="fn">size</span>(), m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+        pre.<span class="fn">assign</span>(n+<span class="num">1</span>, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m+<span class="num">1</span>,<span class="num">0</span>));
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>;i&lt;=n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">1</span>;j&lt;=m;j++)
+            pre[i][j]=mat[i-<span class="num">1</span>][j-<span class="num">1</span>]+pre[i-<span class="num">1</span>][j]+pre[i][j-<span class="num">1</span>]-pre[i-<span class="num">1</span>][j-<span class="num">1</span>];
+    }
+    <span class="kw">int</span> <span class="fn">sumRegion</span>(<span class="kw">int</span> r1,<span class="kw">int</span> c1,<span class="kw">int</span> r2,<span class="kw">int</span> c2) {
+        <span class="kw">return</span> pre[r2+<span class="num">1</span>][c2+<span class="num">1</span>]-pre[r1][c2+<span class="num">1</span>]-pre[r2+<span class="num">1</span>][c1]+pre[r1][c1];
+    }
+};</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Build: O(n×m) | Query: O(1)</span><span class="cx-chip cx-s">Space: O(n×m)</span></div>
+    </div>
+  </div>
+
+  <!-- #994 -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#994</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">Rotting Oranges</div>
+    <div class="lc-tags"><span class="lc-tag">BFS Multi-source</span><span class="lc-tag">Matrix</span></div>
+    <div class="lc-problem">Grid mein 0=empty, 1=fresh, 2=rotten orange. Har minute rotten adjacent ko rot karta hai. Minutes return karo.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s994a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s994b')">Solution</button></div>
+    <div class="sol-panel active" id="s994a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">Multi-source BFS — sab rotten oranges simultaneously queue mein daalo. Level by level BFS = minutes. Fresh count track karo — agar end mein fresh > 0, return -1.</p></div>
+    <div class="sol-panel" id="s994b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="kw">int</span> <span class="fn">orangesRotting</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; g) {
+    <span class="kw">int</span> n=g.<span class="fn">size</span>(),m=g[<span class="num">0</span>].<span class="fn">size</span>(),fresh=<span class="num">0</span>,mins=<span class="num">0</span>;
+    queue&lt;pair&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt;&gt; q;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++) {
+        <span class="kw">if</span>(g[i][j]==<span class="num">2</span>) q.<span class="fn">push</span>({i,j});
+        <span class="kw">if</span>(g[i][j]==<span class="num">1</span>) fresh++;
+    }
+    <span class="kw">int</span> dr[]={-<span class="num">1</span>,<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>}, dc[]={<span class="num">0</span>,<span class="num">0</span>,-<span class="num">1</span>,<span class="num">1</span>};
+    <span class="kw">while</span>(!q.<span class="fn">empty</span>() &amp;&amp; fresh) {
+        <span class="kw">int</span> sz=q.<span class="fn">size</span>(); mins++;
+        <span class="kw">while</span>(sz--) {
+            <span class="kw">auto</span>[r,c]=q.<span class="fn">front</span>();q.<span class="fn">pop</span>();
+            <span class="kw">for</span>(<span class="kw">int</span> d=<span class="num">0</span>;d&lt;<span class="num">4</span>;d++){
+                <span class="kw">int</span> nr=r+dr[d],nc=c+dc[d];
+                <span class="kw">if</span>(nr&gt;=<span class="num">0</span>&amp;&amp;nr&lt;n&amp;&amp;nc&gt;=<span class="num">0</span>&amp;&amp;nc&lt;m&amp;&amp;g[nr][nc]==<span class="num">1</span>){
+                    g[nr][nc]=<span class="num">2</span>;fresh--;q.<span class="fn">push</span>({nr,nc});
+                }
+            }
+        }
+    }
+    <span class="kw">return</span> fresh?-<span class="num">1</span>:mins;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n×m)</span><span class="cx-chip cx-s">Space: O(n×m)</span></div>
+    </div>
+  </div>
+
+  <!-- #542 -->
+  <div class="lc-card">
+    <div class="lc-top"><div class="lc-meta"><span class="lc-num">#542</span><span class="lc-diff med">Medium</span></div></div>
+    <div class="lc-title">01 Matrix</div>
+    <div class="lc-tags"><span class="lc-tag">BFS Multi-source</span><span class="lc-tag">Distance</span></div>
+    <div class="lc-problem">Har cell ke liye nearest 0 ki distance nikalo.</div>
+    <div class="sol-tabs"><button class="sol-tab active" onclick="tabSwitch(this,'s542a')">Approach</button><button class="sol-tab" onclick="tabSwitch(this,'s542b')">Solution</button></div>
+    <div class="sol-panel active" id="s542a"><p style="font-size:13px;color:var(--dim);line-height:1.7;">Sab 0s ko queue mein daalo (distance=0). BFS se expand — jab kisi cell pe pahuncho, uski distance = 1 + parent ki distance. Multi-source BFS se O(n×m).</p></div>
+    <div class="sol-panel" id="s542b">
+      <div class="code-wrap"><button class="copy-btn" onclick="cp(this)">copy</button>
+<pre><span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; <span class="fn">updateMatrix</span>(<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt;&amp; mat) {
+    <span class="kw">int</span> n=mat.<span class="fn">size</span>(),m=mat[<span class="num">0</span>].<span class="fn">size</span>();
+    <span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; dist(n,<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(m,<span class="num">INT_MAX</span>));
+    queue&lt;pair&lt;<span class="kw">int</span>,<span class="kw">int</span>&gt;&gt; q;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;n;i++) <span class="kw">for</span>(<span class="kw">int</span> j=<span class="num">0</span>;j&lt;m;j++)
+        <span class="kw">if</span>(!mat[i][j]){dist[i][j]=<span class="num">0</span>;q.<span class="fn">push</span>({i,j});}
+    <span class="kw">int</span> dr[]={-<span class="num">1</span>,<span class="num">1</span>,<span class="num">0</span>,<span class="num">0</span>},dc[]={<span class="num">0</span>,<span class="num">0</span>,-<span class="num">1</span>,<span class="num">1</span>};
+    <span class="kw">while</span>(!q.<span class="fn">empty</span>()){
+        <span class="kw">auto</span>[r,c]=q.<span class="fn">front</span>();q.<span class="fn">pop</span>();
+        <span class="kw">for</span>(<span class="kw">int</span> d=<span class="num">0</span>;d&lt;<span class="num">4</span>;d++){
+            <span class="kw">int</span> nr=r+dr[d],nc=c+dc[d];
+            <span class="kw">if</span>(nr&gt;=<span class="num">0</span>&amp;&amp;nr&lt;n&amp;&amp;nc&gt;=<span class="num">0</span>&amp;&amp;nc&lt;m&amp;&amp;dist[nr][nc]&gt;dist[r][c]+<span class="num">1</span>){
+                dist[nr][nc]=dist[r][c]+<span class="num">1</span>;q.<span class="fn">push</span>({nr,nc});
+            }
+        }
+    }
+    <span class="kw">return</span> dist;
+}</pre>
+      </div>
+      <div class="complexity-row"><span class="cx-chip cx-t">Time: O(n×m)</span><span class="cx-chip cx-s">Space: O(n×m)</span></div>
+    </div>
+  </div>
+
+  <!-- More problems quick list -->
+  <div class="card">
+    <div class="card-title"><span class="dot de"></span>More LeetCode Problems — Quick Reference</div>
+    <table class="tbl">
+      <tr><th>#</th><th>Problem</th><th>Difficulty</th><th>Key Technique</th></tr>
+      <tr><td class="mono">#59</td><td>Spiral Matrix II</td><td><span class="badge bc">Easy</span></td><td style="font-size:12px;color:var(--dim);">Same spiral, fill instead of read</td></tr>
+      <tr><td class="mono">#79</td><td>Word Search</td><td><span class="badge bd">Medium</span></td><td style="font-size:12px;color:var(--dim);">DFS + backtracking on grid</td></tr>
+      <tr><td class="mono">#286</td><td>Walls and Gates</td><td><span class="badge bd">Medium</span></td><td style="font-size:12px;color:var(--dim);">Multi-source BFS from gates</td></tr>
+      <tr><td class="mono">#417</td><td>Pacific Atlantic Water Flow</td><td><span class="badge bd">Medium</span></td><td style="font-size:12px;color:var(--dim);">DFS from both oceans, find intersection</td></tr>
+      <tr><td class="mono">#463</td><td>Island Perimeter</td><td><span class="badge bc">Easy</span></td><td style="font-size:12px;color:var(--dim);">Count edges touching water/boundary</td></tr>
+      <tr><td class="mono">#695</td><td>Max Area of Island</td><td><span class="badge bd">Medium</span></td><td style="font-size:12px;color:var(--dim);">DFS returning size, track max</td></tr>
+      <tr><td class="mono">#733</td><td>Flood Fill</td><td><span class="badge bc">Easy</span></td><td style="font-size:12px;color:var(--dim);">DFS/BFS color change</td></tr>
+      <tr><td class="mono">#1091</td><td>Shortest Path in Binary Matrix</td><td><span class="badge bd">Medium</span></td><td style="font-size:12px;color:var(--dim);">BFS 8-directions, level = distance</td></tr>
+      <tr><td class="mono">#329</td><td>Longest Increasing Path</td><td><span class="badge be">Hard</span></td><td style="font-size:12px;color:var(--dim);">DFS + memoization on matrix</td></tr>
+      <tr><td class="mono">#84+85</td><td>Maximal Rectangle</td><td><span class="badge be">Hard</span></td><td style="font-size:12px;color:var(--dim);">Row-wise histogram + stack</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ SIMULATOR ═══════════ -->
+<div id="simulator" class="section">
+  <div class="sec-tag">// SECTION 09</div>
+  <div class="sec-title">⚡ Interactive Matrix Builder</div>
+  <div class="sec-sub">Apna matrix banao aur operations try karo</div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot da"></span>Matrix Builder + Operations</div>
+    <div class="mat-wrap">
+      <div class="mat-label" id="builderLabel">Custom Matrix (click cells to edit)</div>
+      <div class="mat-grid" id="builderMat" style="grid-template-columns:repeat(4,1fr);display:inline-grid;margin:0 auto;"></div>
+      <div class="mat-controls" style="justify-content:center;margin-top:16px;">
+        <button class="mbtn mbtn-a" onclick="builderOp('transpose')">Transpose</button>
+        <button class="mbtn mbtn-b" onclick="builderOp('rotate90')">Rotate 90°</button>
+        <button class="mbtn mbtn-c" onclick="builderOp('flipH')">Flip H</button>
+        <button class="mbtn mbtn-d" onclick="builderOp('flipV')">Flip V</button>
+        <button class="mbtn mbtn-e" onclick="builderOp('spiral')">Spiral Order</button>
+        <button class="mbtn mbtn-f" onclick="builderOp('diag')">Diagonals</button>
+        <button class="mbtn mbtn-a" onclick="resetBuilder()">Reset</button>
+        <button class="mbtn mbtn-c" onclick="randomize()">Randomize</button>
+      </div>
+      <div class="mlog" id="builderLog">// Cell pe click karke value change karo, phir operation try karo</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ CHEATSHEET ═══════════ -->
+<div id="cheat" class="section">
+  <div class="sec-tag">// SECTION 10</div>
+  <div class="sec-title">📌 Matrix Cheatsheet</div>
+  <div class="sec-sub">Print karo — exam + interview ke liye</div>
+
+  <div class="cheat-grid">
+    <div class="cheat-box">
+      <div class="ch-hdr ch-a">🔢 Declaration</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">vector&lt;vector&lt;int&gt;&gt; m(n,vector&lt;int&gt;(m,0))</span><span class="ch-desc">n×m all 0</span></div>
+        <div class="ch-row"><span class="ch-code">int mat[3][4]={0}</span><span class="ch-desc">Raw, all 0</span></div>
+        <div class="ch-row"><span class="ch-code">mat[i][j]</span><span class="ch-desc">Access O(1)</span></div>
+        <div class="ch-row"><span class="ch-code">mat.size()</span><span class="ch-desc">Row count</span></div>
+        <div class="ch-row"><span class="ch-code">mat[0].size()</span><span class="ch-desc">Col count</span></div>
+      </div>
+    </div>
+    <div class="cheat-box">
+      <div class="ch-hdr ch-b">🔄 Traversal</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">for i→n: for j→m</span><span class="ch-desc">Row-wise</span></div>
+        <div class="ch-row"><span class="ch-code">for j→m: for i→n</span><span class="ch-desc">Col-wise</span></div>
+        <div class="ch-row"><span class="ch-code">mat[i][i]</span><span class="ch-desc">Main diagonal</span></div>
+        <div class="ch-row"><span class="ch-code">mat[i][n-1-i]</span><span class="ch-desc">Anti diagonal</span></div>
+        <div class="ch-row"><span class="ch-code">4 boundary pointers</span><span class="ch-desc">Spiral</span></div>
+      </div>
+    </div>
+    <div class="cheat-box">
+      <div class="ch-hdr ch-c">⚙️ Operations</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">swap(mat[i][j],mat[j][i])</span><span class="ch-desc">Transpose</span></div>
+        <div class="ch-row"><span class="ch-code">Transpose + rev rows</span><span class="ch-desc">Rotate 90°↻</span></div>
+        <div class="ch-row"><span class="ch-code">Rev rows + Transpose</span><span class="ch-desc">Rotate 90°↺</span></div>
+        <div class="ch-row"><span class="ch-code">reverse(mat[i])</span><span class="ch-desc">Flip horizontal</span></div>
+        <div class="ch-row"><span class="ch-code">swap(mat[i],mat[n-1-i])</span><span class="ch-desc">Flip vertical</span></div>
+      </div>
+    </div>
+    <div class="cheat-box">
+      <div class="ch-hdr ch-d">🔍 Searching</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">for i,j: O(n×m)</span><span class="ch-desc">Unsorted</span></div>
+        <div class="ch-row"><span class="ch-code">top-right start</span><span class="ch-desc">Row+col sorted O(n+m)</span></div>
+        <div class="ch-row"><span class="ch-code">mid/m, mid%m</span><span class="ch-desc">1D→2D binary search</span></div>
+        <div class="ch-row"><span class="ch-code">val&lt;t:r++ else c--</span><span class="ch-desc">Staircase search</span></div>
+      </div>
+    </div>
+    <div class="cheat-box">
+      <div class="ch-hdr ch-e">🏝 BFS/DFS</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">dr[]={-1,1,0,0}</span><span class="ch-desc">4-direction rows</span></div>
+        <div class="ch-row"><span class="ch-code">dc[]={0,0,-1,1}</span><span class="ch-desc">4-direction cols</span></div>
+        <div class="ch-row"><span class="ch-code">if(r&lt;0||r&gt;=n) return</span><span class="ch-desc">Boundary check</span></div>
+        <div class="ch-row"><span class="ch-code">mark visited in-place</span><span class="ch-desc">Avoid extra array</span></div>
+        <div class="ch-row"><span class="ch-code">multi-source BFS</span><span class="ch-desc">All sources in queue</span></div>
+      </div>
+    </div>
+    <div class="cheat-box">
+      <div class="ch-hdr ch-f">➕ Prefix Sum</div>
+      <div class="ch-body">
+        <div class="ch-row"><span class="ch-code">pre[i][j]=mat+top+left-corner</span><span class="ch-desc">Build</span></div>
+        <div class="ch-row"><span class="ch-code">pre[r2+1][c2+1]-pre[r1][c2+1]</span><span class="ch-desc">Query part 1</span></div>
+        <div class="ch-row"><span class="ch-code">-pre[r2+1][c1]+pre[r1][c1]</span><span class="ch-desc">Query part 2</span></div>
+        <div class="ch-row"><span class="ch-code">O(n×m) build</span><span class="ch-desc">O(1) query</span></div>
+        <div class="ch-row"><span class="ch-code">(n+1)×(m+1) size</span><span class="ch-desc">1-indexed prefix</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ QUIZ ═══════════ -->
+<div id="quiz" class="section">
+  <div class="sec-tag">// SECTION 11</div>
+  <div class="sec-title">🧠 Quiz — Matrix Concepts Test</div>
+  <div class="sec-sub">7 questions — concepts solid karo</div>
+
+  <div class="prog-bar"><div class="prog-fill" id="qprog" style="width:0%"></div></div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q1. 4×5 matrix mein mat[2][3] ka linear memory offset kya hoga? (row-major order, 0-indexed)</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Formula hai: row × cols + col = 2 × 5 + 3 = 13.')">8</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Bilkul sahi! row-major mein offset = row × total_cols + col = 2 × 5 + 3 = 13. Isliye mat[i][j] O(1) access hoti hai — sirf ek multiplication + addition!')">13</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 10 nahi — formula check karo.')">10</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ 23 nahi.')">23</button>
+    </div>
+    <div class="quiz-exp" id="qe0"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q2. Matrix ko 90° clockwise rotate karne ke liye sequence kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Ulta hai — pehle transpose, phir reverse rows.')">Reverse rows, phir Transpose</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Correct! Transpose karo (mat[i][j] ↔ mat[j][i]), phir har row reverse karo. Example: [[1,2],[3,4]] → Transpose: [[1,3],[2,4]] → Rev rows: [[3,1],[4,2]] = 90° clockwise!')">Transpose, phir Reverse each row</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Sirf transpose se 90° rotate nahi hota.')">Sirf Transpose</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Yeh 90° counter-clockwise hai.')">Reverse rows, phir Reverse columns</button>
+    </div>
+    <div class="quiz-exp" id="qe1"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q3. Row+Column sorted matrix mein target search karne ka O(n+m) approach kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Binary search O(n log m) deta hai, O(n+m) nahi.')">Har row pe binary search</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Linear scan O(n×m) hai — bahut slow.')">Row by row scan</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Excellent! Top-right corner se shuru karo. Agar value < target → row++ (neeche jao, values badi hain). Agar value > target → col-- (left jao, values choti hain). Har step mein ek row ya col eliminate hoti hai!')">Top-right se start, target se chhota → row++, target se bada → col--</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Bottom-left se bhi kaam karta hai lekin logic ulta hoga.')">Bottom-left se start karo</button>
+    </div>
+    <div class="quiz-exp" id="qe2"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q4. Number of Islands problem solve karne ka best approach kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Sorting matrix ka koi matlab nahi islands count ke liye.')">Matrix sort karo</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Prefix sum distance problems ke liye, islands ke liye nahi.')">Prefix sum use karo</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Perfect! Har unvisited 1 pe DFS/BFS chalao — connected sab 1s ko mark karo (visited). Count = DFS calls. Time: O(n×m), Space: O(n×m) for recursion stack.')">Har \'1\' pe DFS/BFS chalao, connected sab mark karo, count++</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Binary search sorted data pe kaam karta hai, grid traversal pe nahi.')">Binary search use karo</button>
+    </div>
+    <div class="quiz-exp" id="qe3"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q5. 2D Prefix Sum se rectangle (1,1) to (2,2) ka sum nikalna hai 4×4 matrix se. Formula kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Sirf ek cell ka value hai yeh, rectangle sum nahi.')">pre[2][2]</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Yeh ek corner subtract karna bhool gaye.')">pre[3][3] - pre[1][3] - pre[3][1]</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Sahi! pre[r2+1][c2+1] - pre[r1][c2+1] - pre[r2+1][c1] + pre[r1][c1] = pre[3][3] - pre[1][3] - pre[3][1] + pre[1][1]. +pre[1][1] isliye kyunki woh corner do baar subtract hua!')">pre[3][3] - pre[1][3] - pre[3][1] + pre[1][1]</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Yeh poori matrix ka sum hai.')">pre[4][4]</button>
+    </div>
+    <div class="quiz-exp" id="qe4"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q6. Rotting Oranges problem mein multi-source BFS kyun use karte hain?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ DFS se level (time) track karna mushkil hota hai aur wrong answer aa sakta hai.')">DFS se bhi solve hota hai</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Exactly! Sab rotten oranges simultaneously rot karte hain — multi-source BFS ise perfect model karta hai. Ek-ek karke DFS karne se galat time aayega. BFS ka ek level = 1 minute = correct!')">Sab rotten oranges simultaneously spread karte hain — multi-source BFS time ka correct model hai</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Complexity ki wajah se nahi — correctness ke liye.')">BFS O(n) fast hai</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ DFS aur BFS dono matrix traverse kar sakte hain.')">BFS sirf matrix pe kaam karta hai</button>
+    </div>
+    <div class="quiz-exp" id="qe5"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q7. Raw 2D array function mein pass karte waqt kyun column size mandatory hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Memory allocation iska reason nahi hai directly.')">Memory allocation ke liye</button>
+      <button class="quiz-opt" onclick="qa(this,'correct','✅ Bilkul! mat[i][j] ka address = base + (i × cols + j) × sizeof(int). Compiler ko cols pata hona chahiye tabhi yeh calculation kar sake. Row size runtime pe dete hain, col size compile-time pe zaroori hai!')">mat[i][j] = base + (i × cols + j) × size — cols compile-time pe chahiye</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Column size rows se alag reason ke liye zaroori hai.')">Row aur column dono mandatory hain</button>
+      <button class="quiz-opt" onclick="qa(this,'wrong','❌ Optimization se zyada correctness ka issue hai.')">Optimization ke liye</button>
+    </div>
+    <div class="quiz-exp" id="qe6"></div>
+  </div>
+
+  <div class="score-card" id="scoreCard" style="display:none;">
+    <div class="score-big" id="scoreBig">0/7</div>
+    <div style="color:var(--dim);margin-top:10px;font-size:14px;" id="scoreMsg"></div>
+    <button class="mbtn mbtn-c" style="margin-top:20px;" onclick="resetQuiz()">🔄 Dobara Try Karo</button>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:8px;">C++ Matrix & 2D Arrays — Complete Notes</div>
+  <div>Memory · Traversals · Rotate · Spiral · BFS/DFS · Prefix Sum · 25+ LeetCode with Full Solutions</div>
+</div>
+
+
+</body>
+</html>
