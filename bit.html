@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>C++ Bit Manipulation — Complete Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<script src="bit.js"></script>
+<link rel="stylesheet" href="bit.css">
+
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag"># BIT MANIPULATION</div>
+  <h1>Bit <span class="hl">Manipulation</span></h1>
+  <h1 style="font-size:clamp(1.2rem,3vw,2rem);font-weight:600;color:var(--dim);margin-top:4px;">Complete Notes — Basics to Advanced</h1>
+  <p>Operators · Tricks · 20+ LeetCode Problems · Live Simulator · Interview Patterns</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num">O(1)</div><div class="stat-label">TIME (mostly)</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">OPERATORS</div></div>
+    <div class="stat"><div class="stat-num">20+</div><div class="stat-label">LEETCODE Qs</div></div>
+    <div class="stat"><div class="stat-num">15+</div><div class="stat-label">TRICKS</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">QUIZ QUESTIONS</div></div>
+  </div>
+</div>
+
+<nav class="nav-bar" id="navbar">
+  <button class="nav-btn active" onclick="showSec('basics',this)">🔢 Basics</button>
+  <button class="nav-btn" onclick="showSec('operators',this)">⚙️ Operators</button>
+  <button class="nav-btn" onclick="showSec('simulator',this)">⚡ Simulator</button>
+  <button class="nav-btn" onclick="showSec('tricks',this)">🎩 Tricks</button>
+  <button class="nav-btn" onclick="showSec('patterns',this)">🎯 DSA Patterns</button>
+  <button class="nav-btn" onclick="showSec('leetcode',this)">💻 LeetCode</button>
+  <button class="nav-btn" onclick="showSec('advanced',this)">🚀 Advanced</button>
+  <button class="nav-btn" onclick="showSec('cheat',this)">📌 Cheatsheet</button>
+  <button class="nav-btn" onclick="showSec('quiz',this)">🧠 Quiz</button>
+</nav>
+
+<div class="container">
+
+<!-- ==================== BASICS ==================== -->
+<div id="basics" class="section active">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 01</div>
+    <div class="sec-title">Bit Manipulation Kya Hai?</div>
+    <div class="sec-sub">Binary level pe directly kaam karna — sabse fast operations</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-a"></span> Binary Number System — Foundation</div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:16px;">Computer sirf 0 aur 1 samajhta hai. Har number binary mein store hota hai. Bit manipulation directly inhi bits pe kaam karta hai.</p>
+    <div class="grid3" style="gap:12px;margin-bottom:16px;">
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:6px;">Decimal</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent);font-weight:700;">13</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:6px;">Binary</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent3);font-weight:700;">1101</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;text-align:center;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);margin-bottom:6px;">Hex</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--accent4);font-weight:700;">0xD</div>
+      </div>
+    </div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Decimal → Binary conversion</span>
+<span class="cm">// 13 = 8 + 4 + 0 + 1</span>
+<span class="cm">//    = 2³ + 2² + 2¹ + 2⁰</span>
+<span class="cm">//    = 1  ×8 + 1  ×4 + 0  ×2 + 1  ×1</span>
+<span class="cm">// Bit Position: [3][2][1][0]</span>
+<span class="cm">// Bit Value:     1   1   0   1  = 13</span>
+
+<span class="kw">int</span> n = <span class="num">13</span>;                    <span class="cm">// 1101 in binary</span>
+cout &lt;&lt; bitset&lt;<span class="num">8</span>&gt;(n);         <span class="cm">// 00001101</span>
+cout &lt;&lt; hex &lt;&lt; n;              <span class="cm">// d (hex)</span>
+cout &lt;&lt; __builtin_popcount(n); <span class="cm">// 3 (set bits count)</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-c"></span> Interactive Bit Viewer — Click karo!</div>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:4px;">Kisi bhi bit pe click karo — decimal, hex, binary sab update hoga</p>
+    <div class="bit-display" id="bitDisplay"></div>
+    <div class="bit-result">
+      <div class="bit-dec" id="bitDec">0</div>
+      <div class="bit-hex" id="bitHex">Hex: 0x0</div>
+      <div class="bit-bin" id="bitBin">Binary: 00000000</div>
+    </div>
+    <div class="bit-controls">
+      <input type="number" id="bitInput" placeholder="Number daalo (0-255)" style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px 12px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:13px;width:180px;outline:none;text-align:center;" oninput="setBits(this.value)"/>
+      <button class="op-btn" onclick="setBits(0)">Reset</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-b"></span> Kyun Seekhna Chahiye?</div>
+    <div class="grid2" style="gap:12px;">
+      <div style="background:var(--surface2);border:1px solid rgba(245,158,11,0.15);border-radius:10px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;">⚡ Speed</div>
+        <div style="font-size:12px;color:var(--dim);">Bit operations CPU level pe hoti hain — division/multiplication se 10x fast ho sakti hain</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(16,185,129,0.15);border-radius:10px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent3);margin-bottom:10px;">💾 Memory</div>
+        <div style="font-size:12px;color:var(--dim);">Boolean array ki jagah ek int mein 32 flags store karo — bitmask technique</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(99,102,241,0.15);border-radius:10px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent4);margin-bottom:10px;">🎯 DSA</div>
+        <div style="font-size:12px;color:var(--dim);">Subset generation, XOR problems, power of 2, counting bits — interview staple</div>
+      </div>
+      <div style="background:var(--surface2);border:1px solid rgba(239,68,68,0.15);border-radius:10px;padding:16px;">
+        <div style="font-size:13px;font-weight:700;color:var(--accent2);margin-bottom:10px;">🏆 CP</div>
+        <div style="font-size:12px;color:var(--dim);">Competitive programming mein bitmask DP aur XOR tricks bohot commonly use hoti hain</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== OPERATORS ==================== -->
+<div id="operators" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 02</div>
+    <div class="sec-title">6 Bitwise Operators</div>
+    <div class="sec-sub">Har operator ka kaam, truth table aur example</div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">💡</span>
+    <div>Sab operators <strong>bit by bit</strong> kaam karte hain. Matlab ek int ke har bit pe individually operation hoti hai.</div>
+  </div>
+
+  <!-- AND -->
+  <div class="card">
+    <div class="card-title"><span class="dot dot-a"></span> AND Operator <span class="badge badge-a">&</span></div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;">Dono bits 1 hoti hain tabhi result 1 hoga. <strong style="color:var(--accent)">1 & 1 = 1</strong>, baaki sab 0.</p>
+    <table class="truth-table" style="width:auto;margin:0 0 16px 0;">
+      <tr><th>A</th><th>B</th><th>A & B</th></tr>
+      <tr><td class="t0">0</td><td class="t0">0</td><td class="t0">0</td></tr>
+      <tr><td class="t0">0</td><td class="t1">1</td><td class="t0">0</td></tr>
+      <tr><td class="t1">1</td><td class="t0">0</td><td class="t0">0</td></tr>
+      <tr><td class="t1">1</td><td class="t1">1</td><td class="t1">1</td></tr>
+    </table>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// AND (&) — masking ke liye use hota hai</span>
+<span class="kw">int</span> a = <span class="num">12</span>;  <span class="cm">// 1100</span>
+<span class="kw">int</span> b = <span class="num">10</span>;  <span class="cm">// 1010</span>
+cout &lt;&lt; (a & b); <span class="cm">// 1000 = 8</span>
+
+<span class="cm">// Common uses:</span>
+<span class="cm">// 1. Check if even/odd</span>
+<span class="kw">if</span> (n & <span class="num">1</span>) cout &lt;&lt; <span class="str">"Odd"</span>;   <span class="cm">// last bit check</span>
+<span class="kw">else</span>       cout &lt;&lt; <span class="str">"Even"</span>;
+
+<span class="cm">// 2. Extract last k bits</span>
+<span class="kw">int</span> last3 = n & <span class="num">7</span>;  <span class="cm">// n & (2^k - 1)</span>
+
+<span class="cm">// 3. Check kth bit</span>
+<span class="kw">bool</span> isSet = (n >> k) & <span class="num">1</span>;
+</pre>
+    </div>
+  </div>
+
+  <!-- OR -->
+  <div class="card">
+    <div class="card-title"><span class="dot dot-c"></span> OR Operator <span class="badge badge-c">|</span></div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;">Koi ek bit 1 ho toh result 1. <strong style="color:var(--accent3)">0 | 0 = 0</strong> sirf isi case mein 0.</p>
+    <table class="truth-table" style="width:auto;margin:0 0 16px 0;">
+      <tr><th>A</th><th>B</th><th>A | B</th></tr>
+      <tr><td class="t0">0</td><td class="t0">0</td><td class="t0">0</td></tr>
+      <tr><td class="t0">0</td><td class="t1">1</td><td class="t1">1</td></tr>
+      <tr><td class="t1">1</td><td class="t0">0</td><td class="t1">1</td></tr>
+      <tr><td class="t1">1</td><td class="t1">1</td><td class="t1">1</td></tr>
+    </table>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// OR (|) — bit set karne ke liye</span>
+<span class="kw">int</span> a = <span class="num">12</span>;  <span class="cm">// 1100</span>
+<span class="kw">int</span> b = <span class="num">10</span>;  <span class="cm">// 1010</span>
+cout &lt;&lt; (a | b); <span class="cm">// 1110 = 14</span>
+
+<span class="cm">// Set kth bit ON</span>
+n = n | (<span class="num">1</span> &lt;&lt; k);  <span class="cm">// ya: n |= (1 << k)</span>
+
+<span class="cm">// Combine flags (bitmask)</span>
+<span class="kw">const int</span> READ  = <span class="num">1</span>; <span class="cm">// 001</span>
+<span class="kw">const int</span> WRITE = <span class="num">2</span>; <span class="cm">// 010</span>
+<span class="kw">int</span> perms = READ | WRITE; <span class="cm">// 011 = 3</span>
+</pre>
+    </div>
+  </div>
+
+  <!-- XOR -->
+  <div class="card">
+    <div class="card-title"><span class="dot dot-d"></span> XOR Operator <span class="badge badge-d">^</span> <span style="font-size:12px;color:var(--accent4);margin-left:4px;">★ Most Important!</span></div>
+    <p style="font-size:13px;color:var(--dim);margin-bottom:12px;">Dono bits alag hoti hain tabhi 1. <strong style="color:var(--accent4)">Same = 0, Different = 1</strong>. XOR ka magic property: a^a=0, a^0=a</p>
+    <table class="truth-table" style="width:auto;margin:0 0 16px 0;">
+      <tr><th>A</th><th>B</th><th>A ^ B</th></tr>
+      <tr><td class="t0">0</td><td class="t0">0</td><td class="t0">0</td></tr>
+      <tr><td class="t0">0</td><td class="t1">1</td><td class="t1">1</td></tr>
+      <tr><td class="t1">1</td><td class="t0">0</td><td class="t1">1</td></tr>
+      <tr><td class="t1">1</td><td class="t1">1</td><td class="t0">0</td></tr>
+    </table>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// XOR (^) — sabse versatile operator!</span>
+<span class="kw">int</span> a = <span class="num">12</span>;  <span class="cm">// 1100</span>
+<span class="kw">int</span> b = <span class="num">10</span>;  <span class="cm">// 1010</span>
+cout &lt;&lt; (a ^ b); <span class="cm">// 0110 = 6</span>
+
+<span class="cm">// XOR Magic Properties:</span>
+<span class="cm">// a ^ a = 0     (same number XOR = 0)</span>
+<span class="cm">// a ^ 0 = a     (XOR with 0 = same)</span>
+<span class="cm">// a ^ b ^ a = b (cancel ho jaata hai)</span>
+
+<span class="cm">// ★ Swap without temp variable</span>
+a ^= b; b ^= a; a ^= b;
+
+<span class="cm">// ★ Toggle kth bit</span>
+n ^= (<span class="num">1</span> &lt;&lt; k);
+
+<span class="cm">// ★ Find single number in array</span>
+<span class="kw">int</span> result = <span class="num">0</span>;
+<span class="kw">for</span>(<span class="kw">int</span> x : arr) result ^= x;
+</pre>
+    </div>
+    <div class="alert alert-tip" style="margin-top:8px;">
+      <span class="alert-icon">⭐</span>
+      <div><strong>XOR sabse important hai!</strong> "Find the single number", "Missing number", "Two distinct elements" — sab XOR se hota hai. Interview mein yeh pehle socho.</div>
+    </div>
+  </div>
+
+  <!-- NOT -->
+  <div class="card">
+    <div class="card-title"><span class="dot dot-b"></span> NOT Operator <span class="badge badge-b">~</span></div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// NOT (~) — sab bits flip ho jaati hain</span>
+<span class="cm">// Formula: ~n = -(n+1)</span>
+<span class="kw">int</span> n = <span class="num">5</span>;   <span class="cm">// 00000101</span>
+cout &lt;&lt; ~n;  <span class="cm">// 11111010 = -6</span>
+
+<span class="cm">// Clear kth bit</span>
+n &amp;= ~(<span class="num">1</span> &lt;&lt; k);  <span class="cm">// kth bit OFF karo</span>
+
+<span class="cm">// Two's complement:</span>
+<span class="cm">// -n = ~n + 1</span>
+cout &lt;&lt; (~<span class="num">5</span> + <span class="num">1</span>); <span class="cm">// -5</span>
+</pre>
+    </div>
+  </div>
+
+  <!-- LEFT RIGHT SHIFT -->
+  <div class="grid2">
+    <div class="card">
+      <div class="card-title"><span class="dot dot-a"></span> Left Shift <span class="badge badge-a">&lt;&lt;</span></div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre><span class="cm">// n << k = n × 2^k</span>
+<span class="kw">int</span> n = <span class="num">3</span>;  <span class="cm">// 011</span>
+cout &lt;&lt; (n&lt;&lt;<span class="num">1</span>); <span class="cm">// 110 = 6</span>
+cout &lt;&lt; (n&lt;&lt;<span class="num">2</span>); <span class="cm">// 1100 = 12</span>
+cout &lt;&lt; (n&lt;&lt;<span class="num">3</span>); <span class="cm">// 11000 = 24</span>
+
+<span class="cm">// 1 << k = 2^k</span>
+cout &lt;&lt; (<span class="num">1</span>&lt;&lt;<span class="num">0</span>); <span class="cm">// 1</span>
+cout &lt;&lt; (<span class="num">1</span>&lt;&lt;<span class="num">3</span>); <span class="cm">// 8</span>
+cout &lt;&lt; (<span class="num">1</span>&lt;&lt;<span class="num">10</span>);<span class="cm">// 1024</span>
+</pre>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title"><span class="dot dot-c"></span> Right Shift <span class="badge badge-c">&gt;&gt;</span></div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre><span class="cm">// n >> k = n / 2^k</span>
+<span class="kw">int</span> n = <span class="num">16</span>; <span class="cm">// 10000</span>
+cout &lt;&lt; (n&gt;&gt;<span class="num">1</span>); <span class="cm">// 1000 = 8</span>
+cout &lt;&lt; (n&gt;&gt;<span class="num">2</span>); <span class="cm">// 100 = 4</span>
+cout &lt;&lt; (n&gt;&gt;<span class="num">4</span>); <span class="cm">// 1 = 1</span>
+
+<span class="cm">// Get kth bit value</span>
+<span class="kw">int</span> kth = (n &gt;&gt; k) & <span class="num">1</span>;
+
+<span class="cm">// Divide by 2 (floor)</span>
+<span class="kw">int</span> half = n &gt;&gt; <span class="num">1</span>;
+</pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-e"></span> Operator Precedence — Yaad Rakho!</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Precedence (high to low):</span>
+<span class="cm">// ~  (NOT) → highest</span>
+<span class="cm">// << >> (shifts)</span>
+<span class="cm">// &  (AND)</span>
+<span class="cm">// ^  (XOR)</span>
+<span class="cm">// |  (OR)  → lowest</span>
+
+<span class="cm">// HAMESHA parentheses use karo!</span>
+<span class="kw">if</span> (n & <span class="num">1</span> == <span class="num">0</span>)      <span class="cm">// ❌ WRONG! (1==0 pehle evaluate hoga)</span>
+<span class="kw">if</span> ((n & <span class="num">1</span>) == <span class="num">0</span>)    <span class="cm">// ✅ CORRECT!</span>
+</pre>
+    </div>
+    <div class="alert alert-warn" style="margin-top:8px;">
+      <span class="alert-icon">⚠️</span>
+      <div>Bit operators ki precedence comparison operators se <strong>kam</strong> hoti hai. Isliye hamesha <code>(n & mask)</code> aaise likhna — parentheses required!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SIMULATOR ==================== -->
+<div id="simulator" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 03</div>
+    <div class="sec-title">⚡ Live Operator Simulator</div>
+    <div class="sec-sub">Koi bhi do numbers daalo — sab operations ka result dekho</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-a"></span> Bitwise Operation Calculator</div>
+    <div class="op-panel">
+      <div class="op-row">
+        <span style="font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;">A =</span>
+        <input class="op-inp" id="opA" type="number" value="12" oninput="calcOp()"/>
+        <span style="font-size:13px;color:var(--muted);font-family:'JetBrains Mono',monospace;">B =</span>
+        <input class="op-inp" id="opB" type="number" value="10" oninput="calcOp()"/>
+        <select class="op-sel" id="opSel" onchange="calcOp()">
+          <option value="and">AND (&)</option>
+          <option value="or">OR (|)</option>
+          <option value="xor">XOR (^)</option>
+          <option value="not">NOT (~A)</option>
+          <option value="lshift">Left Shift (A &lt;&lt; B)</option>
+          <option value="rshift">Right Shift (A &gt;&gt; B)</option>
+        </select>
+        <button class="op-btn" onclick="calcOp()">Calculate</button>
+      </div>
+      <div class="op-result" id="opResult">// Result yahan aayega</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-c"></span> Bit Operations Visualizer</div>
+    <div class="op-panel">
+      <div class="op-row">
+        <span style="font-size:13px;color:var(--muted);">Number:</span>
+        <input class="op-inp" id="vizNum" type="number" value="42" style="width:80px;"/>
+        <span style="font-size:13px;color:var(--muted);">Bit Position (k):</span>
+        <input class="op-inp" id="vizK" type="number" value="2" min="0" max="7" style="width:60px;"/>
+        <button class="op-btn" onclick="vizOps()">Run</button>
+      </div>
+      <div class="op-result" id="vizResult">// Bit operations yahan dikhenge</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-d"></span> XOR Magic Demo</div>
+    <div class="op-panel">
+      <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Array enter karo (comma separated) — XOR se single number ya missing number find karo</p>
+      <div class="op-row">
+        <input class="op-inp" id="xorArr" type="text" value="1,2,3,4,3,2,1" style="width:200px;font-size:12px;"/>
+        <button class="op-btn" onclick="xorDemo()">Find Single</button>
+        <button class="op-btn" onclick="missingDemo()" style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:var(--accent4);">Find Missing (1..N)</button>
+      </div>
+      <div class="op-result" id="xorResult">// XOR magic yahan dikhegi</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== TRICKS ==================== -->
+<div id="tricks" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 04</div>
+    <div class="sec-title">🎩 Bit Tricks — Must Know</div>
+    <div class="sec-sub">15+ tricks jo interview aur CP mein kaam aate hain</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-a"></span> Bit Check/Set/Clear/Toggle — Core 4 Operations</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="kw">int</span> n = <span class="num">42</span>, k = <span class="num">3</span>; <span class="cm">// k = bit position (0-indexed)</span>
+
+<span class="cm">// ★ 1. Check kth bit (0 ya 1?)</span>
+<span class="kw">bool</span> isSet = (n >> k) & <span class="num">1</span>;
+<span class="cm">//           OR</span>
+<span class="kw">bool</span> isSet2 = n & (<span class="num">1</span> &lt;&lt; k);
+
+<span class="cm">// ★ 2. Set kth bit (1 karo)</span>
+n |= (<span class="num">1</span> &lt;&lt; k);
+
+<span class="cm">// ★ 3. Clear kth bit (0 karo)</span>
+n &amp;= ~(<span class="num">1</span> &lt;&lt; k);
+
+<span class="cm">// ★ 4. Toggle kth bit (flip karo)</span>
+n ^= (<span class="num">1</span> &lt;&lt; k);
+</pre>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="trick-box">
+      <div class="trick-title">// Even/Odd Check</div>
+      <div class="trick-desc">Last bit 1 = odd, 0 = even. Division se 2x fast.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="cm">// if(n%2) → slow</span>
+<span class="kw">if</span>(n & <span class="num">1</span>) cout&lt;&lt;<span class="str">"Odd"</span>;
+<span class="kw">else</span>      cout&lt;&lt;<span class="str">"Even"</span>;</pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Power of 2 Check</div>
+      <div class="trick-desc">Power of 2 ke binary mein sirf 1 bit hoti hai.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="cm">// 8 = 1000, 7 = 0111</span>
+<span class="cm">// 8 & 7 = 0 → power of 2</span>
+<span class="kw">bool</span> isPow2 = n&&!(n&(n-<span class="num">1</span>));</pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Swap Without Temp</div>
+      <div class="trick-desc">XOR property use karke swap — extra variable nahi.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;">a ^= b;
+b ^= a;
+a ^= b;
+<span class="cm">// a aur b swap ho gaye!</span></pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Rightmost Set Bit</div>
+      <div class="trick-desc">n & (-n) rightmost 1 bit isolate karta hai.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="kw">int</span> rsb = n & (-n);
+<span class="cm">// 12 (1100) → 4 (0100)</span>
+<span class="cm">// 10 (1010) → 2 (0010)</span></pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Remove Rightmost Set Bit</div>
+      <div class="trick-desc">n & (n-1) se rightmost 1 bit remove hoti hai. Popcount mein kaam aata hai.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="kw">int</span> x = n & (n-<span class="num">1</span>);
+<span class="cm">// 12 (1100) → 8 (1000)</span>
+<span class="cm">// 10 (1010) → 8 (1000)</span></pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Count Set Bits (Popcount)</div>
+      <div class="trick-desc">Kitne 1 bits hain? 3 tarike hain.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="cm">// Method 1: Built-in (fastest)</span>
+__builtin_popcount(n);
+
+<span class="cm">// Method 2: n&(n-1) trick</span>
+<span class="kw">int</span> cnt=<span class="num">0</span>;
+<span class="kw">while</span>(n){n&=(n-<span class="num">1</span>);cnt++;}
+
+<span class="cm">// Method 3: Bit shifting</span>
+<span class="kw">while</span>(n){cnt+=n&<span class="num">1</span>;n>>=<span class="num">1</span>;}</pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Multiply / Divide by 2^k</div>
+      <div class="trick-desc">Shifts division/multiplication se fast hain.</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="kw">int</span> mul = n &lt;&lt; k; <span class="cm">// n × 2^k</span>
+<span class="kw">int</span> div = n &gt;&gt; k; <span class="cm">// n / 2^k</span>
+
+<span class="cm">// n * 8 = n << 3</span>
+<span class="cm">// n / 4 = n >> 2</span></pre>
+      </div>
+    </div>
+
+    <div class="trick-box">
+      <div class="trick-title">// Upper/Lower Case Toggle</div>
+      <div class="trick-desc">ASCII difference sirf ek bit ka hai!</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;padding:12px 14px;font-size:12px;"><span class="cm">// 'A'=65 (1000001)</span>
+<span class="cm">// 'a'=97 (1100001) ← bit 5</span>
+c | <span class="num">32</span>   <span class="cm">// to lowercase</span>
+c & ~<span class="num">32</span>  <span class="cm">// to uppercase</span>
+c ^ <span class="num">32</span>   <span class="cm">// toggle case</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:8px;">
+    <div class="card-title"><span class="dot dot-d"></span> GCC Built-in Functions — CP Essential</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// __builtin_popcount(n)  → count of set bits (1s)</span>
+__builtin_popcount(<span class="num">13</span>);  <span class="cm">// 3 (1101 → three 1s)</span>
+
+<span class="cm">// __builtin_clz(n)       → count leading zeros</span>
+__builtin_clz(<span class="num">8</span>);        <span class="cm">// 28 (for 32-bit int)</span>
+
+<span class="cm">// __builtin_ctz(n)       → count trailing zeros</span>
+__builtin_ctz(<span class="num">12</span>);       <span class="cm">// 2 (1100 → 2 trailing zeros)</span>
+
+<span class="cm">// __builtin_parity(n)    → 1 if odd set bits, 0 if even</span>
+__builtin_parity(<span class="num">7</span>);     <span class="cm">// 1 (111 → 3 ones = odd)</span>
+
+<span class="cm">// For long long: use __builtin_popcountll()</span>
+__builtin_popcountll(<span class="num">1LL</span>&lt;&lt;<span class="num">40</span>);
+</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== DSA PATTERNS ==================== -->
+<div id="patterns" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 05</div>
+    <div class="sec-title">🎯 DSA Patterns</div>
+    <div class="sec-sub">Interview mein ye sab pooche jaate hain — ratto nahi, samjho</div>
+  </div>
+
+  <div class="grid2">
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">1</div> Single Number — XOR trick</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="cm">// Sabhi XOR karo — pairs cancel hote hain</span>
+<span class="cm">// a^a=0, a^0=a</span>
+<span class="kw">int</span> <span class="fn">singleNumber</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; nums) {
+    <span class="kw">int</span> res = <span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> x : nums) res ^= x;
+    <span class="kw">return</span> res;
+}
+<span class="cm">// [1,1,2,2,3] → 3 ✓</span></pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #136 #268 #389</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">2</div> Missing Number (1 to N)</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="cm">// 0^1^..^N XOR arr elements</span>
+<span class="kw">int</span> <span class="fn">missingNumber</span>(<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&amp; nums) {
+    <span class="kw">int</span> n = nums.size(), res = n;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;n; i++)
+        res ^= i ^ nums[i];
+    <span class="kw">return</span> res;
+}
+<span class="cm">// [3,0,1] → 2 ✓</span></pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #268</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">3</div> Count Set Bits (Hamming Weight)</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="kw">int</span> <span class="fn">hammingWeight</span>(<span class="kw">int</span> n) {
+    <span class="kw">int</span> count = <span class="num">0</span>;
+    <span class="kw">while</span>(n) {
+        n &amp;= (n-<span class="num">1</span>); <span class="cm">// rightmost bit clear</span>
+        count++;
+    }
+    <span class="kw">return</span> count;
+    <span class="cm">// ya: return __builtin_popcount(n);</span>
+}
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #191</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">4</div> Power of 2 Check</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="kw">bool</span> <span class="fn">isPowerOfTwo</span>(<span class="kw">int</span> n) {
+    <span class="cm">// Power of 2: sirf 1 bit set</span>
+    <span class="cm">// n & (n-1) removes that bit → 0</span>
+    <span class="kw">return</span> n > <span class="num">0</span> &amp;&amp; !(n & (n-<span class="num">1</span>));
+}
+<span class="cm">// 8=1000, 7=0111, 8&7=0 → true</span>
+<span class="cm">// 6=0110, 5=0101, 6&5=4 → false</span>
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #231 #326 #342</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">5</div> Counting Bits (DP + Bit)</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; <span class="fn">countBits</span>(<span class="kw">int</span> n) {
+    <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; dp(n+<span class="num">1</span>);
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>; i&lt;=n; i++)
+        dp[i]=dp[i>><span class="num">1</span>]+(i&<span class="num">1</span>);
+    <span class="kw">return</span> dp;
+}
+<span class="cm">// dp[i] = dp[i/2] + last bit</span>
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #338 — O(n) solution</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">6</div> Subsets using Bitmask</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="cm">// n elements ke 2^n subsets</span>
+<span class="kw">int</span> n = <span class="num">3</span>;
+<span class="kw">for</span>(<span class="kw">int</span> mask=<span class="num">0</span>; mask&lt;(<span class="num">1</span>&lt;&lt;n); mask++){
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;n; i++)
+        <span class="kw">if</span>(mask & (<span class="num">1</span>&lt;&lt;i))
+            cout &lt;&lt; arr[i] &lt;&lt; <span class="str">" "</span>;
+    cout &lt;&lt; <span class="str">"\n"</span>;
+}
+<span class="cm">// All subsets of {A,B,C}</span>
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #78 #90 — Bitmask DP base</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">7</div> Reverse Bits</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="kw">uint32_t</span> <span class="fn">reverseBits</span>(<span class="kw">uint32_t</span> n) {
+    <span class="kw">uint32_t</span> res = <span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>;i&lt;<span class="num">32</span>;i++) {
+        res = (res&lt;&lt;<span class="num">1</span>) | (n&<span class="num">1</span>);
+        n &gt;&gt;= <span class="num">1</span>;
+    }
+    <span class="kw">return</span> res;
+}
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #190</div>
+    </div>
+
+    <div class="pattern-card">
+      <div class="pattern-title"><div class="p-num">8</div> Two Non-Repeating Numbers</div>
+      <div class="code-wrap">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre style="margin-top:0;font-size:12px;"><span class="cm">// XOR all → x^y</span>
+<span class="cm">// Find rightmost diff bit</span>
+<span class="cm">// Divide into 2 groups</span>
+<span class="kw">int</span> xorAll = <span class="num">0</span>;
+<span class="kw">for</span>(<span class="kw">int</span> x:arr) xorAll^=x;
+<span class="kw">int</span> bit = xorAll & (-xorAll);
+<span class="kw">int</span> a=<span class="num">0</span>, b=<span class="num">0</span>;
+<span class="kw">for</span>(<span class="kw">int</span> x:arr)
+  (x&bit ? a : b) ^= x;
+</pre>
+      </div>
+      <div style="font-size:11px;color:var(--muted);margin-top:6px;">LeetCode #260</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== LEETCODE ==================== -->
+<div id="leetcode" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 06</div>
+    <div class="sec-title">💻 LeetCode Problems — 20+</div>
+    <div class="sec-sub">Easy se Hard tak — bit manipulation se related sab problems</div>
+  </div>
+
+  <div class="alert alert-info">
+    <span class="alert-icon">🎯</span>
+    <div>Yeh order follow karo: <strong>Easy → Medium → Hard</strong>. Pehle XOR problems, phir bitmask, phir DP.</div>
+  </div>
+
+  <div style="margin-bottom:16px;font-size:13px;font-weight:700;color:var(--accent3);">🟢 EASY</div>
+  <div class="lc-grid" style="margin-bottom:24px;">
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#136</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Single Number</div>
+      <div class="lc-tag"><span>XOR</span><span>Array</span></div>
+      <div class="lc-hint">Sabhi XOR karo — pairs cancel, single bachega</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#191</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Number of 1 Bits</div>
+      <div class="lc-tag"><span>Bit Count</span><span>n&(n-1)</span></div>
+      <div class="lc-hint">n & (n-1) trick ya __builtin_popcount</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#190</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Reverse Bits</div>
+      <div class="lc-tag"><span>Shift</span><span>AND</span></div>
+      <div class="lc-hint">32 times: shift result left, get last bit of n</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#231</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Power of Two</div>
+      <div class="lc-tag"><span>AND</span><span>n&(n-1)</span></div>
+      <div class="lc-hint">n > 0 && !(n & (n-1))</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#268</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Missing Number</div>
+      <div class="lc-tag"><span>XOR</span><span>0 to N</span></div>
+      <div class="lc-hint">XOR 0..N aur array — missing cancel nahi hoga</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#389</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Find the Difference</div>
+      <div class="lc-tag"><span>XOR</span><span>String</span></div>
+      <div class="lc-hint">Dono strings ke chars XOR karo</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#461</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Hamming Distance</div>
+      <div class="lc-tag"><span>XOR</span><span>popcount</span></div>
+      <div class="lc-hint">popcount(x XOR y) — different bits count</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#693</span><span class="lc-diff easy">Easy</span></div>
+      <div class="lc-title">Binary Number Alt Bits</div>
+      <div class="lc-tag"><span>Shift</span><span>AND</span></div>
+      <div class="lc-hint">n XOR (n>>1) should be all 1s: (n^(n>>1)+1)</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;font-size:13px;font-weight:700;color:var(--accent);">🟡 MEDIUM</div>
+  <div class="lc-grid" style="margin-bottom:24px;">
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#78</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Subsets</div>
+      <div class="lc-tag"><span>Bitmask</span><span>Array</span></div>
+      <div class="lc-hint">2^n masks, har mask ek subset represent karta hai</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#137</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Single Number II</div>
+      <div class="lc-tag"><span>Bit Count</span><span>Mod 3</span></div>
+      <div class="lc-hint">Har bit ka sum mod 3 lo — bacha hua single number</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#260</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Single Number III</div>
+      <div class="lc-tag"><span>XOR</span><span>2 numbers</span></div>
+      <div class="lc-hint">XOR all, then split by differing bit</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#338</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Counting Bits</div>
+      <div class="lc-tag"><span>DP</span><span>Right Shift</span></div>
+      <div class="lc-hint">dp[i] = dp[i>>1] + (i&1) — O(n) DP solution</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#201</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Bitwise AND of Range</div>
+      <div class="lc-tag"><span>AND</span><span>Shift</span></div>
+      <div class="lc-hint">Common prefix dhundho — right shift karte jao</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#371</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Sum of Two Integers</div>
+      <div class="lc-tag"><span>XOR</span><span>AND carry</span></div>
+      <div class="lc-hint">XOR = sum without carry, AND<<1 = carry</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#477</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Total Hamming Distance</div>
+      <div class="lc-tag"><span>Bit position</span><span>Count</span></div>
+      <div class="lc-hint">Har bit position pe: ones × zeros</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#1318</span><span class="lc-diff med">Medium</span></div>
+      <div class="lc-title">Min Flips to Make OR</div>
+      <div class="lc-tag"><span>OR</span><span>AND</span><span>XOR</span></div>
+      <div class="lc-hint">Bit by bit check: need 1 but got 0?</div>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px;font-size:13px;font-weight:700;color:var(--accent2);">🔴 HARD</div>
+  <div class="lc-grid" style="margin-bottom:24px;">
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#315</span><span class="lc-diff hard">Hard</span></div>
+      <div class="lc-title">Count Smaller After Self</div>
+      <div class="lc-tag"><span>BIT (Fenwick)</span><span>Index</span></div>
+      <div class="lc-hint">Binary Indexed Tree use karo — bit manipulation ka advanced use</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#421</span><span class="lc-diff hard">Hard</span></div>
+      <div class="lc-title">Maximum XOR</div>
+      <div class="lc-tag"><span>Trie</span><span>XOR</span><span>Greedy</span></div>
+      <div class="lc-hint">Bit by bit greedy — high bits se shuru karo</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#587</span><span class="lc-diff hard">Hard</span></div>
+      <div class="lc-title">Erect the Fence</div>
+      <div class="lc-tag"><span>Bitmask DP</span></div>
+      <div class="lc-hint">Bitmask DP — subset enumeration</div>
+    </div>
+    <div class="lc-card">
+      <div class="lc-top"><span class="lc-num">#898</span><span class="lc-diff hard">Hard</span></div>
+      <div class="lc-title">Bitwise ORs of Subarrays</div>
+      <div class="lc-tag"><span>Set</span><span>OR</span></div>
+      <div class="lc-hint">OR is monotone — track distinct ORs</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-d"></span> Recommended Study Order</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;">
+      <span class="badge badge-c">#136 Single Number</span>
+      <span class="badge badge-c">#268 Missing Number</span>
+      <span class="badge badge-c">#191 Hamming Weight</span>
+      <span class="badge badge-c">#231 Power of Two</span>
+      <span class="badge badge-c">#190 Reverse Bits</span>
+      <span class="badge badge-a">#338 Counting Bits</span>
+      <span class="badge badge-a">#137 Single Number II</span>
+      <span class="badge badge-a">#78 Subsets</span>
+      <span class="badge badge-a">#371 Sum of Two Int</span>
+      <span class="badge badge-a">#260 Single Number III</span>
+      <span class="badge badge-b">#421 Maximum XOR</span>
+      <span class="badge badge-b">#315 Count Smaller</span>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ADVANCED ==================== -->
+<div id="advanced" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 07</div>
+    <div class="sec-title">🚀 Advanced Topics</div>
+    <div class="sec-sub">Bitmask DP, Fenwick Tree, Two's Complement, CP tricks</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-a"></span> Two's Complement — Negative Numbers</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Positive numbers: direct binary</span>
+<span class="cm">// 5  = 00000101</span>
+
+<span class="cm">// Negative: Two's complement = ~n + 1</span>
+<span class="cm">// -5 = ~5 + 1 = 11111010 + 1 = 11111011</span>
+
+<span class="cm">// Why useful?</span>
+<span class="cm">// -n = ~n + 1  (negate karna)</span>
+<span class="cm">// n & (-n) = rightmost set bit (wahi use hota hai!)</span>
+
+<span class="kw">int</span> n = <span class="num">12</span>; <span class="cm">// 1100</span>
+cout &lt;&lt; (n & -n); <span class="cm">// 4 (0100) — rightmost 1</span>
+
+<span class="cm">// Signed vs Unsigned shift:</span>
+<span class="cm">// signed >>  : arithmetic (sign extend)</span>
+<span class="cm">// unsigned >>: logical (fill with 0)</span>
+<span class="kw">int</span> neg = -<span class="num">8</span>;
+cout &lt;&lt; (neg &gt;&gt; <span class="num">1</span>); <span class="cm">// -4 (sign preserved)</span>
+<span class="kw">unsigned int</span> u = (<span class="kw">unsigned int</span>)neg;
+cout &lt;&lt; (u &gt;&gt; <span class="num">1</span>);   <span class="cm">// large positive</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-d"></span> Bitmask DP — Advanced CP</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// TSP (Travelling Salesman) — Bitmask DP</span>
+<span class="cm">// dp[mask][i] = min cost to visit all nodes in mask, ending at i</span>
+<span class="kw">int</span> n = <span class="num">4</span>;
+<span class="ty">vector</span>&lt;<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;&gt; dp(<span class="num">1</span>&lt;&lt;n, <span class="ty">vector</span>&lt;<span class="kw">int</span>&gt;(n, <span class="num">1e9</span>));
+dp[<span class="num">1</span>][<span class="num">0</span>] = <span class="num">0</span>; <span class="cm">// start at node 0</span>
+
+<span class="kw">for</span>(<span class="kw">int</span> mask=<span class="num">1</span>; mask&lt;(<span class="num">1</span>&lt;&lt;n); mask++) {
+    <span class="kw">for</span>(<span class="kw">int</span> u=<span class="num">0</span>; u&lt;n; u++) {
+        <span class="kw">if</span>(!(mask & (<span class="num">1</span>&lt;&lt;u))) <span class="kw">continue</span>;
+        <span class="kw">for</span>(<span class="kw">int</span> v=<span class="num">0</span>; v&lt;n; v++) {
+            <span class="kw">if</span>(mask & (<span class="num">1</span>&lt;&lt;v)) <span class="kw">continue</span>;
+            <span class="kw">int</span> newMask = mask | (<span class="num">1</span>&lt;&lt;v);
+            dp[newMask][v] = <span class="fn">min</span>(dp[newMask][v],
+                                 dp[mask][u] + dist[u][v]);
+        }
+    }
+}
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-b"></span> Fenwick Tree (BIT) — Binary Indexed Tree</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// BIT uses bit manipulation for range queries</span>
+<span class="cm">// i & (-i) = lowest set bit (key operation!)</span>
+<span class="ty">vector</span>&lt;<span class="kw">int</span>&gt; bit(n+<span class="num">1</span>, <span class="num">0</span>);
+
+<span class="kw">void</span> <span class="fn">update</span>(<span class="kw">int</span> i, <span class="kw">int</span> val) {
+    <span class="kw">for</span>(; i &lt;= n; i += i & (-i)) <span class="cm">// next index</span>
+        bit[i] += val;
+}
+
+<span class="kw">int</span> <span class="fn">query</span>(<span class="kw">int</span> i) {
+    <span class="kw">int</span> sum = <span class="num">0</span>;
+    <span class="kw">for</span>(; i &gt; <span class="num">0</span>; i -= i & (-i)) <span class="cm">// parent index</span>
+        sum += bit[i];
+    <span class="kw">return</span> sum;
+}
+<span class="cm">// Prefix sum in O(log n)!</span>
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-c"></span> XOR Basis / Linear Basis — Competitive Programming</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// XOR basis: set of numbers se max XOR banao</span>
+<span class="kw">int</span> basis[<span class="num">32</span>] = {};
+
+<span class="kw">void</span> <span class="fn">insert</span>(<span class="kw">int</span> x) {
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">31</span>; i&gt;=<span class="num">0</span>; i--) {
+        <span class="kw">if</span>(!(x >> i)) <span class="kw">continue</span>;
+        <span class="kw">if</span>(!basis[i]) { basis[i]=x; <span class="kw">break</span>; }
+        x ^= basis[i];
+    }
+}
+
+<span class="kw">int</span> <span class="fn">maxXOR</span>() {
+    <span class="kw">int</span> res = <span class="num">0</span>;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">31</span>; i&gt;=<span class="num">0</span>; i--)
+        res = <span class="fn">max</span>(res, res ^ basis[i]);
+    <span class="kw">return</span> res;
+}
+</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title"><span class="dot dot-e"></span> Useful Constants & Limits</div>
+    <div class="code-wrap">
+      <button class="copy-btn" onclick="copyCode(this)">copy</button>
+      <pre><span class="cm">// Integer limits using bits</span>
+<span class="kw">int</span> INT_MAX = (~<span class="num">0u</span>) >> <span class="num">1</span>;      <span class="cm">// 2147483647</span>
+<span class="kw">int</span> INT_MIN = <span class="num">1</span> &lt;&lt; <span class="num">31</span>;          <span class="cm">// -2147483648</span>
+
+<span class="cm">// All bits set</span>
+<span class="kw">int</span> ALL_SET = ~<span class="num">0</span>;                <span class="cm">// 0xFFFFFFFF</span>
+
+<span class="cm">// Full mask for n bits</span>
+<span class="kw">int</span> mask = (<span class="num">1</span> &lt;&lt; n) - <span class="num">1</span>;        <span class="cm">// 2^n - 1</span>
+
+<span class="cm">// Long long ke liye</span>
+<span class="kw">long long</span> big = <span class="num">1LL</span> &lt;&lt; <span class="num">40</span>;      <span class="cm">// ALWAYS use 1LL!</span>
+
+<span class="cm">// Bit hacks for competitive programming</span>
+<span class="kw">int</span> msb = <span class="num">31</span> - __builtin_clz(n); <span class="cm">// most significant bit position</span>
+<span class="kw">int</span> lsb = __builtin_ctz(n);        <span class="cm">// least significant bit position</span>
+</pre>
+    </div>
+    <div class="alert alert-warn" style="margin-top:8px;">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Common mistake:</strong> <code>1 &lt;&lt; 40</code> overflow ho jaata hai (int 32-bit hai). Hamesha <code>1LL &lt;&lt; 40</code> likho!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHEATSHEET ==================== -->
+<div id="cheat" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 08</div>
+    <div class="sec-title">📌 Cheatsheet</div>
+    <div class="sec-sub">Print karo, save karo — revision ke liye perfect</div>
+  </div>
+
+  <div class="cheat-grid">
+    <div class="cheat-box">
+      <div class="cheat-header ch-amber">⚙️ 6 Operators</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">a & b</span><span class="cheat-desc">AND — dono 1 → 1</span></div>
+        <div class="cheat-row"><span class="cheat-code">a | b</span><span class="cheat-desc">OR — koi ek 1 → 1</span></div>
+        <div class="cheat-row"><span class="cheat-code">a ^ b</span><span class="cheat-desc">XOR — alag → 1</span></div>
+        <div class="cheat-row"><span class="cheat-code">~a</span><span class="cheat-desc">NOT — sab flip</span></div>
+        <div class="cheat-row"><span class="cheat-code">a &lt;&lt; k</span><span class="cheat-desc">Left shift × 2^k</span></div>
+        <div class="cheat-row"><span class="cheat-code">a &gt;&gt; k</span><span class="cheat-desc">Right shift ÷ 2^k</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header ch-green">✅ Bit Operations</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">(n>>k)&1</span><span class="cheat-desc">Check kth bit</span></div>
+        <div class="cheat-row"><span class="cheat-code">n|=(1&lt;&lt;k)</span><span class="cheat-desc">Set kth bit</span></div>
+        <div class="cheat-row"><span class="cheat-code">n&=~(1&lt;&lt;k)</span><span class="cheat-desc">Clear kth bit</span></div>
+        <div class="cheat-row"><span class="cheat-code">n^=(1&lt;&lt;k)</span><span class="cheat-desc">Toggle kth bit</span></div>
+        <div class="cheat-row"><span class="cheat-code">n&(n-1)</span><span class="cheat-desc">Remove rightmost 1</span></div>
+        <div class="cheat-row"><span class="cheat-code">n&(-n)</span><span class="cheat-desc">Isolate rightmost 1</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header ch-purple">🎩 Classic Tricks</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">n&1</span><span class="cheat-desc">Odd/Even check</span></div>
+        <div class="cheat-row"><span class="cheat-code">n&&!(n&(n-1))</span><span class="cheat-desc">Power of 2?</span></div>
+        <div class="cheat-row"><span class="cheat-code">a^=b;b^=a;a^=b</span><span class="cheat-desc">Swap no temp</span></div>
+        <div class="cheat-row"><span class="cheat-code">c|32 / c&~32</span><span class="cheat-desc">lower/upper case</span></div>
+        <div class="cheat-row"><span class="cheat-code">n&((1&lt;&lt;k)-1)</span><span class="cheat-desc">Last k bits</span></div>
+        <div class="cheat-row"><span class="cheat-code">~n+1</span><span class="cheat-desc">Two's complement</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header ch-red">⚡ Built-ins (GCC)</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">__builtin_popcount(n)</span><span class="cheat-desc">Count 1 bits</span></div>
+        <div class="cheat-row"><span class="cheat-code">__builtin_clz(n)</span><span class="cheat-desc">Leading zeros</span></div>
+        <div class="cheat-row"><span class="cheat-code">__builtin_ctz(n)</span><span class="cheat-desc">Trailing zeros</span></div>
+        <div class="cheat-row"><span class="cheat-code">__builtin_parity(n)</span><span class="cheat-desc">Parity (odd/even)</span></div>
+        <div class="cheat-row"><span class="cheat-code">__builtin_popcountll(n)</span><span class="cheat-desc">long long version</span></div>
+        <div class="cheat-row"><span class="cheat-code">1LL &lt;&lt; 40</span><span class="cheat-desc">Large shifts!</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header ch-amber">🎯 XOR Properties</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">a^a = 0</span><span class="cheat-desc">Same = 0</span></div>
+        <div class="cheat-row"><span class="cheat-code">a^0 = a</span><span class="cheat-desc">XOR 0 = same</span></div>
+        <div class="cheat-row"><span class="cheat-code">a^b^a = b</span><span class="cheat-desc">Cancel hota hai</span></div>
+        <div class="cheat-row"><span class="cheat-code">XOR all → single</span><span class="cheat-desc">Pairs cancel</span></div>
+        <div class="cheat-row"><span class="cheat-code">Commutative</span><span class="cheat-desc">a^b = b^a</span></div>
+        <div class="cheat-row"><span class="cheat-code">Associative</span><span class="cheat-desc">(a^b)^c=a^(b^c)</span></div>
+      </div>
+    </div>
+
+    <div class="cheat-box">
+      <div class="cheat-header ch-purple">🔢 Bitmask Patterns</div>
+      <div class="cheat-body">
+        <div class="cheat-row"><span class="cheat-code">1&lt;&lt;k</span><span class="cheat-desc">2^k power</span></div>
+        <div class="cheat-row"><span class="cheat-code">(1&lt;&lt;n)-1</span><span class="cheat-desc">n-bit all 1s mask</span></div>
+        <div class="cheat-row"><span class="cheat-code">mask|(1&lt;&lt;i)</span><span class="cheat-desc">Add element i</span></div>
+        <div class="cheat-row"><span class="cheat-code">mask&(1&lt;&lt;i)</span><span class="cheat-desc">Check element i</span></div>
+        <div class="cheat-row"><span class="cheat-code">for 0..2^n</span><span class="cheat-desc">All subsets</span></div>
+        <div class="cheat-row"><span class="cheat-code">sub=(sub-1)&mask</span><span class="cheat-desc">Submask iterate</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== QUIZ ==================== -->
+<div id="quiz" class="section">
+  <div class="sec-header">
+    <div class="sec-tag">// SECTION 09</div>
+    <div class="sec-title">🧠 Quiz — Test Yourself</div>
+    <div class="sec-sub">7 questions — concepts pakke karo</div>
+  </div>
+
+  <div class="progress-bar"><div class="progress-fill" id="quiz-progress" style="width:0%"></div></div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q1. <code>12 & 10</code> ka result kya hoga?<br><small style="color:var(--muted);font-weight:400">(Hint: 12=1100, 10=1010)</small></div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ 1100 OR 1010 = 1110 = 14. Yeh OR hai, AND nahi.')">14</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Sahi! 12=1100, 10=1010. AND = 1000 = 8. Sirf wahi bits 1 hain jahan dono 1 hain.')">8</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ 1100 XOR 1010 = 0110 = 6. Yeh XOR hai.')">6</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Yeh result kisi bhi standard operation se nahi aata.')">22</button>
+    </div>
+    <div class="quiz-explain" id="qe0"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q2. <code>n & (n-1)</code> kya karta hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Rightmost 1 isolate karta hai n & (-n).')">Rightmost 1 bit isolate karta hai</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Exactly! n=1100, n-1=1011, n&(n-1)=1000. Rightmost set bit remove ho jaati hai. Power of 2 check aur popcount mein use hota hai.')">Rightmost set bit remove karta hai</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Sirf n-1 se ek kam hota hai number, n&(n-1) nahi.')">n se 1 subtract karta hai</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Sab bits set karna different operation hai.')">Sab bits 1 kar deta hai</button>
+    </div>
+    <div class="quiz-explain" id="qe1"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q3. Array <code>[1, 2, 3, 4, 3, 2, 1]</code> mein single non-repeating number kya hai aur kaise dhundhenge?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Sorting O(n log n) lagega — XOR se O(n) mein hoga.')">Sort karke find karo — answer 4</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Perfect! Sab XOR karo: 1^2^3^4^3^2^1 = 4. a^a=0, toh pairs cancel ho jaate hain, sirf single bachta hai. O(n) time, O(1) space!')">Sab XOR karo → 4 (LeetCode #136 pattern)</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ HashMap O(n) space lagega — XOR O(1) space mein karta hai.')">HashMap se frequency count karo — answer 4</button>
+    </div>
+    <div class="quiz-explain" id="qe2"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q4. Kth bit ON karne ka (set karne ka) correct tarika kya hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ AND sirf existing bits rakhta hai, set nahi karta.')">n &= (1 &lt;&lt; k)</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Sahi! OR operator se bit set hoti hai. 1<<k ek mask banata hai jahan sirf kth bit 1 hoti hai. OR se woh bit ON ho jaati hai baki sab unchanged.')">n |= (1 &lt;&lt; k)</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ XOR se toggle hoga — agar 1 tha toh 0 ho jayega!')">n ^= (1 &lt;&lt; k)</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ NOT se sab bits flip ho jaayengi — yeh kth bit clear karne ka tarika hai.')">n &= ~(1 &lt;&lt; k)</button>
+    </div>
+    <div class="quiz-explain" id="qe3"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q5. <code>n & 1</code> se kya check hota hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ n & 1 sirf last bit check karta hai, power of 2 ke liye n&&!(n&(n-1)) use karo.')">Power of 2 hai ya nahi</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Bilkul sahi! Last bit (bit 0) hi batati hai number even hai ya odd. Odd numbers mein last bit always 1 hoti hai, even mein 0.')">Number odd hai ya even (last bit check)</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ n & 1 se sirf last bit milti hai, pura bit count nahi.')">Total set bits count</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Positive ya negative sign bit alag hoti hai (MSB), last bit (LSB) se nahi.')">Positive hai ya negative</button>
+    </div>
+    <div class="quiz-explain" id="qe4"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q6. <code>1 &lt;&lt; 40</code> likhna kyun galat hai?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Shift valid range mein hai (0-63), issue type ka hai.')">40 ek invalid shift value hai</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Correct! 1 by default int hai jo 32-bit hota hai. 1<<40 overflow ho jaayega. Sahi tarika: 1LL<<40 jisse 64-bit long long use ho.')">1 int hai (32-bit), 40 bit shift overflow dega — use 1LL&lt;&lt;40</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ Left shift 40 perfectly valid hai agar proper type use karo.')">Left shift 40 se zyada nahi ho sakta</button>
+    </div>
+    <div class="quiz-explain" id="qe5"></div>
+  </div>
+
+  <div class="quiz-card">
+    <div class="quiz-q">Q7. 3 elements {A, B, C} ke kitne subsets honge aur unhe generate kaise karein?</div>
+    <div class="quiz-opts">
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ 3 elements ke 2^3 = 8 subsets hote hain (empty set bhi count hota hai).')">6 subsets — for loop se</button>
+      <button class="quiz-opt" onclick="ans(this,'correct','✅ Perfect! 2^3 = 8 subsets. Bitmask 0 to 7 (000 to 111) represent karta hai. Har bit ek element ka presence/absence batata hai. Yeh LeetCode #78 ka base hai!')">8 subsets — bitmask 0 to 2^3-1 se generate karo</button>
+      <button class="quiz-opt" onclick="ans(this,'wrong','❌ 3! = 6 permutations hoti hain, subsets nahi. Subsets 2^n hote hain.')">6 subsets — recursion se</button>
+    </div>
+    <div class="quiz-explain" id="qe6"></div>
+  </div>
+
+  <div class="quiz-score" id="quiz-score" style="display:none;">
+    <div class="score-num" id="score-num">0/7</div>
+    <div style="color:var(--dim);margin-top:8px;font-size:14px;" id="score-msg"></div>
+    <button class="op-btn" style="margin-top:16px;" onclick="resetQuiz()">🔄 Dobara Try Karo</button>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+<div class="footer">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--accent);margin-bottom:8px;">C++ Bit Manipulation — Complete Notes</div>
+  <div>AND · OR · XOR · Shifts · Bitmask DP · 20+ LeetCode · Interview Ready</div>
+</div>
+
+</body>
+</html>
